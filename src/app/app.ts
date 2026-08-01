@@ -45,16 +45,20 @@ export class App {
   readonly tagline =
     'Senior Software Engineer specializing in Laravel, NestJS, Angular, PostgreSQL, and AI-powered applications. Passionate about building scalable SaaS platforms and developer productivity tools.';
 
-  darkMode = false;
+  darkMode = true;
   menuOpen = false;
 
   constructor() {
     if (typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem('portfolio-theme');
-      if (saved === 'dark' || saved === 'light') {
-        this.darkMode = saved === 'dark';
-      } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // Default is dark; only switch if the user explicitly chose light.
+      if (saved === 'light') {
+        this.darkMode = false;
+      } else if (saved === 'dark') {
         this.darkMode = true;
+      } else {
+        this.darkMode = true;
+        localStorage.setItem('portfolio-theme', 'dark');
       }
     }
     if (typeof document !== 'undefined') {
