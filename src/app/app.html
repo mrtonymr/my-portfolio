@@ -15,7 +15,7 @@
         <a href="#about" (click)="closeMenu()">About</a>
         <a href="#experience" (click)="closeMenu()">Experience</a>
         <a href="#skills" (click)="closeMenu()">Skills</a>
-        <a href="#work" (click)="closeMenu()">Work</a>
+        <a href="#work" (click)="closeMenu()">Projects</a>
         <a href="#contact" (click)="closeMenu()">Contact</a>
       </nav>
       <button
@@ -77,7 +77,7 @@
       <div class="hero__content">
         <p class="hero__kicker">
           <span class="hero__dot"></span>
-          Full-stack · SaaS · 9+ years
+          SaaS · AI · 9+ years
         </p>
         <p class="hero__name">{{ name }}</p>
         <h1 class="hero__title">{{ role }}</h1>
@@ -97,8 +97,10 @@
           }
         </ul>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#work">View work</a>
-          <a class="btn btn--ghost" href="#contact">Contact</a>
+          <a class="btn btn--primary" href="#work">View Projects</a>
+          <a class="btn btn--ghost" [href]="resumeUrl" download="Tony-MR-Resume.pdf">
+            Download Resume
+          </a>
         </div>
       </div>
     </section>
@@ -106,7 +108,7 @@
     <section class="section about" id="about">
       <div class="section__inner">
         <p class="section__eyebrow">About</p>
-        <h2 class="section__heading">9+ years building scalable SaaS</h2>
+        <h2 class="section__heading">Building products that scale</h2>
         <div class="about__panel">
           <div class="about__chrome" aria-hidden="true">
             <span></span><span></span><span></span>
@@ -120,8 +122,8 @@
     <section class="section focus" id="focus">
       <div class="section__inner">
         <p class="section__eyebrow">Focus</p>
-        <h2 class="section__heading">What I focus on</h2>
-        <p class="section__lede">The work I do best, and where I create the most leverage.</p>
+        <h2 class="section__heading">Where I create leverage</h2>
+        <p class="section__lede">Outcome-driven work across SaaS, payments, and AI tooling.</p>
         <ul class="focus__list">
           @for (area of focusAreas; track area.title; let i = $index) {
             <li class="focus__item" [style.--i]="i">
@@ -130,6 +132,52 @@
                 <h3>{{ area.title }}</h3>
                 <p>{{ area.detail }}</p>
               </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section work" id="work">
+      <div class="section__inner">
+        <p class="section__eyebrow">Portfolio</p>
+        <h2 class="section__heading">Selected projects</h2>
+        <p class="section__lede">Problem, solution, and stack for the work that best represents how I ship.</p>
+        <ul class="project__list">
+          @for (project of projects; track project.name) {
+            <li
+              class="project__item"
+              [class.project__item--dim]="activeSkill && !projectMatchesFilter(project.tags)"
+              [class.project__item--hot]="activeSkill && projectMatchesFilter(project.tags)"
+            >
+              <div class="project__head">
+                <h3>{{ project.name }}</h3>
+                <span class="project__year">{{ project.year }}</span>
+              </div>
+              <div class="project__body">
+                <div class="project__block">
+                  <span class="project__label">Problem</span>
+                  <p>{{ project.problem }}</p>
+                </div>
+                <div class="project__block">
+                  <span class="project__label">Solution</span>
+                  <p>{{ project.solution }}</p>
+                </div>
+              </div>
+              <ul class="stack-row">
+                @for (tag of project.tags; track tag) {
+                  <li>
+                    <button
+                      type="button"
+                      class="chip chip--sm"
+                      [class.chip--active]="isSkillActive(tag)"
+                      (click)="toggleSkill(tag)"
+                    >
+                      {{ tag }}
+                    </button>
+                  </li>
+                }
+              </ul>
             </li>
           }
         </ul>
@@ -148,7 +196,7 @@
             </button>
           }
         </p>
-        <ul class="skills__grid">
+        <ul class="skills__grid skills__grid--five">
           @for (skill of skills; track skill.group) {
             <li class="skills__group" [attr.data-tone]="skill.tone">
               <h3>{{ skill.group }}</h3>
@@ -176,7 +224,7 @@
       <div class="section__inner">
         <p class="section__eyebrow">Career</p>
         <h2 class="section__heading">Experience</h2>
-        <p class="section__lede">Roles where I shipped product, shaped systems, and raised the bar.</p>
+        <p class="section__lede">Impact-focused roles with product context, team size, and measurable outcomes.</p>
         <ul class="experience__list">
           @for (job of experience; track job.company + job.period) {
             <li
@@ -189,9 +237,10 @@
                 <h3 class="experience__role">{{ job.role }}</h3>
                 <p class="experience__company">{{ job.company }}</p>
                 <p class="experience__place">{{ job.place }}</p>
+                <p class="experience__team">{{ job.teamSize }}</p>
               </div>
               <div class="experience__body">
-                <p class="experience__project">{{ job.project }}</p>
+                <p class="experience__project">{{ job.product }}</p>
                 <ul class="stack-row">
                   @for (tech of job.stack; track tech) {
                     <li>
@@ -212,43 +261,10 @@
                     <li>{{ point }}</li>
                   }
                 </ul>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-    </section>
-
-    <section class="section work" id="work">
-      <div class="section__inner">
-        <p class="section__eyebrow">Portfolio</p>
-        <h2 class="section__heading">Selected work</h2>
-        <p class="section__lede">Projects from across my career that show how I think and ship.</p>
-        <ul class="work__list">
-          @for (project of projects; track project.name) {
-            <li
-              class="work__item"
-              [class.work__item--dim]="activeSkill && !projectMatchesFilter(project.tags)"
-              [class.work__item--hot]="activeSkill && projectMatchesFilter(project.tags)"
-            >
-              <span class="work__year">{{ project.year }}</span>
-              <div class="work__copy">
-                <h3>{{ project.name }}</h3>
-                <p>{{ project.summary }}</p>
-                <ul class="stack-row">
-                  @for (tag of project.tags; track tag) {
-                    <li>
-                      <button
-                        type="button"
-                        class="chip chip--sm"
-                        [class.chip--active]="isSkillActive(tag)"
-                        (click)="toggleSkill(tag)"
-                      >
-                        {{ tag }}
-                      </button>
-                    </li>
-                  }
-                </ul>
+                <p class="experience__impact">
+                  <span>Business impact</span>
+                  {{ job.impact }}
+                </p>
               </div>
             </li>
           }
@@ -275,7 +291,7 @@
 
         @if (achievements.length) {
           <div class="achievements">
-            <h3 class="achievements__heading">Achievements</h3>
+            <h3 class="achievements__heading">Highlights</h3>
             <ul>
               @for (item of achievements; track item) {
                 <li>{{ item }}</li>
@@ -291,7 +307,7 @@
         <p class="section__eyebrow">Contact</p>
         <h2 class="section__heading">Let's ship the next build</h2>
         <p class="section__lede">
-          Open to senior engineering roles, collaborations, and thoughtful product work.
+          Open to senior engineering roles, SaaS product work, and AI-powered platform collaborations.
         </p>
 
         <ul class="contact__grid">

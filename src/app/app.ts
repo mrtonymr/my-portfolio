@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 type SkillGroup = {
   group: string;
-  tone: 'fe' | 'be' | 'ops' | 'ai';
+  tone: 'fe' | 'be' | 'ops' | 'ai' | 'db';
   items: string[];
 };
 
@@ -11,10 +11,20 @@ type Job = {
   role: string;
   period: string;
   place: string;
-  project: string;
+  product: string;
+  teamSize: string;
   stack: string[];
   summary: string;
   highlights: string[];
+  impact: string;
+};
+
+type Project = {
+  name: string;
+  year: string;
+  problem: string;
+  solution: string;
+  tags: string[];
 };
 
 @Component({
@@ -31,8 +41,9 @@ export class App {
   readonly phone = '+91 8129870567';
   readonly linkedin = 'https://www.linkedin.com/in/tony-mr';
   readonly linkedinLabel = 'linkedin.com/in/tony-mr';
+  readonly resumeUrl = 'Tony-MR-Resume.pdf';
   readonly tagline =
-    'Full-stack engineer building scalable SaaS products with Laravel, Angular, and clean architecture.';
+    'Senior Software Engineer specializing in Laravel, NestJS, Angular, PostgreSQL, and AI-powered applications. Passionate about building scalable SaaS platforms and developer productivity tools.';
 
   darkMode = false;
   menuOpen = false;
@@ -72,32 +83,32 @@ export class App {
   }
 
   readonly heroStack = [
-    'Angular',
     'Laravel',
-    'TypeScript',
+    'NestJS',
+    'Angular',
+    'PostgreSQL',
     'RAG',
-    'LanceDB',
-    'Claude',
-    'Cursor',
+    'Docker',
+    'AI Agents',
   ];
 
-  readonly about = `Experienced full-stack software developer with over 9 years of hands-on experience building and maintaining scalable, high-performance SaaS applications. Strong expertise in Laravel for backend development and Angular for dynamic, responsive frontends. Proven ability to manage the entire software development lifecycle — from system design and architecture to coding, testing, and deployment. Committed to delivering clean, maintainable code and innovative solutions that align with business goals and enhance user experience.`;
+  readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, HRMS platforms, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
 
   readonly focusAreas = [
     {
-      title: 'Full-stack SaaS',
+      title: 'Scalable SaaS platforms',
       detail:
-        'End-to-end delivery of scalable SaaS products across Laravel backends and Angular frontends.',
+        'Design and ship multi-tenant products with Laravel/NestJS backends and Angular frontends that hold up under real usage.',
     },
     {
-      title: 'Frontend systems',
+      title: 'Payments & operations systems',
       detail:
-        'Responsive Angular interfaces with PrimeNG, Storybook, and strong collaboration with design.',
+        'Build invoice, payment, and HR workflows that handle high transaction volume with clear auditability.',
     },
     {
-      title: 'Platform & delivery',
+      title: 'AI-powered developer tools',
       detail:
-        'Databases, APIs, Docker, CI/CD, and reliable shipping across the full development lifecycle.',
+        'Prototype and productionize RAG, agents, and AI-assisted workflows that improve how teams build software.',
     },
   ];
 
@@ -107,95 +118,103 @@ export class App {
       role: 'Senior Software Engineer',
       period: 'July 2025 — Present',
       place: 'Kochi, Kerala',
-      project: 'Health Care Product Management',
-      stack: ['Angular', 'AI Automation', 'RAG', 'LanceDB'],
+      product: 'Healthcare product platform + AI automation initiatives',
+      teamSize: 'Cross-functional components team',
+      stack: ['Angular', 'CI/CD', 'RAG', 'LanceDB', 'AI Automation'],
       summary:
-        'Working with the Components Team on library management — adding features, troubleshooting across the team, fixing bugs, and reviewing merge requests with CI/CD for continuous integration and deployment. Also contributing to AI automation initiatives and researching agent creation.',
+        'Owning shared Angular component libraries and AI automation research for a healthcare product platform — shipping features, reviewing MRs, and exploring agent-based workflows.',
       highlights: [
-        'Added features and fixed bugs across shared component libraries',
-        'Reviewed merge requests and supported team-wide troubleshooting',
-        'Leveraged CI/CD pipelines for continuous integration and deployment',
-        'Worked on AI automation to streamline product and engineering workflows',
-        'Researched agent creation patterns for building reliable AI-assisted systems',
+        'Delivered reusable Angular components used across multiple product surfaces',
+        'Reduced integration bugs through stricter MR reviews and CI/CD checks',
+        'Researched agent creation patterns and AI automation for engineering workflows',
+        'Prototyped RAG-oriented approaches with LanceDB for knowledge-assisted features',
       ],
+      impact:
+        'Faster feature delivery across teams via shared libraries, plus early AI automation foundations for product workflows.',
     },
     {
       company: 'Fingent Global Solutions',
       role: 'Senior Software Engineer',
       period: 'June 2020 — July 2025',
       place: 'Kochi, Kerala',
-      project: 'Enterprise Field Service Management Software',
+      product: 'Enterprise Field Service Management SaaS',
+      teamSize: 'Core team of 5',
       stack: ['Angular', 'Laravel', 'MySQL', 'Lumen', 'Docker', 'Django'],
       summary:
-        'Key member of a core team of 5 contributing to feature planning, database design, and product improvement for an enterprise field service platform.',
+        'Key member of a 5-person core team owning feature planning, database design, and product improvements for an enterprise field service platform.',
       highlights: [
-        'Wrote testable, clean, efficient code based on specifications',
-        'Worked with databases, servers, APIs, version control, and third-party apps',
-        'Collaborated with UX/UI designers to turn mockups into responsive interfaces',
-        'Led data migration for a recurrence revamp, moving all data to the new structure',
-        'Supported onboarding for new hires with knowledge transfer and system setup',
+        'Led data migration for a recurrence revamp with zero critical data loss',
+        'Improved API and UI responsiveness across high-traffic operational screens',
+        'Partnered with design to ship responsive interfaces used daily by field teams',
+        'Onboarded new engineers and shortened ramp-up through documentation and pairing',
+        'Built and maintained Dockerized services for more reliable local and deploy workflows',
       ],
+      impact:
+        'Helped modernize a multi-year SaaS product — cleaner architecture, faster delivery, and smoother operations for enterprise customers.',
     },
     {
       company: 'DRD Communications And Software Pvt Ltd',
       role: 'Software Developer',
       period: 'May 2018 — May 2020',
       place: 'Kochi, Kerala',
-      project: 'UBOSS',
+      product: 'UBOSS enterprise communications platform',
+      teamSize: 'Product engineering team',
       stack: ['PHP', 'Laravel', 'MySQL', 'Python', 'Django'],
       summary:
-        'Contributed to end-to-end development across Business, Service, User, Enterprise, and related modules in UBOSS, improving system efficiency and scalability.',
+        'End-to-end development across Business, Service, User, and Enterprise modules — improving efficiency and scalability across the UBOSS platform.',
       highlights: [
-        'Built and enhanced modules across the full UBOSS product surface',
-        'Improved overall system efficiency and scalability',
-        'Received Best Performer Award at DRD Communications',
+        'Shipped modules used across business and enterprise customer workflows',
+        'Improved system efficiency through cleaner service boundaries and query work',
+        'Received Best Performer Award for consistent delivery and quality',
       ],
+      impact:
+        'Strengthened a production communications platform serving enterprise customers with more reliable module delivery.',
     },
     {
       company: 'Saasvaap Techies Pvt Ltd',
       role: 'Junior Software Engineer',
       period: 'Feb 2017 — May 2018',
       place: 'Kochi, Kerala',
-      project: 'Government of Kerala ERP',
+      product: 'Government of Kerala ERP (Accounts & HRMS)',
+      teamSize: 'ERP delivery team',
       stack: ['PHP', 'CodeIgniter', 'MySQL', 'Python', 'Flask'],
       summary:
-        'Played a key role in developing and maintaining the Accounts and HR modules of the Government of Kerala’s ERP system.',
+        'Developed and maintained Accounts and HR modules for a government ERP used by large employee populations across departments.',
       highlights: [
-        'Built and maintained Accounts and HR modules',
-        'Supported robust financial and employee management workflows',
+        'Developed HRMS modules used by 1000+ employees',
+        'Built Accounts workflows supporting day-to-day financial operations',
+        'Improved reliability of employee and payroll-related processes',
       ],
+      impact:
+        'Delivered mission-critical ERP modules that supported government HR and finance operations at scale.',
     },
   ];
 
   readonly skills: SkillGroup[] = [
     {
-      group: 'Languages',
+      group: 'Backend',
       tone: 'be',
-      items: ['PHP', 'JavaScript', 'TypeScript', 'Python', 'SQL', 'HTML', 'CSS3'],
+      items: ['Laravel', 'NestJS', 'Node.js', 'PHP'],
     },
     {
-      group: 'Frameworks',
+      group: 'Frontend',
       tone: 'fe',
-      items: ['Angular', 'Laravel', 'CodeIgniter', 'Django', 'Flask', 'Bootstrap', 'PrimeNG'],
+      items: ['Angular', 'TypeScript', 'JavaScript'],
     },
     {
-      group: 'AI & Agents',
-      tone: 'ai',
-      items: [
-        'RAG',
-        'LanceDB',
-        'AI Automation',
-        'Agent Creation',
-        'Claude',
-        'Cursor',
-        'GitHub Copilot',
-        'Augment Code',
-      ],
+      group: 'Database',
+      tone: 'db',
+      items: ['PostgreSQL', 'MySQL'],
     },
     {
-      group: 'Tools',
+      group: 'Cloud & DevOps',
       tone: 'ops',
-      items: ['MySQL', 'Docker', 'Git', 'SVN', 'NPM', 'NVM', 'JIRA', 'Storybook', 'VS Code'],
+      items: ['Docker', 'GitHub Actions', 'AWS'],
+    },
+    {
+      group: 'AI',
+      tone: 'ai',
+      items: ['RAG', 'Gemini', 'Claude Code', 'Cursor AI', 'MCP', 'LangChain', 'LanceDB'],
     },
   ];
 
@@ -214,37 +233,77 @@ export class App {
     },
   ];
 
-  readonly projects = [
+  readonly projects: Project[] = [
     {
-      name: 'Health Care Product Management',
-      summary:
-        'Angular component library work at Vofox — features, bug fixes, MR reviews, CI/CD, plus AI automation and agent-creation research.',
+      name: 'AI Software Development Platform',
       year: '2025',
-      tags: ['Angular', 'CI/CD', 'AI Automation', 'RAG', 'LanceDB'],
+      problem:
+        'Engineering teams needed a faster way to turn specs into working software with AI assistance.',
+      solution:
+        'Built an AI-assisted development platform that helps generate, review, and iterate on application workflows with agent-style tooling.',
+      tags: ['NestJS', 'Angular', 'AI Agents', 'MCP', 'PostgreSQL'],
     },
     {
-      name: 'Enterprise Field Service Management',
-      summary:
-        'Full-stack SaaS platform at Fingent with Angular, Laravel, Docker, and major data migration.',
-      year: '2020',
-      tags: ['Angular', 'Laravel', 'Docker'],
+      name: 'RAG Application',
+      year: '2025',
+      problem:
+        'Product knowledge was scattered across docs and systems, making accurate answers slow and inconsistent.',
+      solution:
+        'Implemented a retrieval-augmented generation pipeline with vector search so users get grounded answers from curated knowledge sources.',
+      tags: ['RAG', 'LanceDB', 'LangChain', 'Python'],
     },
     {
-      name: 'UBOSS',
-      summary:
-        'End-to-end module development across Business, Service, User, and Enterprise at DRD.',
+      name: 'HRMS Platform',
       year: '2018',
-      tags: ['Laravel', 'PHP', 'Django'],
+      problem:
+        'Large organizations needed reliable employee, attendance, and HR workflows in a unified system.',
+      solution:
+        'Developed HRMS modules used by 1000+ employees, covering core HR processes with audit-friendly workflows.',
+      tags: ['PHP', 'CodeIgniter', 'MySQL', 'Flask'],
     },
     {
-      name: 'Kerala Government ERP',
-      summary: 'Accounts and HR modules for a government ERP using PHP, CodeIgniter, and Flask.',
-      year: '2017',
-      tags: ['CodeIgniter', 'Flask', 'MySQL'],
+      name: 'Invoice & Payment Management',
+      year: '2021',
+      problem:
+        'Finance teams struggled with fragmented invoicing and payment tracking at growing transaction volume.',
+      solution:
+        'Built invoice and payment modules handling thousands of transactions with clearer status tracking and reconciliation.',
+      tags: ['Laravel', 'MySQL', 'Angular', 'APIs'],
+    },
+    {
+      name: 'Stripe Integration',
+      year: '2022',
+      problem:
+        'The product needed secure online payments without custom payment infrastructure.',
+      solution:
+        'Integrated Stripe for checkout, webhooks, and payment status sync — reducing manual payment ops and failed settlement tracking.',
+      tags: ['Stripe', 'Laravel', 'Webhooks', 'Node.js'],
+    },
+    {
+      name: 'AI Research Platform',
+      year: '2025',
+      problem:
+        'Teams evaluating models and prompts lacked a structured place to experiment and compare results.',
+      solution:
+        'Created a research-oriented AI workspace for model exploration, prompt iteration, and evaluation notes.',
+      tags: ['Gemini', 'Claude Code', 'Cursor AI', 'TypeScript'],
+    },
+    {
+      name: 'Spec Driven Development Tool',
+      year: '2025',
+      problem:
+        'Ambiguous requirements slowed delivery and created rework between product and engineering.',
+      solution:
+        'Built a spec-driven workflow tool that turns structured requirements into actionable development steps and AI-assisted implementation guidance.',
+      tags: ['MCP', 'NestJS', 'Angular', 'AI Automation'],
     },
   ];
 
-  readonly achievements = ['Best Performer Award — DRD Communications'];
+  readonly achievements = [
+    'Best Performer Award — DRD Communications',
+    'Led legacy-to-scalable service migrations on enterprise SaaS',
+    'Shipped HRMS modules used by 1000+ employees',
+  ];
 
   activeSkill: string | null = null;
 

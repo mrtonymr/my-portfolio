@@ -42,6 +42,7 @@ testem.log
 Thumbs.db
 
 # Local resume / private docs
-tony.pdf
-*.pdf
+/tony.pdf
 .pdf_tools/
+!public/*.pdf
+
