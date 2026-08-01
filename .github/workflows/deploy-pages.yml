@@ -36,7 +36,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/cursor-test/browser
+          path: dist/my-portfolio/browser
 
   deploy:
     needs: build
