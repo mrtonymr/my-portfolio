@@ -92,7 +92,7 @@ export class App {
     'AI Agents',
   ];
 
-  readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
+  readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, HRMS platforms, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
 
   readonly focusAreas = [
     {
@@ -175,18 +175,18 @@ export class App {
       role: 'Junior Software Engineer',
       period: 'Feb 2017 — May 2018',
       place: 'Kochi, Kerala',
-      product: 'Government of Kerala ERP',
+      product: 'KBPS — Government ERP (Accounts & HR modules)',
       teamSize: 'ERP delivery team',
       stack: ['PHP', 'CodeIgniter', 'MySQL', 'Python', 'Flask'],
       summary:
-        'Contributed to Accounts and related ERP modules for a government platform supporting departmental financial operations.',
+        'Developed and maintained Accounts and HR modules for KBPS, supporting finance and HRMS workflows across government departments.',
       highlights: [
-        'Built and maintained Accounts workflows for day-to-day financial operations',
-        'Improved reliability of reporting and transaction-related processes',
-        'Supported releases across a multi-module government ERP codebase',
+        'Built and enhanced the HR module for KBPS HRMS workflows',
+        'Developed Accounts modules for day-to-day financial operations',
+        'Improved reliability of employee and finance-related ERP processes',
       ],
       impact:
-        'Helped deliver stable ERP finance workflows used in live government operations.',
+        'Delivered stable Accounts and HR capabilities inside KBPS used in live government operations.',
     },
   ];
 
@@ -194,7 +194,7 @@ export class App {
     {
       group: 'Backend',
       tone: 'be',
-      items: ['Laravel', 'NestJS', 'Node.js', 'PHP'],
+      items: ['Laravel', 'NestJS', 'Node.js', 'PHP', 'Python', 'Flask', 'Django'],
     },
     {
       group: 'Frontend',
@@ -253,13 +253,13 @@ export class App {
       tags: ['RAG', 'LanceDB', 'LangChain', 'Python'],
     },
     {
-      name: 'Government ERP Accounts',
+      name: 'KBPS HR & Accounts Modules',
       year: '2018',
       problem:
-        'Departments needed reliable finance workflows inside a shared government ERP.',
+        'KBPS needed reliable HRMS and finance workflows inside a shared government ERP.',
       solution:
-        'Built Accounts modules with clearer transaction flows, reporting support, and more dependable day-to-day operations.',
-      tags: ['PHP', 'CodeIgniter', 'MySQL', 'Flask'],
+        'Built and maintained HR and Accounts modules covering employee processes and day-to-day financial operations.',
+      tags: ['PHP', 'CodeIgniter', 'MySQL', 'Flask', 'HRMS'],
     },
     {
       name: 'Invoice & Payment Management',
@@ -302,6 +302,7 @@ export class App {
   readonly achievements = [
     'Best Performer Award — DRD Communications',
     'Led legacy-to-scalable service migrations on enterprise SaaS',
+    'Built HR and Accounts modules for KBPS government ERP',
   ];
 
   activeSkill: string | null = null;
