@@ -35,6 +35,7 @@ export class App {
     'Full-stack engineer building scalable SaaS products with Laravel, Angular, and clean architecture.';
 
   darkMode = false;
+  menuOpen = false;
 
   constructor() {
     if (typeof localStorage !== 'undefined') {
@@ -60,6 +61,14 @@ export class App {
       document.body.style.background = this.darkMode ? '#0f141c' : '#e9edf2';
       document.body.style.color = this.darkMode ? '#eef2f7' : '#141821';
     }
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
   }
 
   readonly heroStack = [

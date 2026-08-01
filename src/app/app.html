@@ -2,16 +2,21 @@
   <div class="grid-bg" aria-hidden="true"></div>
 
   <header class="topbar">
-    <a class="topbar__mark" href="#top">
+    <a class="topbar__mark" href="#top" (click)="closeMenu()">
       <span class="topbar__prompt">&gt;</span> {{ name }}
     </a>
     <div class="topbar__right">
-      <nav class="topbar__nav" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#skills">Skills</a>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
+      <nav
+        id="mobile-nav"
+        class="topbar__nav"
+        aria-label="Primary"
+        [class.topbar__nav--open]="menuOpen"
+      >
+        <a href="#about" (click)="closeMenu()">About</a>
+        <a href="#experience" (click)="closeMenu()">Experience</a>
+        <a href="#skills" (click)="closeMenu()">Skills</a>
+        <a href="#work" (click)="closeMenu()">Work</a>
+        <a href="#contact" (click)="closeMenu()">Contact</a>
       </nav>
       <button
         type="button"
@@ -36,8 +41,25 @@
           </svg>
         }
       </button>
+      <button
+        type="button"
+        class="menu-toggle"
+        [class.menu-toggle--open]="menuOpen"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen"
+        aria-controls="mobile-nav"
+        [attr.aria-label]="menuOpen ? 'Close menu' : 'Open menu'"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  @if (menuOpen) {
+    <button type="button" class="nav-backdrop" aria-label="Close menu" (click)="closeMenu()"></button>
+  }
 
   <main id="top">
     <section class="hero" aria-label="Introduction">
@@ -75,8 +97,8 @@
           }
         </ul>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#work">View selected work</a>
-          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+          <a class="btn btn--primary" href="#work">View work</a>
+          <a class="btn btn--ghost" href="#contact">Contact</a>
         </div>
       </div>
     </section>
