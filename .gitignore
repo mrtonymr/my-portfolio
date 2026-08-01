@@ -40,3 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Local resume / private docs
+tony.pdf
+*.pdf
+.pdf_tools/
