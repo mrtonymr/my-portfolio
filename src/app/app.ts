@@ -86,10 +86,11 @@ export class App {
     'Laravel',
     'NestJS',
     'Angular',
+    'Python',
+    'Flask',
     'PostgreSQL',
     'RAG',
     'Docker',
-    'AI Agents',
   ];
 
   readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, HRMS platforms, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
@@ -194,7 +195,7 @@ export class App {
     {
       group: 'Backend',
       tone: 'be',
-      items: ['Laravel', 'NestJS', 'Node.js', 'PHP', 'Python', 'Flask', 'Django'],
+      items: ['Python', 'Flask', 'Django', 'Laravel', 'NestJS', 'Node.js', 'PHP'],
     },
     {
       group: 'Frontend',
