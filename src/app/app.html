@@ -1,0 +1,94 @@
+<div class="page">
+  <header class="topbar">
+    <a class="topbar__mark" href="#top">{{ name }}</a>
+    <nav class="topbar__nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="Introduction">
+      <div class="hero__media" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=2400&q=80"
+          alt=""
+          width="2400"
+          height="1600"
+        />
+        <div class="hero__wash"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__name">{{ name }}</p>
+        <h1 class="hero__title">{{ role }}</h1>
+        <p class="hero__lede">
+          I design and ship software that feels calm, fast, and built to last.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#work">View selected work</a>
+          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section__inner">
+        <h2 class="section__heading">About</h2>
+        <p class="about__text">
+          I'm a senior software engineer who cares about craft as much as delivery.
+          From frontend architecture to backend services, I build systems that teams
+          can trust — readable code, thoughtful UX, and outcomes that hold up in production.
+        </p>
+      </div>
+    </section>
+
+    <section class="section focus" id="focus">
+      <div class="section__inner">
+        <h2 class="section__heading">What I focus on</h2>
+        <p class="section__lede">The work I do best, and where I create the most leverage.</p>
+        <ul class="focus__list">
+          @for (area of focusAreas; track area.title) {
+            <li class="focus__item">
+              <h3>{{ area.title }}</h3>
+              <p>{{ area.detail }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section work" id="work">
+      <div class="section__inner">
+        <h2 class="section__heading">Selected work</h2>
+        <p class="section__lede">A few projects that show how I think and ship.</p>
+        <ul class="work__list">
+          @for (project of projects; track project.name) {
+            <li class="work__item">
+              <span class="work__year">{{ project.year }}</span>
+              <div class="work__copy">
+                <h3>{{ project.name }}</h3>
+                <p>{{ project.summary }}</p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="section__inner contact__inner">
+        <h2 class="section__heading">Let's build something solid</h2>
+        <p class="section__lede">
+          Open to senior engineering roles, collaborations, and thoughtful product work.
+        </p>
+        <a class="btn btn--primary" href="mailto:tony.mr@example.com">tony.mr@example.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; {{ name }} · Senior Software Engineer</p>
+  </footer>
+</div>
