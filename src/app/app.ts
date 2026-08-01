@@ -92,7 +92,7 @@ export class App {
     'AI Agents',
   ];
 
-  readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, HRMS platforms, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
+  readonly about = `I'm a Senior Software Engineer with experience building enterprise SaaS applications, payment systems, and AI-powered developer tools. I enjoy designing scalable backend architectures, improving developer workflows, and exploring Generative AI. Over 9+ years I've shipped products end to end — from system design and APIs to polished Angular frontends, CI/CD, and production operations.`;
 
   readonly focusAreas = [
     {
@@ -175,18 +175,18 @@ export class App {
       role: 'Junior Software Engineer',
       period: 'Feb 2017 — May 2018',
       place: 'Kochi, Kerala',
-      product: 'Government of Kerala ERP (Accounts & HRMS)',
+      product: 'Government of Kerala ERP',
       teamSize: 'ERP delivery team',
       stack: ['PHP', 'CodeIgniter', 'MySQL', 'Python', 'Flask'],
       summary:
-        'Developed and maintained Accounts and HR modules for a government ERP used by large employee populations across departments.',
+        'Contributed to Accounts and related ERP modules for a government platform supporting departmental financial operations.',
       highlights: [
-        'Developed HRMS modules used by 1000+ employees',
-        'Built Accounts workflows supporting day-to-day financial operations',
-        'Improved reliability of employee and payroll-related processes',
+        'Built and maintained Accounts workflows for day-to-day financial operations',
+        'Improved reliability of reporting and transaction-related processes',
+        'Supported releases across a multi-module government ERP codebase',
       ],
       impact:
-        'Delivered mission-critical ERP modules that supported government HR and finance operations at scale.',
+        'Helped deliver stable ERP finance workflows used in live government operations.',
     },
   ];
 
@@ -253,12 +253,12 @@ export class App {
       tags: ['RAG', 'LanceDB', 'LangChain', 'Python'],
     },
     {
-      name: 'HRMS Platform',
+      name: 'Government ERP Accounts',
       year: '2018',
       problem:
-        'Large organizations needed reliable employee, attendance, and HR workflows in a unified system.',
+        'Departments needed reliable finance workflows inside a shared government ERP.',
       solution:
-        'Developed HRMS modules used by 1000+ employees, covering core HR processes with audit-friendly workflows.',
+        'Built Accounts modules with clearer transaction flows, reporting support, and more dependable day-to-day operations.',
       tags: ['PHP', 'CodeIgniter', 'MySQL', 'Flask'],
     },
     {
@@ -302,7 +302,6 @@ export class App {
   readonly achievements = [
     'Best Performer Award — DRD Communications',
     'Led legacy-to-scalable service migrations on enterprise SaaS',
-    'Shipped HRMS modules used by 1000+ employees',
   ];
 
   activeSkill: string | null = null;
