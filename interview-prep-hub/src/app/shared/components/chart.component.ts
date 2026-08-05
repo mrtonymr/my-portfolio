@@ -8,28 +8,38 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import {
-  Chart,
-  ChartConfiguration,
-  ChartType,
-  registerables,
-} from 'chart.js';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-chart',
-  template: `<canvas #canvas aria-label="Chart"></canvas>`,
+  template: `
+    <div class="chart-frame">
+      <canvas #canvas aria-label="Chart"></canvas>
+    </div>
+  `,
   styles: `
     :host {
       display: block;
+      width: 100%;
+      height: 260px;
+      max-height: 260px;
+      overflow: hidden;
+      contain: layout size;
+    }
+
+    .chart-frame {
       position: relative;
       width: 100%;
-      min-height: 240px;
+      height: 260px;
+      max-height: 260px;
     }
+
     canvas {
-      width: 100% !important;
-      height: 100% !important;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,12 +51,15 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
   private readonly canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   private chart: Chart | null = null;
   private ready = false;
+  private lastSignature = '';
 
   constructor() {
     effect(() => {
       const cfg = this.config();
       const type = this.type();
-      if (!this.ready) return;
+      if (!this.ready) {
+        return;
+      }
       this.render(type, cfg);
     });
   }
@@ -58,19 +71,43 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chart?.destroy();
+    this.chart = null;
   }
 
   private render(type: ChartType, config: ChartConfiguration): void {
-    this.chart?.destroy();
+    const signature = JSON.stringify({
+      type,
+      labels: config.data?.labels ?? [],
+      datasets: (config.data?.datasets ?? []).map((dataset) => ({
+        label: dataset.label,
+        data: dataset.data,
+        backgroundColor: dataset.backgroundColor,
+        borderColor: dataset.borderColor,
+      })),
+    });
+
+    if (signature === this.lastSignature && this.chart) {
+      return;
+    }
+    this.lastSignature = signature;
+
     const ctx = this.canvas().nativeElement.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      return;
+    }
+
+    this.chart?.destroy();
     this.chart = new Chart(ctx, {
       ...config,
       type,
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: true, position: 'bottom' } },
+        animation: false,
+        resizeDelay: 100,
+        plugins: {
+          legend: { display: true, position: 'bottom' },
+        },
         ...config.options,
       },
     });

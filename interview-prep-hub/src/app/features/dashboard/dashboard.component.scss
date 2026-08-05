@@ -59,6 +59,15 @@
 
 .panel {
   padding: 1.15rem 1.2rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.charts-grid .panel app-chart,
+.charts-grid app-chart {
+  display: block;
+  height: 260px;
+  max-height: 260px;
 }
 
 .panel h2 {

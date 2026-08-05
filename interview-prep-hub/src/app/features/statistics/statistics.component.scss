@@ -50,6 +50,14 @@
 
 .panel {
   padding: 1.1rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.charts app-chart {
+  display: block;
+  height: 260px;
+  max-height: 260px;
 }
 
 .panel h2 {
