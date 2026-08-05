@@ -27,11 +27,24 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
+      - name: Install portfolio dependencies
         run: npm ci
 
-      - name: Build
+      - name: Install Developer Toolbox dependencies
+        run: npm ci
+        working-directory: developer-toolbox
+
+      - name: Build portfolio
         run: npm run build:gh-pages
+
+      - name: Build Developer Toolbox
+        run: npm run build
+        working-directory: developer-toolbox
+
+      - name: Bundle Developer Toolbox into Pages artifact
+        run: |
+          mkdir -p dist/cursor-test/browser/developer-toolbox
+          cp -R developer-toolbox/dist/developer-toolbox/browser/. dist/cursor-test/browser/developer-toolbox/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

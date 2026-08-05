@@ -4,6 +4,12 @@ Browser-only developer utilities inspired by DevToys and modern tooling sites.
 
 Built with **Angular 20**, standalone components, signals, SCSS, and Angular Material.
 
+## Live demo
+
+When this repo is deployed to GitHub Pages, the app is available at:
+
+`https://mrtonymr.github.io/my-portfolio/developer-toolbox/`
+
 ## Tools
 
 - JSON Formatter
@@ -24,12 +30,11 @@ npm install
 npm start
 npm run build
 npm test
-npm run deploy
 ```
 
 - `npm start` — local development server
-- `npm run build` — production build with relative `base-href` for GitHub Pages
-- `npm run deploy` — build and publish `dist/developer-toolbox/browser` via `angular-cli-ghpages`
+- `npm run build` — production build with relative `base-href`
+- Root GitHub Actions workflow builds this app and publishes it under `/developer-toolbox/` on Pages
 
 ## Architecture
 

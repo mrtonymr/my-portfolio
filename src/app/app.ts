@@ -25,6 +25,8 @@ type Project = {
   problem: string;
   solution: string;
   tags: string[];
+  url?: string;
+  urlLabel?: string;
 };
 
 @Component({
@@ -238,7 +240,20 @@ export class App {
     },
   ];
 
+  readonly toolboxUrl = 'developer-toolbox/';
+
   readonly projects: Project[] = [
+    {
+      name: 'Developer Toolbox',
+      year: '2026',
+      problem:
+        'Developers bounce between scattered sites for everyday utilities like JSON formatting, JWT decoding, and regex testing.',
+      solution:
+        'Built a browser-only Angular toolkit with JSON, Base64, JWT, UUID, timestamps, URL encoding, color conversion, regex testing, and optional AI regex generation — no backend required.',
+      tags: ['Angular', 'TypeScript', 'Material', 'Signals'],
+      url: 'developer-toolbox/',
+      urlLabel: 'Open Developer Toolbox',
+    },
     {
       name: 'AI Software Development Platform',
       year: '2025',

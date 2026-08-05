@@ -17,6 +17,7 @@
         <a href="#experience" (click)="closeMenu()">Experience</a>
         <a href="#skills" (click)="closeMenu()">Skills</a>
         <a href="#work" (click)="closeMenu()">Projects</a>
+        <a [href]="toolboxUrl" (click)="closeMenu()">Toolbox</a>
         <a href="#contact" (click)="closeMenu()">Contact</a>
       </nav>
       <button
@@ -99,6 +100,7 @@
         </ul>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#work">View Projects</a>
+          <a class="btn btn--ghost" [href]="toolboxUrl">Open Developer Toolbox</a>
           <a class="btn btn--ghost" [href]="resumeUrl" download="Tony-MR-Resume.pdf">
             Download Resume
           </a>
@@ -179,6 +181,12 @@
                   </li>
                 }
               </ul>
+              @if (project.url) {
+                <a class="project__link" [href]="project.url">
+                  {{ project.urlLabel || 'Open project' }}
+                  <span aria-hidden="true">→</span>
+                </a>
+              }
             </li>
           }
         </ul>

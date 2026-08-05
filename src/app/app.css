@@ -1072,6 +1072,25 @@
   color: var(--fe);
 }
 
+.project__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--be);
+  text-decoration: none;
+}
+
+.project__link:hover {
+  text-decoration: underline;
+}
+
+.page--dark .project__link {
+  color: #7dd3fc;
+}
+
 /* —— Education —— */
 .education {
   background: var(--foam);
