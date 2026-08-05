@@ -209,7 +209,12 @@
                   <li><span class="chip chip--sm">{{ tag }}</span></li>
                 }
               </ul>
-              <a class="btn btn--primary app__cta" [href]="app.url">
+              <a
+                class="btn btn--primary app__cta"
+                [href]="app.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Open app
                 <span aria-hidden="true">→</span>
               </a>
