@@ -5,48 +5,50 @@ html {
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$orange-palette,
       ),
-      typography: Roboto,
-      density: 0,
+      typography: Inter,
+      density: -1,
     )
   );
 }
 
 :root {
-  --iph-bg: #f3f6fb;
-  --iph-bg-elevated: rgba(255, 255, 255, 0.78);
-  --iph-text: #0f172a;
-  --iph-muted: #64748b;
-  --iph-border: rgba(148, 163, 184, 0.35);
-  --iph-accent: #2563eb;
-  --iph-accent-soft: rgba(37, 99, 235, 0.12);
+  --iph-bg: #f4faf8;
+  --iph-bg-elevated: rgba(255, 255, 255, 0.86);
+  --iph-text: #134e4a;
+  --iph-muted: #5b726e;
+  --iph-border: rgba(45, 212, 191, 0.28);
+  --iph-accent: #0f766e;
+  --iph-accent-soft: rgba(15, 118, 110, 0.12);
+  --iph-accent-2: #ea580c;
   --iph-success: #059669;
   --iph-warning: #d97706;
   --iph-danger: #dc2626;
-  --iph-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --iph-shadow: 0 12px 32px rgba(15, 118, 110, 0.08);
   --iph-radius: 18px;
   --iph-sidebar: 260px;
   --iph-topbar: 72px;
-  --iph-gradient: radial-gradient(circle at top left, #dbeafe, transparent 40%),
-    radial-gradient(circle at top right, #e0e7ff, transparent 35%),
-    linear-gradient(180deg, #f8fafc, #eef2ff);
+  --iph-gradient: radial-gradient(circle at top left, #ccfbf1, transparent 42%),
+    radial-gradient(circle at top right, #ffedd5, transparent 38%),
+    linear-gradient(180deg, #f8fffc, #f0fdfa);
 }
 
 html.dark {
   color-scheme: dark;
-  --iph-bg: #0b1220;
-  --iph-bg-elevated: rgba(17, 24, 39, 0.78);
-  --iph-text: #e2e8f0;
-  --iph-muted: #94a3b8;
-  --iph-border: rgba(148, 163, 184, 0.18);
-  --iph-accent: #60a5fa;
-  --iph-accent-soft: rgba(96, 165, 250, 0.16);
-  --iph-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
-  --iph-gradient: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), transparent 40%),
-    radial-gradient(circle at top right, rgba(79, 70, 229, 0.18), transparent 35%),
-    linear-gradient(180deg, #0b1220, #111827);
+  --iph-bg: #071512;
+  --iph-bg-elevated: rgba(13, 28, 25, 0.88);
+  --iph-text: #ccfbf1;
+  --iph-muted: #94b8b1;
+  --iph-border: rgba(45, 212, 191, 0.18);
+  --iph-accent: #2dd4bf;
+  --iph-accent-soft: rgba(45, 212, 191, 0.16);
+  --iph-accent-2: #fb923c;
+  --iph-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  --iph-gradient: radial-gradient(circle at top left, rgba(15, 118, 110, 0.35), transparent 42%),
+    radial-gradient(circle at top right, rgba(234, 88, 12, 0.18), transparent 38%),
+    linear-gradient(180deg, #071512, #0b1c18);
 }
 
 html,
@@ -162,7 +164,12 @@ a {
 }
 
 .skeleton {
-  background: linear-gradient(90deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0.28), rgba(148, 163, 184, 0.15));
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.15),
+    rgba(148, 163, 184, 0.28),
+    rgba(148, 163, 184, 0.15)
+  );
   background-size: 200% 100%;
   animation: shimmer 1.2s linear infinite;
   border-radius: 12px;
@@ -174,7 +181,47 @@ a {
   }
 }
 
+/* Prevent Material outline labels colliding with icons/placeholders */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background: transparent;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 44px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.mat-mdc-form-field .mdc-floating-label {
+  max-width: calc(100% - 40px);
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-prefix,
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix {
+  padding: 0 0.35rem 0 0.5rem;
+  align-self: center;
+}
+
+.search-compact .mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.search-compact .mdc-notched-outline__notch {
+  border-right: none;
+}
+
 html.dark .mat-mdc-snack-bar-container {
-  --mdc-snackbar-container-color: #1f2937;
-  --mdc-snackbar-supporting-text-color: #e5e7eb;
+  --mdc-snackbar-container-color: #0f2924;
+  --mdc-snackbar-supporting-text-color: #ccfbf1;
+}
+
+html.dark .mat-mdc-option,
+html.dark .mat-mdc-select-panel {
+  --mat-option-label-text-color: #e2e8f0;
 }

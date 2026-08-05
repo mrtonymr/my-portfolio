@@ -42,15 +42,14 @@
           </button>
         }
 
-        <form class="search" (submit)="$event.preventDefault(); submitSearch()">
+        <form class="search search-compact" (submit)="$event.preventDefault(); submitSearch()">
           <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search__field">
-            <mat-label>Search questions</mat-label>
             <mat-icon matPrefix>search</mat-icon>
             <input
               matInput
               [ngModel]="search()"
               (ngModelChange)="search.set($event)"
-              placeholder="closures, hooks, indexes..."
+              placeholder="Search questions…"
               aria-label="Search questions"
             />
           </mat-form-field>

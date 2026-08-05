@@ -7,13 +7,18 @@
   </header>
 
   <div class="filters glass">
-    <mat-form-field appearance="outline" class="grow">
-      <mat-label>Search bookmarks</mat-label>
-      <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" />
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="grow search-compact">
       <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        placeholder="Search bookmarks…"
+        aria-label="Search bookmarks"
+      />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Difficulty</mat-label>
       <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)">
         <mat-option value="All">All</mat-option>
@@ -23,7 +28,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Sort</mat-label>
       <mat-select [ngModel]="sort()" (ngModelChange)="sort.set($event)">
         <mat-option value="title">Title</mat-option>

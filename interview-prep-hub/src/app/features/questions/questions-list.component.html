@@ -17,13 +17,18 @@
   </header>
 
   <div class="filters glass">
-    <mat-form-field appearance="outline" class="grow">
-      <mat-label>Search</mat-label>
-      <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Title, tags…" />
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="grow search-compact">
       <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        placeholder="Search by title or tags…"
+        aria-label="Search questions"
+      />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Category</mat-label>
       <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)">
         <mat-option value="All">All</mat-option>
@@ -33,7 +38,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Difficulty</mat-label>
       <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)">
         <mat-option value="All">All</mat-option>
@@ -43,7 +48,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Company</mat-label>
       <mat-select [ngModel]="company()" (ngModelChange)="company.set($event)">
         <mat-option value="All">All</mat-option>
@@ -53,7 +58,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Tag</mat-label>
       <mat-select [ngModel]="tag()" (ngModelChange)="tag.set($event)">
         <mat-option value="All">All</mat-option>
@@ -63,7 +68,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>Status</mat-label>
       <mat-select [ngModel]="status()" (ngModelChange)="status.set($event)">
         <mat-option value="All">All</mat-option>

@@ -64,14 +64,13 @@
 
     <article class="panel glass">
       <h2>Your notes</h2>
-      <mat-form-field appearance="outline" class="full">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
         <mat-label>Notes (autosaved)</mat-label>
         <textarea
           matInput
           rows="5"
           [ngModel]="noteDraft()"
           (ngModelChange)="noteDraft.set($event)"
-          placeholder="Key points, follow-ups, personal tips…"
         ></textarea>
       </mat-form-field>
     </article>

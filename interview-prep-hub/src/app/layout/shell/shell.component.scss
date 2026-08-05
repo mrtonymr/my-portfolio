@@ -8,6 +8,8 @@
   width: var(--iph-sidebar);
   margin: 12px;
   border-radius: var(--iph-radius) !important;
+  background: var(--iph-bg-elevated) !important;
+  border: 1px solid var(--iph-border);
 }
 
 .brand {
@@ -25,7 +27,7 @@
   place-items: center;
   font-weight: 700;
   color: white;
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: linear-gradient(135deg, #0f766e, #ea580c);
 }
 
 .brand strong,
@@ -47,12 +49,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 8px 14px;
+  overflow: visible;
 }
 
 .search {
   flex: 1;
   max-width: 480px;
+  min-width: 0;
 }
 
 .search__field {
@@ -64,6 +68,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .progress-chip {
@@ -94,5 +99,9 @@
 @media (max-width: 900px) {
   .progress-chip {
     display: none;
+  }
+
+  .search {
+    max-width: none;
   }
 }

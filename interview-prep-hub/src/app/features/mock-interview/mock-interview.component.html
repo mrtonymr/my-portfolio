@@ -8,7 +8,7 @@
 
   @if (!mock.active() && !mock.report()) {
     <form class="setup glass" (ngSubmit)="start()">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Category</mat-label>
         <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)" name="category">
           <mat-option value="All">All</mat-option>
@@ -18,7 +18,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Difficulty</mat-label>
         <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)" name="difficulty">
           <mat-option value="All">All</mat-option>
@@ -28,7 +28,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Question count</mat-label>
         <mat-select [ngModel]="count()" (ngModelChange)="count.set($event)" name="count">
           @for (n of counts; track n) {
@@ -37,7 +37,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Seconds per question</mat-label>
         <mat-select [ngModel]="seconds()" (ngModelChange)="seconds.set($event)" name="seconds">
           @for (s of secondsOptions; track s) {
