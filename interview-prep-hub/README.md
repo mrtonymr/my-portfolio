@@ -2,6 +2,12 @@
 
 Offline-first interview preparation platform built with **Angular 20**, signals, Material, Tailwind CSS, SCSS, and Chart.js.
 
+## Live demo
+
+When this repo is deployed to GitHub Pages, the app is available at:
+
+`https://mrtonymr.github.io/my-portfolio/interview-prep-hub/`
+
 ## Features
 
 - Dashboard with progress, streak, daily question, and charts

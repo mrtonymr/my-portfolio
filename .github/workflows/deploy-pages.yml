@@ -34,6 +34,10 @@ jobs:
         run: npm ci
         working-directory: developer-toolbox
 
+      - name: Install Interview Prep Hub dependencies
+        run: npm ci
+        working-directory: interview-prep-hub
+
       - name: Build portfolio
         run: npm run build:gh-pages
 
@@ -41,10 +45,16 @@ jobs:
         run: npm run build
         working-directory: developer-toolbox
 
-      - name: Bundle Developer Toolbox into Pages artifact
+      - name: Build Interview Prep Hub
+        run: npm run build
+        working-directory: interview-prep-hub
+
+      - name: Bundle playground apps into Pages artifact
         run: |
           mkdir -p dist/cursor-test/browser/developer-toolbox
+          mkdir -p dist/cursor-test/browser/interview-prep-hub
           cp -R developer-toolbox/dist/developer-toolbox/browser/. dist/cursor-test/browser/developer-toolbox/
+          cp -R interview-prep-hub/dist/interview-prep-hub/browser/. dist/cursor-test/browser/interview-prep-hub/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

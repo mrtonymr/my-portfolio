@@ -255,6 +255,14 @@ export class App {
       tags: ['Angular', 'TypeScript', 'Material'],
       status: 'Live',
     },
+    {
+      name: 'Interview Prep Hub',
+      blurb:
+        'Offline interview practice with question library, bookmarks, flashcards, mock interviews, notes, streaks, and progress statistics.',
+      url: 'interview-prep-hub/',
+      tags: ['Angular', 'TypeScript', 'Chart.js'],
+      status: 'Live',
+    },
   ];
 
   readonly projects: Project[] = [
