@@ -1,0 +1,210 @@
+[
+  {
+    "id": "css-001",
+    "title": "Box Model",
+    "question": "Explain the CSS box model.",
+    "answer": "Every element is a box with content, padding, border, and margin. width and height by default apply to content box.\n\nbox-sizing: border-box includes padding and border in the declared width, simplifying layouts.\n\nMargin collapse occurs between adjacent vertical margins of block elements. Understanding the box model is foundational for spacing bugs.",
+    "examples": [
+      "* { box-sizing: border-box; }\n.card { width: 300px; padding: 16px; border: 1px solid #ccc; }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Adobe"
+    ],
+    "tags": [
+      "box-model",
+      "layout",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "html-007",
+      "css-002",
+      "css-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-002",
+    "title": "Flexbox",
+    "question": "How does CSS Flexbox work?",
+    "answer": "Flexbox lays out items along a main axis and cross axis. Container properties: display flex, flex-direction, justify-content, align-items, gap.\n\nItem properties: flex-grow, flex-shrink, flex-basis, align-self. Flexbox excels at centering, distributing space, and one-dimensional layouts.\n\nUse flex-wrap for responsive rows. flex: 1 is shorthand for flex-grow 1, flex-shrink 1, flex-basis 0%.",
+    "examples": [
+      ".row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "General"
+    ],
+    "tags": [
+      "flexbox",
+      "layout",
+      "responsive"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "css-003",
+      "css-001",
+      "html-007"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-003",
+    "title": "CSS Grid",
+    "question": "When would you use CSS Grid over Flexbox?",
+    "answer": "Grid handles two-dimensional layouts: rows and columns simultaneously. Flexbox handles one-dimensional distribution.\n\nGrid features: grid-template-columns/rows, fr units, grid-area, implicit vs explicit tracks, and subgrid.\n\nCommon pattern: Grid for page layout, Flexbox for component internals. They compose well together.",
+    "examples": [
+      ".layout {\n  display: grid;\n  grid-template-columns: 240px 1fr;\n  grid-template-rows: auto 1fr auto;\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Spotify"
+    ],
+    "tags": [
+      "grid",
+      "layout",
+      "responsive"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "css-002",
+      "css-007",
+      "html-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-004",
+    "title": "Specificity",
+    "question": "How is CSS specificity calculated?",
+    "answer": "Specificity ranks selectors: inline styles beat IDs beat classes/attributes/pseudo-classes beat elements. !important overrides normal cascade except against equal !important.\n\nOrder matters when specificity is equal—the last rule wins. Avoid escalating specificity wars; prefer single-class selectors and CSS variables.\n\n:where() reduces specificity of its arguments. Understanding specificity fixes \"why won't my style apply\" bugs.",
+    "examples": [
+      "#nav .link { }  /* 1 ID + 1 class */\n.button.primary { } /* 2 classes beats 1 element */"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "specificity",
+      "cascade",
+      "selectors"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "css-005",
+      "css-006",
+      "css-001"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-005",
+    "title": "BEM",
+    "question": "What is the BEM naming convention?",
+    "answer": "BEM stands for Block Element Modifier. Block is standalone (menu). Element is part of a block (menu__item). Modifier is a variant (menu__item--active).\n\nIt reduces specificity conflicts and clarifies component structure. Pairs well with component-based frameworks.\n\nAlternatives include CSS Modules and utility-first Tailwind. Consistency matters more than the exact methodology.",
+    "examples": [
+      ".card { }\n.card__title { }\n.card--featured { }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Yandex",
+      "General"
+    ],
+    "tags": [
+      "bem",
+      "naming",
+      "architecture"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "css-004",
+      "react-001",
+      "ang-003"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-006",
+    "title": "CSS Variables",
+    "question": "How do CSS custom properties (variables) work?",
+    "answer": "Define with --name: value on a selector (often :root). Use with var(--name, fallback).\n\nUnlike preprocessor variables, custom properties are live in the cascade and can change with media queries or JavaScript.\n\nIdeal for theming: dark mode toggles update variables on html or body. They inherit and scope naturally.",
+    "examples": [
+      ":root { --color-primary: #2563eb; }\n.button { background: var(--color-primary); }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Shopify",
+      "General"
+    ],
+    "tags": [
+      "variables",
+      "theming",
+      "custom-properties"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "css-004",
+      "react-006",
+      "css-007"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-007",
+    "title": "Responsive Design",
+    "question": "What are best practices for responsive CSS?",
+    "answer": "Mobile-first media queries use min-width breakpoints. Use relative units (rem, %, vw) for scalability.\n\nFluid typography with clamp(), flexible grids, and responsive images improve all viewports. Touch targets should be at least 44px.\n\nTest real devices. Container queries (@container) style components based on parent size, not just viewport.",
+    "examples": [
+      "@media (min-width: 768px) { .sidebar { display: block; } }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Apple",
+      "General"
+    ],
+    "tags": [
+      "responsive",
+      "media-queries",
+      "mobile-first"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "css-002",
+      "css-003",
+      "html-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-008",
+    "title": "Z-Index Stacking",
+    "question": "How does the CSS stacking context work?",
+    "answer": "z-index only compares elements within the same stacking context. New contexts are created by positioned elements with z-index, opacity < 1, transform, filter, and more.\n\nA high z-index inside a low context cannot escape above siblings outside it. This causes modal and dropdown bugs.\n\nFix by moving overlays to a top-level portal or ensuring the parent creates the intended context.",
+    "examples": [
+      ".modal-backdrop { position: fixed; z-index: 1000; }\n.dropdown { position: absolute; z-index: 10; }"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Uber",
+      "Netflix"
+    ],
+    "tags": [
+      "z-index",
+      "stacking",
+      "layout"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "css-001",
+      "css-004",
+      "react-005"
+    ],
+    "category": "CSS"
+  }
+]

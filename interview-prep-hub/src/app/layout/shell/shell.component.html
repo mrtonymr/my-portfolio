@@ -1,0 +1,84 @@
+<div class="shell">
+  <mat-sidenav-container class="shell__container">
+    <mat-sidenav
+      #drawer
+      class="shell__sidenav glass"
+      [mode]="isHandset() ? 'over' : 'side'"
+      [opened]="!isHandset()"
+      [fixedInViewport]="isHandset()"
+    >
+      <div class="brand">
+        <div class="brand__mark">IH</div>
+        <div>
+          <strong>Interview Prep Hub</strong>
+          <span>Practice smarter</span>
+        </div>
+      </div>
+
+      <mat-nav-list>
+        @for (item of nav; track item.route) {
+          <a
+            mat-list-item
+            [routerLink]="item.route"
+            [activated]="isActive(item.route)"
+            (click)="onNavigate()"
+          >
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.label }}</span>
+          </a>
+        }
+        <a mat-list-item routerLink="/about" [activated]="isActive('/about')" (click)="onNavigate()">
+          <mat-icon matListItemIcon>info</mat-icon>
+          <span matListItemTitle>About</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <header class="topbar glass">
+        @if (isHandset()) {
+          <button mat-icon-button type="button" aria-label="Open menu" (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        }
+
+        <form class="search" (submit)="$event.preventDefault(); submitSearch()">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search__field">
+            <mat-label>Search questions</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              [ngModel]="search()"
+              (ngModelChange)="search.set($event)"
+              placeholder="closures, hooks, indexes..."
+              aria-label="Search questions"
+            />
+          </mat-form-field>
+        </form>
+
+        <div class="topbar__meta">
+          <div class="progress-chip" matTooltip="Overall completion">
+            <span>{{ completion() }}%</span>
+            <mat-progress-bar mode="determinate" [value]="completion()"></mat-progress-bar>
+          </div>
+
+          <button
+            mat-icon-button
+            type="button"
+            [matTooltip]="theme.darkMode() ? 'Light mode' : 'Dark mode'"
+            (click)="theme.toggleDarkMode()"
+            aria-label="Toggle dark mode"
+          >
+            <mat-icon>{{ theme.darkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+          </button>
+
+          <div class="avatar" aria-hidden="true">TM</div>
+        </div>
+      </header>
+
+      <main class="main fade-in">
+        <router-outlet />
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

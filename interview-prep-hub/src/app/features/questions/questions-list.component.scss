@@ -1,0 +1,50 @@
+.page {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(5, minmax(120px, 1fr)) auto;
+  gap: 0.65rem;
+  padding: 0.9rem;
+  align-items: start;
+}
+
+.filters .grow {
+  min-width: 0;
+}
+
+.filters mat-form-field {
+  width: 100%;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+.results--list {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 1100px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

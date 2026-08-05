@@ -1,0 +1,108 @@
+<section class="page fade-in">
+  <nav class="crumb">
+    <a routerLink="/questions"><mat-icon>arrow_back</mat-icon> Questions</a>
+  </nav>
+
+  @if (question(); as q) {
+    <header class="page-header">
+      <div>
+        <div class="tags">
+          <span class="badge">{{ q.category }}</span>
+          <span
+            class="badge"
+            [class.badge-easy]="q.difficulty === 'Easy'"
+            [class.badge-medium]="q.difficulty === 'Medium'"
+            [class.badge-hard]="q.difficulty === 'Hard'"
+          >
+            {{ q.difficulty }}
+          </span>
+          @for (tag of q.tags; track tag) {
+            <span class="badge">{{ tag }}</span>
+          }
+        </div>
+        <h1 class="page-title">{{ q.title }}</h1>
+        <p class="page-subtitle">
+          ~{{ q.estimatedTime }} min
+          @if (q.company.length) {
+            · {{ q.company.join(', ') }}
+          }
+        </p>
+      </div>
+      <div class="actions">
+        <button mat-icon-button type="button" matTooltip="Bookmark" (click)="toggleBookmark()">
+          <mat-icon>{{ bookmarked() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+        </button>
+        <button mat-icon-button type="button" matTooltip="Mark complete" (click)="toggleCompleted()">
+          <mat-icon>{{ completed() ? 'task_alt' : 'radio_button_unchecked' }}</mat-icon>
+        </button>
+        <button mat-icon-button type="button" matTooltip="Copy answer" (click)="copyAnswer()">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button type="button" matTooltip="Share" (click)="share()">
+          <mat-icon>share</mat-icon>
+        </button>
+      </div>
+    </header>
+
+    <article class="panel glass">
+      <h2>Question</h2>
+      <p class="body">{{ q.question }}</p>
+    </article>
+
+    <article class="panel glass">
+      <h2>Answer</h2>
+      <p class="body answer">{{ q.answer }}</p>
+      @if (q.examples?.length) {
+        <h3>Examples</h3>
+        <ul class="examples">
+          @for (ex of q.examples; track ex) {
+            <li><pre>{{ ex }}</pre></li>
+          }
+        </ul>
+      }
+    </article>
+
+    <article class="panel glass">
+      <h2>Your notes</h2>
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Notes (autosaved)</mat-label>
+        <textarea
+          matInput
+          rows="5"
+          [ngModel]="noteDraft()"
+          (ngModelChange)="noteDraft.set($event)"
+          placeholder="Key points, follow-ups, personal tips…"
+        ></textarea>
+      </mat-form-field>
+    </article>
+
+    @if (related().length) {
+      <article class="panel glass">
+        <h2>Related questions</h2>
+        <ul class="related">
+          @for (r of related(); track r.id) {
+            <li>
+              <a [routerLink]="['/questions', r.id]">{{ r.title }}</a>
+              <span
+                class="badge"
+                [class.badge-easy]="r.difficulty === 'Easy'"
+                [class.badge-medium]="r.difficulty === 'Medium'"
+                [class.badge-hard]="r.difficulty === 'Hard'"
+              >
+                {{ r.difficulty }}
+              </span>
+            </li>
+          }
+        </ul>
+      </article>
+    }
+  } @else {
+    <app-empty-state
+      icon="help_outline"
+      title="Question not found"
+      message="This question may have been removed or the link is invalid."
+      actionLabel="Back to questions"
+      actionLink="/questions"
+    />
+  }
+</section>

@@ -1,0 +1,38 @@
+.page {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 720px;
+}
+
+.panel {
+  padding: 1.15rem 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.row p {
+  margin: 0.2rem 0 0;
+  color: var(--iph-muted);
+  font-size: 0.88rem;
+}
+
+.row strong {
+  font-size: 0.95rem;
+}
+
+.danger strong {
+  color: var(--iph-danger);
+}

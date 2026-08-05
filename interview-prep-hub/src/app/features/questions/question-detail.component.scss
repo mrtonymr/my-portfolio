@@ -1,0 +1,103 @@
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.crumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--iph-muted);
+  font-size: 0.9rem;
+}
+
+.crumb mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.panel {
+  padding: 1.15rem 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
+}
+
+.panel h3 {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.body {
+  margin: 0;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.answer {
+  color: var(--iph-text);
+}
+
+.examples {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.examples pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: var(--iph-accent-soft);
+  border-radius: 12px;
+  overflow: auto;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.full {
+  width: 100%;
+}
+
+.related {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.related li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.related a:hover {
+  color: var(--iph-accent);
+}

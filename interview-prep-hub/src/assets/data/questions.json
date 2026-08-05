@@ -1,0 +1,1980 @@
+[
+  {
+    "id": "js-001",
+    "title": "var, let, and const",
+    "question": "What is the difference between var, let, and const in JavaScript?",
+    "answer": "var is function-scoped and hoisted with an initial value of undefined. let and const are block-scoped and live in the temporal dead zone until initialized.\n\nconst prevents reassignment of the binding but does not make objects immutable. let allows reassignment within the same scope.\n\nIn modern codebases, prefer const by default, use let when reassignment is required, and avoid var to prevent scope-related bugs.",
+    "examples": [
+      "for (var i = 0; i < 3; i++) {} // i is 3 after loop\nfor (let j = 0; j < 3; j++) {} // j is not accessible"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Google",
+      "Amazon"
+    ],
+    "tags": [
+      "scope",
+      "hoisting",
+      "es6"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-002",
+      "js-007",
+      "ts-001"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-002",
+    "title": "Closures",
+    "question": "Explain closures in JavaScript with a practical example.",
+    "answer": "A closure is created when a function retains access to variables from its lexical scope even after the outer function has finished executing.\n\nClosures power patterns like private state, memoization, and event handlers. They are not magic: the inner function holds a reference to the outer scope's environment.\n\nWatch for stale closures in loops and async callbacks; use let or an IIFE to capture the correct value per iteration.",
+    "examples": [
+      "function makeCounter() {\n  let count = 0;\n  return () => ++count;\n}\nconst counter = makeCounter();\ncounter(); // 1\ncounter(); // 2"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Microsoft"
+    ],
+    "tags": [
+      "closures",
+      "scope",
+      "functions"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "js-001",
+      "js-007",
+      "react-003"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-003",
+    "title": "Event Loop",
+    "question": "How does the JavaScript event loop work?",
+    "answer": "JavaScript is single-threaded. The event loop coordinates the call stack, microtask queue, and macrotask queue.\n\nSynchronous code runs on the call stack first. Promise callbacks and queueMicrotask run as microtasks after the current stack clears. setTimeout, setInterval, and I/O callbacks are macrotasks processed in later turns.\n\nMicrotasks can starve rendering if you enqueue them recursively. Understanding this model explains why await defers continuation and why order matters in mixed async code.",
+    "examples": [
+      "console.log(1);\nsetTimeout(() => console.log(2), 0);\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);\n// 1, 4, 3, 2"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "Netflix"
+    ],
+    "tags": [
+      "async",
+      "event-loop",
+      "concurrency"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "js-006",
+      "node-001",
+      "react-003"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-004",
+    "title": "Prototypal Inheritance",
+    "question": "Explain prototypal inheritance in JavaScript.",
+    "answer": "Objects can delegate property lookups to another object via the internal [[Prototype]] link, exposed as __proto__ or Object.getPrototypeOf.\n\nWhen a property is missing on an object, the engine walks the prototype chain until it finds the property or reaches null.\n\nClasses in ES6 are syntactic sugar over constructor functions and prototypes. Understanding prototypes helps debug instanceof behavior and avoid mutating shared prototype objects unintentionally.",
+    "examples": [
+      "const animal = { speaks() { return \"...\"; } };\nconst dog = Object.create(animal);\ndog.bark = () => \"woof\";\ndog.speaks(); // \"...\" via prototype"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "prototypes",
+      "oop",
+      "classes"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-001",
+      "ts-002",
+      "react-004"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-005",
+    "title": "== vs ===",
+    "question": "What is the difference between == and ===?",
+    "answer": "=== is strict equality: no type coercion, compares value and type. == performs type coercion using abstract equality rules, which can produce surprising results.\n\nExamples: 0 == false is true, but 0 === false is false. null == undefined is true, but null === undefined is false.\n\nBest practice: use === and !== unless you have a deliberate reason to coerce types. Use Object.is for edge cases like NaN and -0 vs +0.",
+    "examples": [
+      "0 == false        // true\n0 === false       // false\n\"\" == false       // true\nnull == undefined // true"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Accenture"
+    ],
+    "tags": [
+      "operators",
+      "types",
+      "coercion"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "js-001",
+      "ts-005"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-006",
+    "title": "Promises and async/await",
+    "question": "Explain Promises and how async/await relates to them.",
+    "answer": "A Promise represents a future value with states pending, fulfilled, or rejected. then/catch/finally register reactions on the microtask queue.\n\nasync functions always return a Promise. await pauses execution within the async function until the awaited Promise settles, without blocking the main thread.\n\nUse Promise.all for parallel independent work, Promise.allSettled when you need all outcomes, and try/catch around await for local error handling. Always handle rejections to avoid unhandled rejection warnings.",
+    "examples": [
+      "async function fetchUser(id) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    return await res.json();\n  } catch (err) {\n    console.error(err);\n    throw err;\n  }\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Spotify"
+    ],
+    "tags": [
+      "promises",
+      "async",
+      "error-handling"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "node-006",
+      "ts-001"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-007",
+    "title": "The this Keyword",
+    "question": "How is the value of this determined in JavaScript?",
+    "answer": "this is dynamic and depends on how a function is called, not where it is defined.\n\nIn non-strict sloppy mode, this is the global object for plain calls. In strict mode, it is undefined. Method calls bind this to the receiver object. new binds this to the new instance. call/apply/bind set this explicitly.\n\nArrow functions do not have their own this; they lexically capture this from the enclosing scope. This is why arrow functions are popular in React class-less components and callbacks.",
+    "examples": [
+      "const obj = {\n  name: \"A\",\n  regular() { return this.name; },\n  arrow: () => this?.name\n};"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Apple",
+      "Uber"
+    ],
+    "tags": [
+      "this",
+      "functions",
+      "binding"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "js-002",
+      "js-004",
+      "react-005"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-008",
+    "title": "Hoisting",
+    "question": "What is hoisting in JavaScript?",
+    "answer": "Hoisting is the compile-time behavior where declarations are moved to the top of their scope before execution.\n\nvar declarations are hoisted and initialized to undefined. let and const are hoisted but uninitialized until their line runs (temporal dead zone). Function declarations are fully hoisted; function expressions follow variable hoisting rules.\n\nThis explains why you can call a function declaration before its definition but cannot access let/const before initialization.",
+    "examples": [
+      "console.log(x); // undefined\nvar x = 5;\n\nconsole.log(y); // ReferenceError\nlet y = 5;"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "TCS",
+      "Infosys"
+    ],
+    "tags": [
+      "hoisting",
+      "scope",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-001",
+      "js-002"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "ts-001",
+    "title": "Why TypeScript?",
+    "question": "What are the main benefits of TypeScript over JavaScript?",
+    "answer": "TypeScript adds static typing, better tooling, and safer refactors at scale. Editors can autocomplete APIs, catch typos, and surface breaking changes early.\n\nStructural typing fits JavaScript patterns while optional strictness catches null and implicit any issues. TypeScript compiles to JavaScript and can be adopted incrementally.\n\nTrade-offs include build step complexity and occasional type gymnastics for highly dynamic code.",
+    "difficulty": "Easy",
+    "company": [
+      "Microsoft",
+      "General"
+    ],
+    "tags": [
+      "typescript",
+      "tooling",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-001",
+      "ts-002",
+      "ang-001"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-002",
+    "title": "Interface vs Type",
+    "question": "When would you use an interface versus a type alias?",
+    "answer": "Interfaces are extendable via declaration merging and are ideal for public object shapes and class contracts. Type aliases can represent unions, intersections, tuples, and mapped types.\n\nUse interface for object-oriented APIs you expect to augment. Use type for unions, utility compositions, and conditional types.\n\nPerformance differences are negligible; choose based on expressiveness and team conventions.",
+    "examples": [
+      "interface User { id: string; name: string; }\ninterface User { email: string; } // merges\n\ntype Status = \"active\" | \"inactive\";"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Shopify"
+    ],
+    "tags": [
+      "types",
+      "interfaces",
+      "design"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ts-001",
+      "ts-004",
+      "ang-002"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-003",
+    "title": "Generics",
+    "question": "Explain generics in TypeScript with an example.",
+    "answer": "Generics let you write reusable components that work across types while preserving type relationships.\n\nA generic function like identity<T>(value: T): T keeps input and output types linked. Constraints with extends narrow acceptable types.\n\nGenerics appear in arrays, Promises, React hooks, and repository patterns. Over-generic APIs hurt readability; constrain when possible.",
+    "examples": [
+      "function first<T>(items: T[]): T | undefined {\n  return items[0];\n}\n\nfirst([1, 2]); // number | undefined"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Atlassian"
+    ],
+    "tags": [
+      "generics",
+      "types",
+      "reusability"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ts-002",
+      "ts-004",
+      "react-002"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-004",
+    "title": "Utility Types",
+    "question": "What are Partial, Pick, and Omit utility types?",
+    "answer": "Utility types transform existing types without duplication. Partial<T> makes all properties optional. Pick<T, K> selects keys. Omit<T, K> removes keys.\n\nThey are implemented with mapped types and are essential for DTOs, update payloads, and API layers.\n\nCombine them: Partial<Pick<User, \"name\" | \"email\">> for patch updates. Know Record, Required, Readonly, and ReturnType for interviews.",
+    "examples": [
+      "type User = { id: string; name: string; email: string };\ntype UserUpdate = Partial<Pick<User, \"name\" | \"email\">>;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "General"
+    ],
+    "tags": [
+      "utility-types",
+      "mapped-types",
+      "api"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ts-002",
+      "ts-003",
+      "ang-007"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-005",
+    "title": "Type Narrowing",
+    "question": "What is type narrowing and what techniques does TypeScript provide?",
+    "answer": "Type narrowing refines a union type to a more specific type within a control flow branch.\n\nTechniques include typeof checks, instanceof, in operator, discriminated unions with a literal tag, and user-defined type guards (value is Type).\n\nNarrowing enables safe access without excessive casting. Exhaustiveness checking with never in switch statements catches missing cases.",
+    "examples": [
+      "function printId(id: string | number) {\n  if (typeof id === \"string\") console.log(id.toUpperCase());\n  else console.log(id.toFixed(2));\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Netflix"
+    ],
+    "tags": [
+      "narrowing",
+      "unions",
+      "control-flow"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "js-005",
+      "ts-003",
+      "react-007"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-006",
+    "title": "strict Mode",
+    "question": "What does TypeScript strict mode enable and why use it?",
+    "answer": "strict is a family of compiler flags including strictNullChecks, noImplicitAny, strictFunctionTypes, and more.\n\nstrictNullChecks prevents null/undefined surprises. noImplicitAny forces explicit typing on untyped parameters. Together they catch entire classes of runtime bugs at compile time.\n\nEnable strict early in greenfield projects. For legacy codebases, migrate module by module and use incremental strictness.",
+    "difficulty": "Hard",
+    "company": [
+      "Microsoft",
+      "Airbnb"
+    ],
+    "tags": [
+      "strict",
+      "compiler",
+      "safety"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ts-001",
+      "ts-005",
+      "ts-008"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-007",
+    "title": "Decorators",
+    "question": "What are decorators in TypeScript and where are they used?",
+    "answer": "Decorators are experimental metadata annotations applied to classes, methods, properties, or parameters. They are widely used in Angular for @Component, @Injectable, and in legacy class-validator patterns.\n\nStage 3 decorators differ from legacy experimental decorators; Angular 19+ aligns with the modern standard.\n\nUnderstand that decorators transform or register metadata at class definition time, enabling dependency injection and declarative configuration.",
+    "examples": [
+      "@Injectable({ providedIn: \"root\" })\nexport class UserService {}"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "decorators",
+      "angular",
+      "metadata"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-002",
+      "ang-003",
+      "ts-001"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-008",
+    "title": "any vs unknown vs never",
+    "question": "Explain the difference between any, unknown, and never.",
+    "answer": "any opts out of type checking; use sparingly. unknown is the type-safe top type: you must narrow before use. never represents values that never occur, useful for exhaustive checks and functions that always throw.\n\nPrefer unknown over any for external input. Functions returning never include throw helpers and infinite loops.\n\nInterview tip: show how unknown forces validation while any allows unsafe operations.",
+    "examples": [
+      "function assertNever(x: never): never {\n  throw new Error(\"Unexpected: \" + x);\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Palantir",
+      "General"
+    ],
+    "tags": [
+      "types",
+      "safety",
+      "fundamentals"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "ts-005",
+      "ts-006",
+      "js-005"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ang-001",
+    "title": "Angular Overview",
+    "question": "What is Angular and how does it differ from React?",
+    "answer": "Angular is a full-featured framework with opinions on routing, forms, HTTP, and DI. React is a view library with a larger ecosystem of choices.\n\nAngular uses TypeScript by default, templates with directives, and RxJS for async streams. React uses JSX and one-way data flow with hooks for state.\n\nChoose Angular for large enterprise apps needing structure; React for flexible UI teams and rich ecosystem packages.",
+    "difficulty": "Easy",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "angular",
+      "framework",
+      "comparison"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-001",
+      "ts-001",
+      "ang-008"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-002",
+    "title": "Dependency Injection",
+    "question": "Explain dependency injection in Angular.",
+    "answer": "Angular DI is a hierarchical injector that provides dependencies to components, directives, pipes, and services.\n\nRegister providers at root, module, route, or component level. Constructor injection is the default; inject() function works in functional contexts.\n\nDI enables testability via mocks, singleton services with providedIn root, and tree-shakable providers. Understand injector hierarchy when debugging duplicate service instances.",
+    "examples": [
+      "@Injectable({ providedIn: \"root\" })\nexport class ApiService {\n  constructor(private http: HttpClient) {}\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "Capgemini"
+    ],
+    "tags": [
+      "di",
+      "services",
+      "architecture"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-003",
+      "ts-007",
+      "ang-006"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-003",
+    "title": "Components",
+    "question": "What are Angular components and how is their lifecycle managed?",
+    "answer": "Components combine a TypeScript class, template, and styles. They are the primary building block for UI.\n\nLifecycle hooks include ngOnInit, ngOnChanges, ngAfterViewInit, and ngOnDestroy. Use OnDestroy to unsubscribe from Observables.\n\nSmart vs presentational components separate data fetching from rendering. Prefer OnPush change detection when inputs are immutable for performance.",
+    "examples": [
+      "@Component({\n  selector: \"app-user\",\n  template: `<h1>{{ user.name }}</h1>`\n})\nexport class UserComponent { @Input() user!: User; }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "TCS",
+      "Wipro"
+    ],
+    "tags": [
+      "components",
+      "lifecycle",
+      "templates"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ang-002",
+      "ang-006",
+      "react-001"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-004",
+    "title": "RxJS in Angular",
+    "question": "How are RxJS Observables used in Angular applications?",
+    "answer": "Angular HttpClient returns Observables. Router events, forms valueChanges, and async pipe integrate with reactive streams.\n\nUse operators like map, switchMap, catchError, and debounceTime to compose async logic. switchMap cancels prior requests when a new search term arrives.\n\nAvoid memory leaks: unsubscribe in ngOnDestroy or use takeUntilDestroyed. The async pipe handles subscription lifecycle in templates.",
+    "examples": [
+      "this.search$ = this.term$.pipe(\n  debounceTime(300),\n  switchMap(term => this.api.search(term))\n);"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Spotify"
+    ],
+    "tags": [
+      "rxjs",
+      "observables",
+      "async"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-003",
+      "js-006",
+      "ang-005"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-005",
+    "title": "Angular Routing",
+    "question": "Explain Angular routing and lazy loading.",
+    "answer": "The Router maps URL paths to components. RouterOutlet renders matched components. RouterLink navigates declaratively.\n\nLazy loading splits feature modules or routes into separate bundles loaded on demand via loadChildren or loadComponent.\n\nGuards (CanActivate, CanDeactivate) protect routes. Resolvers prefetch data. Route parameters and query params drive detail views.",
+    "examples": [
+      "{ path: \"admin\", loadChildren: () => import(\"./admin/routes\") }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "IBM"
+    ],
+    "tags": [
+      "routing",
+      "lazy-loading",
+      "navigation"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-003",
+      "ang-008",
+      "react-006"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-006",
+    "title": "Change Detection",
+    "question": "How does Angular change detection work?",
+    "answer": "Default change detection checks the component tree when async events occur. Angular compares bindings and updates the DOM.\n\nOnPush strategy runs detection when inputs change by reference, events originate in the component, or observables emit via async pipe.\n\nPerformance tips: use trackBy in ngFor, avoid heavy work in templates, and prefer signals or immutable data with OnPush.",
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "SAP"
+    ],
+    "tags": [
+      "change-detection",
+      "performance",
+      "onpush"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-003",
+      "ang-007",
+      "react-005"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-007",
+    "title": "Angular Signals",
+    "question": "What are signals in Angular and how do they compare to RxJS?",
+    "answer": "Signals are synchronous reactive primitives for fine-grained UI updates. signal(), computed(), and effect() model state and derived values.\n\nSignals simplify local component state and integrate with OnPush-friendly updates. RxJS remains better for event streams, HTTP, and complex async composition.\n\nModern Angular encourages signals for state with optional RxJS interop via toSignal and toObservable.",
+    "examples": [
+      "count = signal(0);\ndouble = computed(() => this.count() * 2);\nincrement() { this.count.update(v => v + 1); }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "signals",
+      "reactivity",
+      "angular-19"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-006",
+      "react-002",
+      "ts-004"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-008",
+    "title": "Standalone Components",
+    "question": "What are standalone components in Angular?",
+    "answer": "Standalone components declare dependencies directly via imports instead of NgModules. They simplify bootstrapping and lazy loading.\n\nbootstrapApplication replaces platformBrowserDynamic(). Feature routes can load standalone components with loadComponent.\n\nNgModules still exist for gradual migration, but new Angular apps favor standalone APIs for less boilerplate and clearer dependency graphs.",
+    "examples": [
+      "@Component({\n  standalone: true,\n  imports: [CommonModule, RouterLink],\n  template: `...`\n})"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Accenture",
+      "General"
+    ],
+    "tags": [
+      "standalone",
+      "modules",
+      "modern-angular"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "ang-001",
+      "ang-005",
+      "ang-002"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "react-001",
+    "title": "React Core Concepts",
+    "question": "What are the core concepts of React?",
+    "answer": "React models UI as a function of state. Components return elements describing the UI. State changes trigger re-renders.\n\nOne-way data flow keeps data predictable. The virtual DOM diffs updates for efficient patching. Composition over inheritance builds complex UIs from small pieces.\n\nModern React uses function components and hooks for state, effects, and context.",
+    "difficulty": "Easy",
+    "company": [
+      "Meta",
+      "General"
+    ],
+    "tags": [
+      "react",
+      "fundamentals",
+      "components"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-004",
+      "ang-001",
+      "react-002"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-002",
+    "title": "useState vs useReducer",
+    "question": "When should you use useState versus useReducer?",
+    "answer": "useState is ideal for simple independent state values. useReducer manages complex state transitions with a reducer function and dispatch.\n\nChoose useReducer when next state depends on previous state in multiple ways, or when actions are enumerated (ADD, REMOVE, RESET).\n\nBoth work with TypeScript generics for typed state and actions. useReducer pairs well with context for lightweight global state.",
+    "examples": [
+      "const [state, dispatch] = useReducer(reducer, { count: 0 });\ndispatch({ type: \"increment\" });"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Airbnb",
+      "Uber"
+    ],
+    "tags": [
+      "hooks",
+      "state",
+      "useReducer"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "react-001",
+      "react-006",
+      "ang-007"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-003",
+    "title": "useEffect",
+    "question": "Explain useEffect and common pitfalls.",
+    "answer": "useEffect runs side effects after render: data fetching, subscriptions, DOM mutations. The dependency array controls when it re-runs.\n\nInclude all reactive values used inside the effect. Cleanup functions run before re-run and on unmount—essential for timers and subscriptions.\n\nAvoid using useEffect for derived state; compute during render instead. React 18 Strict Mode double-invokes effects in development to surface bugs.",
+    "examples": [
+      "useEffect(() => {\n  const id = setInterval(tick, 1000);\n  return () => clearInterval(id);\n}, []);"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "Shopify"
+    ],
+    "tags": [
+      "hooks",
+      "useEffect",
+      "side-effects"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "react-001",
+      "react-005"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-004",
+    "title": "Virtual DOM",
+    "question": "What is the Virtual DOM and why does React use it?",
+    "answer": "The Virtual DOM is a lightweight JavaScript representation of the UI tree. React diffs the new virtual tree against the previous one to compute minimal DOM updates.\n\nThis batching abstracts cross-browser DOM quirks and enables declarative UI. Reconciliation uses keys to match list items efficiently.\n\nVirtual DOM is not always fastest for every scenario, but it optimizes developer ergonomics and predictable updates at scale.",
+    "difficulty": "Easy",
+    "company": [
+      "Meta",
+      "Amazon"
+    ],
+    "tags": [
+      "virtual-dom",
+      "reconciliation",
+      "performance"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "react-001",
+      "react-005",
+      "js-004"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-005",
+    "title": "React.memo",
+    "question": "How do React.memo, useMemo, and useCallback optimize rendering?",
+    "answer": "React.memo memoizes a component, skipping re-render if props are shallow-equal. useMemo caches expensive computed values. useCallback caches function references.\n\nUse them when profiling shows unnecessary child re-renders or expensive calculations. Overuse adds complexity without benefit.\n\nStable references matter when passing callbacks to memoized children. Combine with proper key usage and state colocation.",
+    "examples": [
+      "const Row = React.memo(function Row({ item }) {\n  return <li>{item.name}</li>;\n});"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "Stripe"
+    ],
+    "tags": [
+      "performance",
+      "memoization",
+      "hooks"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "react-003",
+      "react-004",
+      "ang-006"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-006",
+    "title": "Context API",
+    "question": "What is the React Context API and when should you use it?",
+    "answer": "Context passes data through the tree without prop drilling. createContext provides a Provider and Consumer (or useContext hook).\n\nGood for theme, locale, auth session, and rarely changing global config. Avoid putting frequently changing state in context without splitting providers—it can trigger broad re-renders.\n\nFor complex global state, consider Zustand, Redux Toolkit, or TanStack Query depending on needs.",
+    "examples": [
+      "const ThemeContext = createContext(\"light\");\nconst theme = useContext(ThemeContext);"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "General"
+    ],
+    "tags": [
+      "context",
+      "state",
+      "architecture"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "react-002",
+      "ang-005",
+      "react-007"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-007",
+    "title": "Controlled Components",
+    "question": "What is the difference between controlled and uncontrolled components?",
+    "answer": "Controlled components store form value in React state; the input is a function of state. Uncontrolled components use refs to read DOM values directly.\n\nControlled inputs enable validation, formatting, and conditional UI. Uncontrolled can be simpler for one-off forms or file inputs.\n\nReact recommends controlled inputs for most cases. Libraries like React Hook Form blend both approaches for performance.",
+    "examples": [
+      "<input value={email} onChange={e => setEmail(e.target.value)} />"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Deloitte"
+    ],
+    "tags": [
+      "forms",
+      "controlled",
+      "inputs"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-001",
+      "html-004",
+      "ts-005"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-008",
+    "title": "React 18 Features",
+    "question": "What are key features introduced in React 18?",
+    "answer": "React 18 adds concurrent rendering, automatic batching, transitions with useTransition, and deferred updates with useDeferredValue.\n\ncreateRoot replaces ReactDOM.render. Suspense improvements support streaming SSR with frameworks like Next.js.\n\nConcurrent features let React interrupt rendering for urgent updates, improving perceived performance in complex UIs.",
+    "difficulty": "Hard",
+    "company": [
+      "Vercel",
+      "Meta"
+    ],
+    "tags": [
+      "react-18",
+      "concurrent",
+      "suspense"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "react-003",
+      "react-005",
+      "react-001"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "html-001",
+    "title": "Semantic HTML",
+    "question": "Why is semantic HTML important?",
+    "answer": "Semantic elements (header, nav, main, article, section, footer) convey meaning to browsers, assistive technologies, and search engines.\n\nThey improve accessibility by exposing landmarks to screen readers. SEO benefits from clearer document structure.\n\nAvoid div soup when a semantic element fits. Combine with ARIA only when HTML semantics are insufficient.",
+    "examples": [
+      "<main>\n  <article>\n    <h1>Title</h1>\n    <p>Content</p>\n  </article>\n</main>"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "BBC"
+    ],
+    "tags": [
+      "semantic",
+      "accessibility",
+      "seo"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "html-003",
+      "html-008",
+      "css-007"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-002",
+    "title": "DOCTYPE",
+    "question": "What is the purpose of the DOCTYPE declaration?",
+    "answer": "DOCTYPE tells the browser which HTML version and parsing mode to use. <!DOCTYPE html> triggers standards mode for HTML5.\n\nWithout a proper DOCTYPE, browsers may enter quirks mode with inconsistent layout behavior.\n\nAlways include it as the first line of the document. It is not an HTML element but a required declaration.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "doctype",
+      "standards",
+      "fundamentals"
+    ],
+    "estimatedTime": 3,
+    "relatedQuestions": [
+      "html-001",
+      "css-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-003",
+    "title": "Accessibility Attributes",
+    "question": "What ARIA and HTML attributes improve accessibility?",
+    "answer": "Use native elements first: button, label, fieldset. ARIA fills gaps: aria-label, aria-labelledby, aria-describedby, role when needed.\n\nEnsure keyboard focus order, visible focus styles, and sufficient color contrast. Images need meaningful alt text; decorative images use alt=\"\".\n\naria-hidden hides decorative content from assistive tech. Live regions (aria-live) announce dynamic updates.",
+    "examples": [
+      "<button aria-label=\"Close dialog\">×</button>\n<img src=\"chart.png\" alt=\"Sales grew 20% in Q3\" />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "Apple"
+    ],
+    "tags": [
+      "a11y",
+      "aria",
+      "inclusive-design"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "html-001",
+      "html-004",
+      "css-007"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-004",
+    "title": "Form Elements",
+    "question": "What are best practices for accessible HTML forms?",
+    "answer": "Associate labels with inputs using for/id or wrapping. Group related fields with fieldset and legend.\n\nUse correct input types (email, tel, number) for mobile keyboards and validation. Provide error messages linked via aria-describedby.\n\nNative validation complements but does not replace server-side validation. autocomplete attributes improve UX for common fields.",
+    "examples": [
+      "<label for=\"email\">Email</label>\n<input id=\"email\" type=\"email\" name=\"email\" required />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "General"
+    ],
+    "tags": [
+      "forms",
+      "validation",
+      "accessibility"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "react-007",
+      "html-003",
+      "js-005"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-005",
+    "title": "Meta Tags and SEO",
+    "question": "Which HTML meta tags matter for SEO and social sharing?",
+    "answer": "title and meta description influence search snippets. Canonical links prevent duplicate content issues. robots meta controls indexing.\n\nOpen Graph (og:title, og:image) and Twitter Card tags improve link previews. viewport meta is essential for mobile rendering.\n\nStructured data (JSON-LD) helps rich results. Content quality matters more than meta tricks.",
+    "examples": [
+      "<meta name=\"description\" content=\"Interview prep hub\" />\n<meta property=\"og:title\" content=\"Interview Prep\" />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "HubSpot",
+      "General"
+    ],
+    "tags": [
+      "seo",
+      "meta",
+      "social"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "html-001",
+      "html-002"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-006",
+    "title": "Data Attributes",
+    "question": "What are data-* attributes used for?",
+    "answer": "data-* attributes store custom data on HTML elements accessible via dataset in JavaScript or CSS attribute selectors.\n\nUse them for hooks in progressive enhancement, test selectors (data-testid), or lightweight config passed to scripts.\n\nThey are not a substitute for structured storage. Keep values small and avoid exposing sensitive data in the DOM.",
+    "examples": [
+      "<div data-user-id=\"42\" data-role=\"admin\"></div>\n// el.dataset.userId === \"42\""
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "data-attributes",
+      "dom",
+      "testing"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "html-001",
+      "js-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-007",
+    "title": "Block vs Inline",
+    "question": "What is the difference between block-level and inline elements?",
+    "answer": "Block elements start on a new line and stretch to container width (div, p, section). Inline elements flow within text (span, a, strong).\n\nInline-block and display changes in CSS override default behavior. Replacing block with div-only markup hurts semantics.\n\nUnderstanding display types explains margin collapse, vertical alignment issues, and layout debugging.",
+    "examples": [
+      "<p>Block paragraph</p>\n<span>Inline text</span>"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "TCS"
+    ],
+    "tags": [
+      "display",
+      "layout",
+      "fundamentals"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "css-001",
+      "css-002",
+      "html-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-008",
+    "title": "Picture Element",
+    "question": "How does the picture element support responsive images?",
+    "answer": "picture wraps source elements with media queries or type attributes and a fallback img.\n\nServe art-directed crops or WebP/AVIF with JPEG fallback. img still requires alt text.\n\nCombine with srcset and sizes on img for resolution switching. This reduces bandwidth and improves LCP metrics.",
+    "examples": [
+      "<picture>\n  <source srcset=\"hero.webp\" type=\"image/webp\" />\n  <img src=\"hero.jpg\" alt=\"Team photo\" />\n</picture>"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Shopify"
+    ],
+    "tags": [
+      "responsive",
+      "images",
+      "performance"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "html-001",
+      "css-007",
+      "sd-004"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "css-001",
+    "title": "Box Model",
+    "question": "Explain the CSS box model.",
+    "answer": "Every element is a box with content, padding, border, and margin. width and height by default apply to content box.\n\nbox-sizing: border-box includes padding and border in the declared width, simplifying layouts.\n\nMargin collapse occurs between adjacent vertical margins of block elements. Understanding the box model is foundational for spacing bugs.",
+    "examples": [
+      "* { box-sizing: border-box; }\n.card { width: 300px; padding: 16px; border: 1px solid #ccc; }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Adobe"
+    ],
+    "tags": [
+      "box-model",
+      "layout",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "html-007",
+      "css-002",
+      "css-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-002",
+    "title": "Flexbox",
+    "question": "How does CSS Flexbox work?",
+    "answer": "Flexbox lays out items along a main axis and cross axis. Container properties: display flex, flex-direction, justify-content, align-items, gap.\n\nItem properties: flex-grow, flex-shrink, flex-basis, align-self. Flexbox excels at centering, distributing space, and one-dimensional layouts.\n\nUse flex-wrap for responsive rows. flex: 1 is shorthand for flex-grow 1, flex-shrink 1, flex-basis 0%.",
+    "examples": [
+      ".row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "General"
+    ],
+    "tags": [
+      "flexbox",
+      "layout",
+      "responsive"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "css-003",
+      "css-001",
+      "html-007"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-003",
+    "title": "CSS Grid",
+    "question": "When would you use CSS Grid over Flexbox?",
+    "answer": "Grid handles two-dimensional layouts: rows and columns simultaneously. Flexbox handles one-dimensional distribution.\n\nGrid features: grid-template-columns/rows, fr units, grid-area, implicit vs explicit tracks, and subgrid.\n\nCommon pattern: Grid for page layout, Flexbox for component internals. They compose well together.",
+    "examples": [
+      ".layout {\n  display: grid;\n  grid-template-columns: 240px 1fr;\n  grid-template-rows: auto 1fr auto;\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Spotify"
+    ],
+    "tags": [
+      "grid",
+      "layout",
+      "responsive"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "css-002",
+      "css-007",
+      "html-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-004",
+    "title": "Specificity",
+    "question": "How is CSS specificity calculated?",
+    "answer": "Specificity ranks selectors: inline styles beat IDs beat classes/attributes/pseudo-classes beat elements. !important overrides normal cascade except against equal !important.\n\nOrder matters when specificity is equal—the last rule wins. Avoid escalating specificity wars; prefer single-class selectors and CSS variables.\n\n:where() reduces specificity of its arguments. Understanding specificity fixes \"why won't my style apply\" bugs.",
+    "examples": [
+      "#nav .link { }  /* 1 ID + 1 class */\n.button.primary { } /* 2 classes beats 1 element */"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "specificity",
+      "cascade",
+      "selectors"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "css-005",
+      "css-006",
+      "css-001"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-005",
+    "title": "BEM",
+    "question": "What is the BEM naming convention?",
+    "answer": "BEM stands for Block Element Modifier. Block is standalone (menu). Element is part of a block (menu__item). Modifier is a variant (menu__item--active).\n\nIt reduces specificity conflicts and clarifies component structure. Pairs well with component-based frameworks.\n\nAlternatives include CSS Modules and utility-first Tailwind. Consistency matters more than the exact methodology.",
+    "examples": [
+      ".card { }\n.card__title { }\n.card--featured { }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Yandex",
+      "General"
+    ],
+    "tags": [
+      "bem",
+      "naming",
+      "architecture"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "css-004",
+      "react-001",
+      "ang-003"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-006",
+    "title": "CSS Variables",
+    "question": "How do CSS custom properties (variables) work?",
+    "answer": "Define with --name: value on a selector (often :root). Use with var(--name, fallback).\n\nUnlike preprocessor variables, custom properties are live in the cascade and can change with media queries or JavaScript.\n\nIdeal for theming: dark mode toggles update variables on html or body. They inherit and scope naturally.",
+    "examples": [
+      ":root { --color-primary: #2563eb; }\n.button { background: var(--color-primary); }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Shopify",
+      "General"
+    ],
+    "tags": [
+      "variables",
+      "theming",
+      "custom-properties"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "css-004",
+      "react-006",
+      "css-007"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-007",
+    "title": "Responsive Design",
+    "question": "What are best practices for responsive CSS?",
+    "answer": "Mobile-first media queries use min-width breakpoints. Use relative units (rem, %, vw) for scalability.\n\nFluid typography with clamp(), flexible grids, and responsive images improve all viewports. Touch targets should be at least 44px.\n\nTest real devices. Container queries (@container) style components based on parent size, not just viewport.",
+    "examples": [
+      "@media (min-width: 768px) { .sidebar { display: block; } }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Apple",
+      "General"
+    ],
+    "tags": [
+      "responsive",
+      "media-queries",
+      "mobile-first"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "css-002",
+      "css-003",
+      "html-008"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "css-008",
+    "title": "Z-Index Stacking",
+    "question": "How does the CSS stacking context work?",
+    "answer": "z-index only compares elements within the same stacking context. New contexts are created by positioned elements with z-index, opacity < 1, transform, filter, and more.\n\nA high z-index inside a low context cannot escape above siblings outside it. This causes modal and dropdown bugs.\n\nFix by moving overlays to a top-level portal or ensuring the parent creates the intended context.",
+    "examples": [
+      ".modal-backdrop { position: fixed; z-index: 1000; }\n.dropdown { position: absolute; z-index: 10; }"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Uber",
+      "Netflix"
+    ],
+    "tags": [
+      "z-index",
+      "stacking",
+      "layout"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "css-001",
+      "css-004",
+      "react-005"
+    ],
+    "category": "CSS"
+  },
+  {
+    "id": "node-001",
+    "title": "Event-Driven Architecture",
+    "question": "Why is Node.js described as event-driven and non-blocking?",
+    "answer": "Node uses a single-threaded event loop with libuv handling I/O asynchronously. Callbacks, Promises, and async/await resume when I/O completes.\n\nThis suits I/O-bound workloads like APIs and streaming. CPU-bound tasks block the loop—offload to worker threads or separate services.\n\nNon-blocking I/O enables high concurrency with low memory per connection compared to thread-per-request models.",
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "LinkedIn"
+    ],
+    "tags": [
+      "event-loop",
+      "async",
+      "architecture"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "node-004",
+      "node-007"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-002",
+    "title": "Express Middleware",
+    "question": "What is middleware in Express.js?",
+    "answer": "Middleware functions have access to req, res, and next. They run in order for matching routes.\n\nUse middleware for logging, authentication, parsing JSON, error handling, and CORS. Call next() to pass control or next(err) for errors.\n\nError-handling middleware has four arguments (err, req, res, next). Order matters: parsers before routes, error handler last.",
+    "examples": [
+      "app.use(express.json());\napp.use((req, res, next) => { console.log(req.method); next(); });"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "PayPal"
+    ],
+    "tags": [
+      "express",
+      "middleware",
+      "http"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "node-006",
+      "sd-007",
+      "node-001"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-003",
+    "title": "Streams",
+    "question": "What are streams in Node.js and when use them?",
+    "answer": "Streams process data in chunks: Readable, Writable, Duplex, Transform. They reduce memory for large files and enable piping.\n\nUse streams for file uploads, log processing, compression, and HTTP responses. backpressure pauses producers when consumers are slow.\n\npipe() connects streams; pipeline() handles errors and cleanup. Modern APIs also offer async iterators.",
+    "examples": [
+      "fs.createReadStream(\"large.log\")\n  .pipe(zlib.createGzip())\n  .pipe(fs.createWriteStream(\"large.log.gz\"));"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Amazon",
+      "Cloudflare"
+    ],
+    "tags": [
+      "streams",
+      "io",
+      "performance"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "node-001",
+      "node-008",
+      "sd-001"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-004",
+    "title": "Process vs Thread",
+    "question": "How does Node.js handle concurrency without multi-threading by default?",
+    "answer": "The main JavaScript thread runs the event loop. libuv uses a thread pool for some I/O (file system, DNS) and OS async APIs.\n\nworker_threads module runs JavaScript in parallel for CPU work. child_process forks separate processes for isolation.\n\nChoose workers for image processing or heavy computation. Keep shared mutable state out of workers or use message passing.",
+    "difficulty": "Medium",
+    "company": [
+      "IBM",
+      "General"
+    ],
+    "tags": [
+      "concurrency",
+      "workers",
+      "threads"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "node-001",
+      "node-007",
+      "js-003"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-005",
+    "title": "NPM vs NPX",
+    "question": "What is the difference between npm and npx?",
+    "answer": "npm installs and manages packages locally or globally. npx executes packages without global install, using local node_modules/.bin or downloading temporarily.\n\nnpx is ideal for one-off CLI tools (create-react-app, angular cli schematics). npm scripts run binaries from local dependencies.\n\npackage-lock.json ensures reproducible installs. Use npm ci in CI for clean installs from lockfile.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Accenture"
+    ],
+    "tags": [
+      "npm",
+      "tooling",
+      "packages"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "node-002",
+      "ang-008"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-006",
+    "title": "Async Error Handling",
+    "question": "How do you handle errors in async Node.js code?",
+    "answer": "Use try/catch with async/await. For Express async routes, wrap handlers or use express-async-errors so rejections reach error middleware.\n\nAlways handle Promise rejections. process.on(\"unhandledRejection\") is a last resort, not a strategy.\n\nDistinguish operational errors (expected, handle gracefully) from programmer errors (bugs, may crash). Log with context and return appropriate HTTP status codes.",
+    "examples": [
+      "app.get(\"/users\", async (req, res, next) => {\n  try { res.json(await getUsers()); }\n  catch (e) { next(e); }\n});"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Twilio"
+    ],
+    "tags": [
+      "error-handling",
+      "async",
+      "express"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "js-006",
+      "node-002",
+      "sd-008"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-007",
+    "title": "Cluster Module",
+    "question": "What is the Node.js cluster module used for?",
+    "answer": "cluster forks worker processes sharing the same server port, utilizing multiple CPU cores for HTTP servers.\n\nThe primary process accepts connections and distributes to workers (round-robin by default). Workers crash independently and can be restarted.\n\nIn production, process managers like PM2 or container orchestration often replace manual cluster setup, but the concept remains relevant.",
+    "examples": [
+      "if (cluster.isPrimary) {\n  for (let i = 0; i < cpus().length; i++) cluster.fork();\n} else {\n  createServer(handler).listen(3000);\n}"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Uber",
+      "PayPal"
+    ],
+    "tags": [
+      "cluster",
+      "scaling",
+      "performance"
+    ],
+    "estimatedTime": 11,
+    "relatedQuestions": [
+      "node-001",
+      "node-004",
+      "sd-003"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-008",
+    "title": "Buffers",
+    "question": "What is a Buffer in Node.js?",
+    "answer": "Buffer is a fixed-length raw binary allocation outside the V8 heap, used for TCP streams, file I/O, and crypto.\n\nModern code prefers Uint8Array; Buffer is a subclass with additional helpers. Be careful encoding binary as UTF-8 strings.\n\nUnderstand alloc, from, and toString encodings (hex, base64). For user input, validate length to prevent abuse.",
+    "examples": [
+      "const buf = Buffer.from(\"hello\", \"utf8\");\nconsole.log(buf.toString(\"hex\")); // 68656c6c6f"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Cloudflare",
+      "General"
+    ],
+    "tags": [
+      "buffer",
+      "binary",
+      "fundamentals"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "node-003",
+      "node-001"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "sql-001",
+    "title": "JOIN Types",
+    "question": "Explain INNER, LEFT, RIGHT, and FULL OUTER JOIN.",
+    "answer": "INNER JOIN returns rows with matches in both tables. LEFT JOIN keeps all left rows, null-filling missing right matches. RIGHT JOIN is the mirror. FULL OUTER JOIN keeps all rows from both sides.\n\nJOIN conditions go in ON; filters on outer-joined tables belong in ON, not WHERE, to avoid turning outer joins into inner joins.\n\nKnow when to use EXISTS vs IN for semi-joins on large datasets.",
+    "examples": [
+      "SELECT u.name, o.total\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.id;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Oracle"
+    ],
+    "tags": [
+      "joins",
+      "queries",
+      "relational"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sql-007",
+      "sql-006",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-002",
+    "title": "Indexes",
+    "question": "What are database indexes and what are trade-offs?",
+    "answer": "Indexes speed up reads by maintaining sorted data structures (often B-tree) on columns. They slow writes due to maintenance overhead and use storage.\n\nIndex columns used in WHERE, JOIN, ORDER BY. Composite indexes follow leftmost prefix rules.\n\nOver-indexing hurts insert performance. Analyze slow queries with EXPLAIN. Unique indexes enforce constraints.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Meta"
+    ],
+    "tags": [
+      "indexes",
+      "performance",
+      "optimization"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sql-008",
+      "sql-001",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-003",
+    "title": "Normalization",
+    "question": "What is database normalization and when might you denormalize?",
+    "answer": "Normalization reduces redundancy through normal forms (1NF, 2NF, 3NF). Split data into related tables with keys linking them.\n\nBenefits: integrity, easier updates, less anomaly. Denormalize for read-heavy analytics, caching aggregates, or reducing JOIN cost—accepting redundancy and sync complexity.\n\nOLTP systems favor normalization; OLAP and reporting often denormalize.",
+    "difficulty": "Medium",
+    "company": [
+      "IBM",
+      "General"
+    ],
+    "tags": [
+      "normalization",
+      "schema",
+      "design"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "sql-007",
+      "sd-006",
+      "sql-001"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-004",
+    "title": "ACID Properties",
+    "question": "Explain ACID properties in databases.",
+    "answer": "Atomicity: transactions all succeed or all roll back. Consistency: transactions move DB from one valid state to another per constraints. Isolation: concurrent transactions do not interfere improperly. Durability: committed data survives crashes.\n\nIsolation levels (Read Uncommitted to Serializable) trade consistency for performance.\n\nUnderstanding ACID explains why banking transfers use transactions and why retry logic must be idempotent.",
+    "difficulty": "Hard",
+    "company": [
+      "Stripe",
+      "Goldman Sachs"
+    ],
+    "tags": [
+      "acid",
+      "transactions",
+      "reliability"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sql-003",
+      "sd-002",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-005",
+    "title": "Window Functions",
+    "question": "What are SQL window functions?",
+    "answer": "Window functions compute over a partition without collapsing rows like GROUP BY. Syntax: FUNCTION() OVER (PARTITION BY ... ORDER BY ...).\n\nCommon functions: ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM OVER for running totals.\n\nUseful for top-N per group, deduplication, and analytics. Requires SQL:2003+ support (PostgreSQL, SQL Server, BigQuery).",
+    "examples": [
+      "SELECT name, salary,\n  RANK() OVER (PARTITION BY dept ORDER BY salary DESC) AS rnk\nFROM employees;"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Databricks"
+    ],
+    "tags": [
+      "window-functions",
+      "analytics",
+      "sql-advanced"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sql-001",
+      "sql-006",
+      "sql-008"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-006",
+    "title": "Subqueries vs CTEs",
+    "question": "When would you use a CTE instead of a subquery?",
+    "answer": "CTEs (WITH clause) improve readability for multi-step queries and can be referenced multiple times. Recursive CTEs handle hierarchies (org charts, graphs).\n\nCorrelated subqueries run per row and can be slow. Modern optimizers often inline CTEs similarly to subqueries—readability is the main win.\n\nMaterialized CTEs (where supported) cache results within a query.",
+    "examples": [
+      "WITH recent AS (\n  SELECT * FROM orders WHERE created_at > NOW() - INTERVAL '7 days'\n)\nSELECT * FROM recent WHERE total > 100;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Snowflake",
+      "General"
+    ],
+    "tags": [
+      "cte",
+      "subqueries",
+      "readability"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "sql-001",
+      "sql-005",
+      "sql-008"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-007",
+    "title": "Primary and Foreign Keys",
+    "question": "What are primary keys and foreign keys?",
+    "answer": "A primary key uniquely identifies a row (often surrogate id). It is NOT NULL and unique. Foreign keys reference a primary or unique key in another table, enforcing referential integrity.\n\nON DELETE CASCADE, SET NULL, or RESTRICT define behavior when parent rows change.\n\nNatural keys (email) vs surrogate keys (uuid) trade readability for stability. Composite keys suit junction tables.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "TCS"
+    ],
+    "tags": [
+      "keys",
+      "constraints",
+      "schema"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "sql-003",
+      "sql-001",
+      "sql-004"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-008",
+    "title": "EXPLAIN Plans",
+    "question": "How do you use EXPLAIN to optimize a query?",
+    "answer": "EXPLAIN shows the execution plan: seq scan vs index scan, join algorithms, estimated rows, and cost.\n\nLook for sequential scans on large tables, nested loop joins on big datasets, and missing indexes. ANALYZE updates statistics for better plans.\n\nIterate: add indexes, rewrite joins, reduce selected columns, paginate. Measure before and after with timing and row counts.",
+    "examples": [
+      "EXPLAIN ANALYZE\nSELECT * FROM orders WHERE user_id = 42 AND status = 'paid';"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "PostgreSQL",
+      "Amazon"
+    ],
+    "tags": [
+      "explain",
+      "optimization",
+      "performance"
+    ],
+    "estimatedTime": 11,
+    "relatedQuestions": [
+      "sql-002",
+      "sql-005",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sd-001",
+    "title": "URL Shortener",
+    "question": "How would you design a URL shortener like bit.ly?",
+    "answer": "Core flow: POST long URL, generate short code (base62 hash or counter), store mapping, redirect GET /{code} with 301/302.\n\nStorage: SQL or KV store for mappings. Cache hot URLs in Redis. Rate limit creation API.\n\nScale: horizontal app servers, CDN for redirects, sharded DB by code prefix. Analytics can async log clicks to a data warehouse. Discuss collision handling and custom aliases.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Amazon"
+    ],
+    "tags": [
+      "system-design",
+      "scaling",
+      "api"
+    ],
+    "estimatedTime": 25,
+    "relatedQuestions": [
+      "sd-003",
+      "sd-004",
+      "sd-008"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-002",
+    "title": "CAP Theorem",
+    "question": "Explain the CAP theorem.",
+    "answer": "In a partition, a distributed system must choose between Consistency (all nodes see same data) and Availability (every request gets a response). Partition tolerance is required in real networks.\n\nCP systems (some banks, ZooKeeper) favor consistency. AP systems (DNS, Cassandra tunable) favor availability with eventual consistency.\n\nModern view: PACELC extends trade-offs under normal conditions. Design for explicit consistency models per use case.",
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Uber"
+    ],
+    "tags": [
+      "cap",
+      "distributed",
+      "theory"
+    ],
+    "estimatedTime": 15,
+    "relatedQuestions": [
+      "sd-006",
+      "sql-004",
+      "sd-005"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-003",
+    "title": "Load Balancing",
+    "question": "What load balancing strategies would you use?",
+    "answer": "Layer 4 (TCP) vs Layer 7 (HTTP) load balancers. Algorithms: round robin, least connections, weighted, consistent hashing for sticky sessions.\n\nHealth checks remove unhealthy instances. SSL termination at LB reduces backend CPU.\n\nGlobal load balancing uses DNS/geo routing. Combine with auto-scaling on CPU, latency, or queue depth metrics.",
+    "difficulty": "Medium",
+    "company": [
+      "AWS",
+      "Cloudflare"
+    ],
+    "tags": [
+      "load-balancing",
+      "infrastructure",
+      "scaling"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sd-001",
+      "node-007",
+      "sd-004"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-004",
+    "title": "Caching Strategies",
+    "question": "What caching strategies improve system performance?",
+    "answer": "Cache-aside: app reads cache, on miss loads DB and populates cache. Write-through/write-behind sync writes differently.\n\nTTL and eviction (LRU) manage staleness. CDN caches static assets. Redis caches sessions, hot entities, and rate limit counters.\n\nInvalidate on updates or accept eventual consistency. Watch cache stampede with locking or request coalescing.",
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Twitter"
+    ],
+    "tags": [
+      "caching",
+      "redis",
+      "performance"
+    ],
+    "estimatedTime": 14,
+    "relatedQuestions": [
+      "sd-001",
+      "html-008",
+      "sd-003"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-005",
+    "title": "Microservices vs Monolith",
+    "question": "When would you choose microservices over a monolith?",
+    "answer": "Monoliths are simpler to deploy and debug early. Microservices enable independent scaling, team ownership, and polyglot stacks at the cost of operational complexity.\n\nExtract services when domains are clear, teams grow, or scaling needs differ (e.g., search vs billing).\n\nStart modular monolith; split when pain justifies network boundaries, observability, and deployment pipelines.",
+    "difficulty": "Medium",
+    "company": [
+      "Spotify",
+      "General"
+    ],
+    "tags": [
+      "microservices",
+      "architecture",
+      "trade-offs"
+    ],
+    "estimatedTime": 15,
+    "relatedQuestions": [
+      "sd-002",
+      "sd-007",
+      "node-002"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-006",
+    "title": "Database Scaling",
+    "question": "How do you scale a relational database?",
+    "answer": "Vertical scaling first. Read replicas offload SELECT traffic. Sharding partitions data by key (user_id, tenant_id) with routing layer.\n\nConnection pooling (PgBouncer) reduces overhead. Caching hot reads. Archiving cold data.\n\nCross-shard queries are hard—design access patterns around shard keys. Consider CQRS and search indexes for complex queries.",
+    "difficulty": "Hard",
+    "company": [
+      "Instagram",
+      "Shopify"
+    ],
+    "tags": [
+      "database",
+      "sharding",
+      "scaling"
+    ],
+    "estimatedTime": 18,
+    "relatedQuestions": [
+      "sql-002",
+      "sql-004",
+      "sd-002"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-007",
+    "title": "REST vs GraphQL",
+    "question": "Compare REST and GraphQL for API design.",
+    "answer": "REST uses resource-oriented URLs and HTTP verbs; multiple round trips for related data. GraphQL single endpoint lets clients request exact fields, reducing over/under-fetching.\n\nGraphQL adds complexity: N+1 queries need DataLoader, caching is harder at CDN, schema governance required.\n\nREST fits simple CRUD and HTTP caching. GraphQL fits mobile clients and varied client needs. gRPC excels internal service RPC.",
+    "difficulty": "Medium",
+    "company": [
+      "Facebook",
+      "GitHub"
+    ],
+    "tags": [
+      "api",
+      "rest",
+      "graphql"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "node-002",
+      "sd-005",
+      "sd-001"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-008",
+    "title": "Rate Limiting",
+    "question": "How would you implement rate limiting?",
+    "answer": "Algorithms: token bucket (burst allowed), leaky bucket (smooth), fixed/sliding window counters.\n\nImplement at API gateway or middleware with Redis INCR + TTL for distributed counts. Return 429 with Retry-After header.\n\nPer-user, per-IP, and per-API-key limits. Combine with authentication and WAF rules. Graceful degradation for trusted clients.",
+    "examples": [
+      "Key: rate:{userId}:{minute}\nINCR key; EXPIRE key 60"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Twilio"
+    ],
+    "tags": [
+      "rate-limiting",
+      "security",
+      "api"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sd-001",
+      "node-006",
+      "sd-003"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "hr-001",
+    "title": "Tell Me About Yourself",
+    "question": "How do you answer \"Tell me about yourself\" in an interview?",
+    "answer": "Use a concise 60–90 second pitch: present role and strengths, relevant past experience, and why you are excited about this opportunity.\n\nStructure: Present → Past → Future. Tailor to the job description, not your life story.\n\nEnd by connecting your background to what the team needs. Practice aloud until it sounds natural, not memorized.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "introduction",
+      "behavioral",
+      "communication"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-003",
+      "hr-008",
+      "hr-002"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-002",
+    "title": "Strengths and Weaknesses",
+    "question": "How do you discuss strengths and weaknesses honestly?",
+    "answer": "Pick 2–3 strengths with brief evidence (metrics or stories). For weaknesses, choose a real area you are improving, not a humble brag.\n\nShow self-awareness and a concrete action plan: courses, mentoring, process changes. Avoid weaknesses critical to the role unless you demonstrate mitigation.\n\nBalance confidence with humility. Interviewers assess growth mindset.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Deloitte"
+    ],
+    "tags": [
+      "self-awareness",
+      "behavioral",
+      "growth"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-006",
+      "hr-004"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-003",
+    "title": "Why This Company",
+    "question": "How do you answer \"Why do you want to work here?\"",
+    "answer": "Research the company: product, mission, engineering blog, recent news. Connect your skills and values to their goals.\n\nAvoid generic praise (\"great culture\"). Be specific: tech stack, scale challenges, open source, customer impact.\n\nShow you chose them deliberately, not randomly applied. Authentic enthusiasm beats flattery.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "motivation",
+      "research",
+      "culture-fit"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-008",
+      "hr-005"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-004",
+    "title": "Conflict Resolution",
+    "question": "Describe a time you resolved a conflict at work.",
+    "answer": "Use STAR: Situation, Task, Action, Result. Focus on a professional disagreement, not personal drama.\n\nHighlight listening, empathy, data-driven discussion, and finding common ground. Own your part without blaming.\n\nResult should show improved outcome: shipped feature, better process, stronger relationship. Keep it under 2 minutes.",
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Microsoft"
+    ],
+    "tags": [
+      "star",
+      "conflict",
+      "teamwork"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-005",
+      "hr-002",
+      "hr-006"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-005",
+    "title": "Leadership Example",
+    "question": "Tell me about a time you demonstrated leadership.",
+    "answer": "Leadership is not only managing people. Examples: leading a project, mentoring juniors, driving a technical decision, or unblocking a team.\n\nDescribe the challenge, how you aligned stakeholders, delegated, and measured success. Emphasize influence without authority if IC role.\n\nQuantify impact when possible: reduced incidents, faster delivery, improved quality.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Meta"
+    ],
+    "tags": [
+      "leadership",
+      "star",
+      "impact"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-004",
+      "hr-006",
+      "hr-003"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-006",
+    "title": "Handling Failure",
+    "question": "Tell me about a time you failed and what you learned.",
+    "answer": "Choose a real failure with stakes, not a disguised success. Explain what went wrong, your responsibility, and corrective actions.\n\nInterviewers want accountability and learning, not excuses. Show how you changed behavior: tests added, communication improved, earlier risk flagging.\n\nEnd positively: failure led to better outcomes or prevented repeat issues.",
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "General"
+    ],
+    "tags": [
+      "failure",
+      "learning",
+      "accountability"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-002",
+      "hr-004",
+      "hr-005"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-007",
+    "title": "Salary Expectations",
+    "question": "How do you handle questions about salary expectations?",
+    "answer": "Research market ranges for role, level, and location using levels.fyi, Glassdoor, and recruiter conversations.\n\nIf early screen, you can ask for their range first or give a researched band. Anchor confidently based on total compensation (base, equity, bonus).\n\nBe flexible on mix but know your minimum. Negotiate after offer, not before proving fit.",
+    "difficulty": "Medium",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "negotiation",
+      "compensation",
+      "career"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "hr-003",
+      "hr-008",
+      "hr-001"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-008",
+    "title": "Questions for Interviewer",
+    "question": "What good questions should you ask the interviewer?",
+    "answer": "Ask about team structure, on-call, code review culture, success metrics for the role, and technical challenges. Avoid questions answered on the website.\n\nStrong questions show curiosity: \"How do you balance tech debt and features?\" or \"What does a great first 90 days look like?\"\n\nSave compensation details for HR unless they bring it up. Always ask something—silence suggests disinterest.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "questions",
+      "engagement",
+      "interview-tips"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-003",
+      "hr-007"
+    ],
+    "category": "HR"
+  }
+]

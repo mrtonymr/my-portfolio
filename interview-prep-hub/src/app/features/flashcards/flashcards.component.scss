@@ -1,0 +1,77 @@
+.page {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 820px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.65rem;
+  padding: 0.9rem;
+  align-items: start;
+}
+
+.filters mat-form-field {
+  width: 100%;
+}
+
+.progress-row {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--iph-muted);
+  font-size: 0.85rem;
+}
+
+.flip-card {
+  cursor: pointer;
+  min-height: 300px;
+}
+
+.flip-inner {
+  min-height: 300px;
+}
+
+.flip-face {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: var(--iph-bg-elevated);
+  border: 1px solid var(--iph-border);
+}
+
+.front .badge {
+  align-self: flex-start;
+  margin-right: 0.3rem;
+}
+
+.flip-face h2 {
+  margin: 0.35rem 0 0;
+}
+
+.flip-face p {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow: auto;
+  flex: 1;
+}
+
+.hint {
+  margin-top: auto;
+  color: var(--iph-muted);
+  font-size: 0.8rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

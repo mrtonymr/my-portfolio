@@ -1,0 +1,189 @@
+[
+  {
+    "id": "sd-001",
+    "title": "URL Shortener",
+    "question": "How would you design a URL shortener like bit.ly?",
+    "answer": "Core flow: POST long URL, generate short code (base62 hash or counter), store mapping, redirect GET /{code} with 301/302.\n\nStorage: SQL or KV store for mappings. Cache hot URLs in Redis. Rate limit creation API.\n\nScale: horizontal app servers, CDN for redirects, sharded DB by code prefix. Analytics can async log clicks to a data warehouse. Discuss collision handling and custom aliases.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Amazon"
+    ],
+    "tags": [
+      "system-design",
+      "scaling",
+      "api"
+    ],
+    "estimatedTime": 25,
+    "relatedQuestions": [
+      "sd-003",
+      "sd-004",
+      "sd-008"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-002",
+    "title": "CAP Theorem",
+    "question": "Explain the CAP theorem.",
+    "answer": "In a partition, a distributed system must choose between Consistency (all nodes see same data) and Availability (every request gets a response). Partition tolerance is required in real networks.\n\nCP systems (some banks, ZooKeeper) favor consistency. AP systems (DNS, Cassandra tunable) favor availability with eventual consistency.\n\nModern view: PACELC extends trade-offs under normal conditions. Design for explicit consistency models per use case.",
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Uber"
+    ],
+    "tags": [
+      "cap",
+      "distributed",
+      "theory"
+    ],
+    "estimatedTime": 15,
+    "relatedQuestions": [
+      "sd-006",
+      "sql-004",
+      "sd-005"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-003",
+    "title": "Load Balancing",
+    "question": "What load balancing strategies would you use?",
+    "answer": "Layer 4 (TCP) vs Layer 7 (HTTP) load balancers. Algorithms: round robin, least connections, weighted, consistent hashing for sticky sessions.\n\nHealth checks remove unhealthy instances. SSL termination at LB reduces backend CPU.\n\nGlobal load balancing uses DNS/geo routing. Combine with auto-scaling on CPU, latency, or queue depth metrics.",
+    "difficulty": "Medium",
+    "company": [
+      "AWS",
+      "Cloudflare"
+    ],
+    "tags": [
+      "load-balancing",
+      "infrastructure",
+      "scaling"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sd-001",
+      "node-007",
+      "sd-004"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-004",
+    "title": "Caching Strategies",
+    "question": "What caching strategies improve system performance?",
+    "answer": "Cache-aside: app reads cache, on miss loads DB and populates cache. Write-through/write-behind sync writes differently.\n\nTTL and eviction (LRU) manage staleness. CDN caches static assets. Redis caches sessions, hot entities, and rate limit counters.\n\nInvalidate on updates or accept eventual consistency. Watch cache stampede with locking or request coalescing.",
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Twitter"
+    ],
+    "tags": [
+      "caching",
+      "redis",
+      "performance"
+    ],
+    "estimatedTime": 14,
+    "relatedQuestions": [
+      "sd-001",
+      "html-008",
+      "sd-003"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-005",
+    "title": "Microservices vs Monolith",
+    "question": "When would you choose microservices over a monolith?",
+    "answer": "Monoliths are simpler to deploy and debug early. Microservices enable independent scaling, team ownership, and polyglot stacks at the cost of operational complexity.\n\nExtract services when domains are clear, teams grow, or scaling needs differ (e.g., search vs billing).\n\nStart modular monolith; split when pain justifies network boundaries, observability, and deployment pipelines.",
+    "difficulty": "Medium",
+    "company": [
+      "Spotify",
+      "General"
+    ],
+    "tags": [
+      "microservices",
+      "architecture",
+      "trade-offs"
+    ],
+    "estimatedTime": 15,
+    "relatedQuestions": [
+      "sd-002",
+      "sd-007",
+      "node-002"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-006",
+    "title": "Database Scaling",
+    "question": "How do you scale a relational database?",
+    "answer": "Vertical scaling first. Read replicas offload SELECT traffic. Sharding partitions data by key (user_id, tenant_id) with routing layer.\n\nConnection pooling (PgBouncer) reduces overhead. Caching hot reads. Archiving cold data.\n\nCross-shard queries are hard—design access patterns around shard keys. Consider CQRS and search indexes for complex queries.",
+    "difficulty": "Hard",
+    "company": [
+      "Instagram",
+      "Shopify"
+    ],
+    "tags": [
+      "database",
+      "sharding",
+      "scaling"
+    ],
+    "estimatedTime": 18,
+    "relatedQuestions": [
+      "sql-002",
+      "sql-004",
+      "sd-002"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-007",
+    "title": "REST vs GraphQL",
+    "question": "Compare REST and GraphQL for API design.",
+    "answer": "REST uses resource-oriented URLs and HTTP verbs; multiple round trips for related data. GraphQL single endpoint lets clients request exact fields, reducing over/under-fetching.\n\nGraphQL adds complexity: N+1 queries need DataLoader, caching is harder at CDN, schema governance required.\n\nREST fits simple CRUD and HTTP caching. GraphQL fits mobile clients and varied client needs. gRPC excels internal service RPC.",
+    "difficulty": "Medium",
+    "company": [
+      "Facebook",
+      "GitHub"
+    ],
+    "tags": [
+      "api",
+      "rest",
+      "graphql"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "node-002",
+      "sd-005",
+      "sd-001"
+    ],
+    "category": "System Design"
+  },
+  {
+    "id": "sd-008",
+    "title": "Rate Limiting",
+    "question": "How would you implement rate limiting?",
+    "answer": "Algorithms: token bucket (burst allowed), leaky bucket (smooth), fixed/sliding window counters.\n\nImplement at API gateway or middleware with Redis INCR + TTL for distributed counts. Return 429 with Retry-After header.\n\nPer-user, per-IP, and per-API-key limits. Combine with authentication and WAF rules. Graceful degradation for trusted clients.",
+    "examples": [
+      "Key: rate:{userId}:{minute}\nINCR key; EXPIRE key 60"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Twilio"
+    ],
+    "tags": [
+      "rate-limiting",
+      "security",
+      "api"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sd-001",
+      "node-006",
+      "sd-003"
+    ],
+    "category": "System Design"
+  }
+]

@@ -1,0 +1,125 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Track progress, streak, and today's focus question.</p>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <article class="stat glass">
+      <mat-icon>menu_book</mat-icon>
+      <div>
+        <span class="stat__label">Total questions</span>
+        <strong>{{ total() }}</strong>
+      </div>
+    </article>
+    <article class="stat glass">
+      <mat-icon>task_alt</mat-icon>
+      <div>
+        <span class="stat__label">Completed</span>
+        <strong>{{ completed() }}</strong>
+      </div>
+    </article>
+    <article class="stat glass">
+      <mat-icon>bookmark</mat-icon>
+      <div>
+        <span class="stat__label">Bookmarked</span>
+        <strong>{{ bookmarked() }}</strong>
+      </div>
+    </article>
+    <article class="stat glass">
+      <mat-icon>local_fire_department</mat-icon>
+      <div>
+        <span class="stat__label">Streak</span>
+        <strong>{{ streak() }} day{{ streak() === 1 ? '' : 's' }}</strong>
+      </div>
+    </article>
+  </div>
+
+  <div class="main-grid">
+    <article class="panel glass daily">
+      <h2>Today's question</h2>
+      @if (dailyQuestion(); as q) {
+        <span class="badge">{{ q.category }}</span>
+        <span
+          class="badge"
+          [class.badge-easy]="q.difficulty === 'Easy'"
+          [class.badge-medium]="q.difficulty === 'Medium'"
+          [class.badge-hard]="q.difficulty === 'Hard'"
+        >
+          {{ q.difficulty }}
+        </span>
+        <h3>{{ q.title }}</h3>
+        <p>{{ q.question }}</p>
+        <a mat-flat-button color="primary" [routerLink]="['/questions', q.id]">Practice now</a>
+      } @else {
+        <app-empty-state
+          icon="today"
+          title="No daily pick yet"
+          message="Questions will appear once the bank finishes loading."
+        />
+      }
+    </article>
+
+    <article class="panel glass">
+      <h2>Recent activity</h2>
+      @if (recentActivity().length) {
+        <ul class="activity">
+          @for (item of recentActivity(); track item.id) {
+            <li>
+              <mat-icon>
+                @switch (item.type) {
+                  @case ('completed') { check_circle }
+                  @case ('bookmarked') { bookmark }
+                  @case ('note') { edit_note }
+                  @case ('mock') { record_voice_over }
+                  @default { visibility }
+                }
+              </mat-icon>
+              <div>
+                <p>{{ item.label }}</p>
+                <time>{{ item.at | date: 'short' }}</time>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <app-empty-state
+          icon="history"
+          title="No activity yet"
+          message="Complete, bookmark, or view questions to build your timeline."
+          actionLabel="Browse questions"
+          actionLink="/questions"
+        />
+      }
+    </article>
+  </div>
+
+  <div class="charts-grid">
+    <article class="panel glass">
+      <h2>Category progress</h2>
+      <div class="cat-list">
+        @for (cat of categoryProgress(); track cat.label) {
+          <div class="cat-row">
+            <div class="cat-row__meta">
+              <span>{{ cat.label }}</span>
+              <span>{{ cat.completed }}/{{ cat.total }} · {{ cat.percent }}%</span>
+            </div>
+            <mat-progress-bar mode="determinate" [value]="cat.percent" />
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="panel glass">
+      <h2>Weekly activity</h2>
+      <app-chart type="line" [config]="weeklyChart()" />
+    </article>
+
+    <article class="panel glass">
+      <h2>Difficulty mix</h2>
+      <app-chart type="pie" [config]="difficultyChart()" />
+    </article>
+  </div>
+</section>

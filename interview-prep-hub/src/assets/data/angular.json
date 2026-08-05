@@ -1,0 +1,204 @@
+[
+  {
+    "id": "ang-001",
+    "title": "Angular Overview",
+    "question": "What is Angular and how does it differ from React?",
+    "answer": "Angular is a full-featured framework with opinions on routing, forms, HTTP, and DI. React is a view library with a larger ecosystem of choices.\n\nAngular uses TypeScript by default, templates with directives, and RxJS for async streams. React uses JSX and one-way data flow with hooks for state.\n\nChoose Angular for large enterprise apps needing structure; React for flexible UI teams and rich ecosystem packages.",
+    "difficulty": "Easy",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "angular",
+      "framework",
+      "comparison"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-001",
+      "ts-001",
+      "ang-008"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-002",
+    "title": "Dependency Injection",
+    "question": "Explain dependency injection in Angular.",
+    "answer": "Angular DI is a hierarchical injector that provides dependencies to components, directives, pipes, and services.\n\nRegister providers at root, module, route, or component level. Constructor injection is the default; inject() function works in functional contexts.\n\nDI enables testability via mocks, singleton services with providedIn root, and tree-shakable providers. Understand injector hierarchy when debugging duplicate service instances.",
+    "examples": [
+      "@Injectable({ providedIn: \"root\" })\nexport class ApiService {\n  constructor(private http: HttpClient) {}\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "Capgemini"
+    ],
+    "tags": [
+      "di",
+      "services",
+      "architecture"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-003",
+      "ts-007",
+      "ang-006"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-003",
+    "title": "Components",
+    "question": "What are Angular components and how is their lifecycle managed?",
+    "answer": "Components combine a TypeScript class, template, and styles. They are the primary building block for UI.\n\nLifecycle hooks include ngOnInit, ngOnChanges, ngAfterViewInit, and ngOnDestroy. Use OnDestroy to unsubscribe from Observables.\n\nSmart vs presentational components separate data fetching from rendering. Prefer OnPush change detection when inputs are immutable for performance.",
+    "examples": [
+      "@Component({\n  selector: \"app-user\",\n  template: `<h1>{{ user.name }}</h1>`\n})\nexport class UserComponent { @Input() user!: User; }"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "TCS",
+      "Wipro"
+    ],
+    "tags": [
+      "components",
+      "lifecycle",
+      "templates"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ang-002",
+      "ang-006",
+      "react-001"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-004",
+    "title": "RxJS in Angular",
+    "question": "How are RxJS Observables used in Angular applications?",
+    "answer": "Angular HttpClient returns Observables. Router events, forms valueChanges, and async pipe integrate with reactive streams.\n\nUse operators like map, switchMap, catchError, and debounceTime to compose async logic. switchMap cancels prior requests when a new search term arrives.\n\nAvoid memory leaks: unsubscribe in ngOnDestroy or use takeUntilDestroyed. The async pipe handles subscription lifecycle in templates.",
+    "examples": [
+      "this.search$ = this.term$.pipe(\n  debounceTime(300),\n  switchMap(term => this.api.search(term))\n);"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Spotify"
+    ],
+    "tags": [
+      "rxjs",
+      "observables",
+      "async"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-003",
+      "js-006",
+      "ang-005"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-005",
+    "title": "Angular Routing",
+    "question": "Explain Angular routing and lazy loading.",
+    "answer": "The Router maps URL paths to components. RouterOutlet renders matched components. RouterLink navigates declaratively.\n\nLazy loading splits feature modules or routes into separate bundles loaded on demand via loadChildren or loadComponent.\n\nGuards (CanActivate, CanDeactivate) protect routes. Resolvers prefetch data. Route parameters and query params drive detail views.",
+    "examples": [
+      "{ path: \"admin\", loadChildren: () => import(\"./admin/routes\") }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "IBM"
+    ],
+    "tags": [
+      "routing",
+      "lazy-loading",
+      "navigation"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-003",
+      "ang-008",
+      "react-006"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-006",
+    "title": "Change Detection",
+    "question": "How does Angular change detection work?",
+    "answer": "Default change detection checks the component tree when async events occur. Angular compares bindings and updates the DOM.\n\nOnPush strategy runs detection when inputs change by reference, events originate in the component, or observables emit via async pipe.\n\nPerformance tips: use trackBy in ngFor, avoid heavy work in templates, and prefer signals or immutable data with OnPush.",
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "SAP"
+    ],
+    "tags": [
+      "change-detection",
+      "performance",
+      "onpush"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-003",
+      "ang-007",
+      "react-005"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-007",
+    "title": "Angular Signals",
+    "question": "What are signals in Angular and how do they compare to RxJS?",
+    "answer": "Signals are synchronous reactive primitives for fine-grained UI updates. signal(), computed(), and effect() model state and derived values.\n\nSignals simplify local component state and integrate with OnPush-friendly updates. RxJS remains better for event streams, HTTP, and complex async composition.\n\nModern Angular encourages signals for state with optional RxJS interop via toSignal and toObservable.",
+    "examples": [
+      "count = signal(0);\ndouble = computed(() => this.count() * 2);\nincrement() { this.count.update(v => v + 1); }"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "signals",
+      "reactivity",
+      "angular-19"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ang-006",
+      "react-002",
+      "ts-004"
+    ],
+    "category": "Angular"
+  },
+  {
+    "id": "ang-008",
+    "title": "Standalone Components",
+    "question": "What are standalone components in Angular?",
+    "answer": "Standalone components declare dependencies directly via imports instead of NgModules. They simplify bootstrapping and lazy loading.\n\nbootstrapApplication replaces platformBrowserDynamic(). Feature routes can load standalone components with loadComponent.\n\nNgModules still exist for gradual migration, but new Angular apps favor standalone APIs for less boilerplate and clearer dependency graphs.",
+    "examples": [
+      "@Component({\n  standalone: true,\n  imports: [CommonModule, RouterLink],\n  template: `...`\n})"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Accenture",
+      "General"
+    ],
+    "tags": [
+      "standalone",
+      "modules",
+      "modern-angular"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "ang-001",
+      "ang-005",
+      "ang-002"
+    ],
+    "category": "Angular"
+  }
+]

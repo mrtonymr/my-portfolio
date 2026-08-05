@@ -1,0 +1,136 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Mock interview</h1>
+      <p class="page-subtitle">Timed practice with self-rating and a score report.</p>
+    </div>
+  </header>
+
+  @if (!mock.active() && !mock.report()) {
+    <form class="setup glass" (ngSubmit)="start()">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)" name="category">
+          <mat-option value="All">All</mat-option>
+          @for (c of categories; track c) {
+            <mat-option [value]="c">{{ c }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Difficulty</mat-label>
+        <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)" name="difficulty">
+          <mat-option value="All">All</mat-option>
+          @for (d of difficulties; track d) {
+            <mat-option [value]="d">{{ d }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Question count</mat-label>
+        <mat-select [ngModel]="count()" (ngModelChange)="count.set($event)" name="count">
+          @for (n of counts; track n) {
+            <mat-option [value]="n">{{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seconds per question</mat-label>
+        <mat-select [ngModel]="seconds()" (ngModelChange)="seconds.set($event)" name="seconds">
+          @for (s of secondsOptions; track s) {
+            <mat-option [value]="s">{{ s }}s</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox
+        [ngModel]="randomize()"
+        (ngModelChange)="randomize.set($event)"
+        name="randomize"
+      >
+        Randomize order
+      </mat-checkbox>
+
+      <button mat-flat-button color="primary" type="submit">Start session</button>
+    </form>
+  }
+
+  @if (mock.active()) {
+    <div class="session">
+      <div class="session__meta glass">
+        <span>Question {{ mock.index() + 1 }} / {{ mock.total() }}</span>
+        <strong [class.urgent]="mock.remainingSeconds() <= 15">
+          {{ formatTime(mock.remainingSeconds()) }}
+        </strong>
+        <mat-progress-bar mode="determinate" [value]="mock.progressPercent()" />
+      </div>
+
+      @if (mock.current(); as q) {
+        <article class="panel glass">
+          <div class="tags">
+            <span class="badge">{{ q.category }}</span>
+            <span
+              class="badge"
+              [class.badge-easy]="q.difficulty === 'Easy'"
+              [class.badge-medium]="q.difficulty === 'Medium'"
+              [class.badge-hard]="q.difficulty === 'Hard'"
+            >
+              {{ q.difficulty }}
+            </span>
+          </div>
+          <h2>{{ q.title }}</h2>
+          <p>{{ q.question }}</p>
+
+          @if (mock.revealed()) {
+            <div class="answer">
+              <h3>Answer</h3>
+              <p>{{ q.answer }}</p>
+            </div>
+            <div class="rate">
+              <button mat-stroked-button type="button" (click)="rate('knew')">Knew it</button>
+              <button mat-stroked-button type="button" (click)="rate('partial')">Partial</button>
+              <button mat-stroked-button type="button" (click)="rate('unknown')">Unknown</button>
+            </div>
+          } @else {
+            <button mat-flat-button color="primary" type="button" (click)="reveal()">Reveal answer</button>
+          }
+
+          <div class="session__actions">
+            <button
+              mat-flat-button
+              color="accent"
+              type="button"
+              [disabled]="!mock.ratings()[q.id]"
+              (click)="next()"
+            >
+              {{ mock.index() >= mock.total() - 1 ? 'Finish' : 'Next' }}
+            </button>
+            <button mat-button type="button" (click)="finishEarly()">End early</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (mock.report(); as report) {
+    <article class="report glass">
+      <h2>Session report</h2>
+      <p class="score">Score: <strong>{{ report.score }}%</strong></p>
+      <p>
+        {{ report.questionCount }} questions · {{ report.category }} · {{ report.difficulty }}
+      </p>
+      <ul>
+        @for (entry of ratingEntries(); track entry.id) {
+          <li>
+            <span>{{ entry.title }}</span>
+            <span class="badge">{{ ratingLabel(entry.rating) }}</span>
+          </li>
+        }
+      </ul>
+      <button mat-flat-button color="primary" type="button" (click)="reset()">New session</button>
+    </article>
+  }
+</section>

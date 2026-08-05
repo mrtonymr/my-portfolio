@@ -1,0 +1,201 @@
+[
+  {
+    "id": "react-001",
+    "title": "React Core Concepts",
+    "question": "What are the core concepts of React?",
+    "answer": "React models UI as a function of state. Components return elements describing the UI. State changes trigger re-renders.\n\nOne-way data flow keeps data predictable. The virtual DOM diffs updates for efficient patching. Composition over inheritance builds complex UIs from small pieces.\n\nModern React uses function components and hooks for state, effects, and context.",
+    "difficulty": "Easy",
+    "company": [
+      "Meta",
+      "General"
+    ],
+    "tags": [
+      "react",
+      "fundamentals",
+      "components"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-004",
+      "ang-001",
+      "react-002"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-002",
+    "title": "useState vs useReducer",
+    "question": "When should you use useState versus useReducer?",
+    "answer": "useState is ideal for simple independent state values. useReducer manages complex state transitions with a reducer function and dispatch.\n\nChoose useReducer when next state depends on previous state in multiple ways, or when actions are enumerated (ADD, REMOVE, RESET).\n\nBoth work with TypeScript generics for typed state and actions. useReducer pairs well with context for lightweight global state.",
+    "examples": [
+      "const [state, dispatch] = useReducer(reducer, { count: 0 });\ndispatch({ type: \"increment\" });"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Airbnb",
+      "Uber"
+    ],
+    "tags": [
+      "hooks",
+      "state",
+      "useReducer"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "react-001",
+      "react-006",
+      "ang-007"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-003",
+    "title": "useEffect",
+    "question": "Explain useEffect and common pitfalls.",
+    "answer": "useEffect runs side effects after render: data fetching, subscriptions, DOM mutations. The dependency array controls when it re-runs.\n\nInclude all reactive values used inside the effect. Cleanup functions run before re-run and on unmount—essential for timers and subscriptions.\n\nAvoid using useEffect for derived state; compute during render instead. React 18 Strict Mode double-invokes effects in development to surface bugs.",
+    "examples": [
+      "useEffect(() => {\n  const id = setInterval(tick, 1000);\n  return () => clearInterval(id);\n}, []);"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "Shopify"
+    ],
+    "tags": [
+      "hooks",
+      "useEffect",
+      "side-effects"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "react-001",
+      "react-005"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-004",
+    "title": "Virtual DOM",
+    "question": "What is the Virtual DOM and why does React use it?",
+    "answer": "The Virtual DOM is a lightweight JavaScript representation of the UI tree. React diffs the new virtual tree against the previous one to compute minimal DOM updates.\n\nThis batching abstracts cross-browser DOM quirks and enables declarative UI. Reconciliation uses keys to match list items efficiently.\n\nVirtual DOM is not always fastest for every scenario, but it optimizes developer ergonomics and predictable updates at scale.",
+    "difficulty": "Easy",
+    "company": [
+      "Meta",
+      "Amazon"
+    ],
+    "tags": [
+      "virtual-dom",
+      "reconciliation",
+      "performance"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "react-001",
+      "react-005",
+      "js-004"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-005",
+    "title": "React.memo",
+    "question": "How do React.memo, useMemo, and useCallback optimize rendering?",
+    "answer": "React.memo memoizes a component, skipping re-render if props are shallow-equal. useMemo caches expensive computed values. useCallback caches function references.\n\nUse them when profiling shows unnecessary child re-renders or expensive calculations. Overuse adds complexity without benefit.\n\nStable references matter when passing callbacks to memoized children. Combine with proper key usage and state colocation.",
+    "examples": [
+      "const Row = React.memo(function Row({ item }) {\n  return <li>{item.name}</li>;\n});"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "Stripe"
+    ],
+    "tags": [
+      "performance",
+      "memoization",
+      "hooks"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "react-003",
+      "react-004",
+      "ang-006"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-006",
+    "title": "Context API",
+    "question": "What is the React Context API and when should you use it?",
+    "answer": "Context passes data through the tree without prop drilling. createContext provides a Provider and Consumer (or useContext hook).\n\nGood for theme, locale, auth session, and rarely changing global config. Avoid putting frequently changing state in context without splitting providers—it can trigger broad re-renders.\n\nFor complex global state, consider Zustand, Redux Toolkit, or TanStack Query depending on needs.",
+    "examples": [
+      "const ThemeContext = createContext(\"light\");\nconst theme = useContext(ThemeContext);"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "General"
+    ],
+    "tags": [
+      "context",
+      "state",
+      "architecture"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "react-002",
+      "ang-005",
+      "react-007"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-007",
+    "title": "Controlled Components",
+    "question": "What is the difference between controlled and uncontrolled components?",
+    "answer": "Controlled components store form value in React state; the input is a function of state. Uncontrolled components use refs to read DOM values directly.\n\nControlled inputs enable validation, formatting, and conditional UI. Uncontrolled can be simpler for one-off forms or file inputs.\n\nReact recommends controlled inputs for most cases. Libraries like React Hook Form blend both approaches for performance.",
+    "examples": [
+      "<input value={email} onChange={e => setEmail(e.target.value)} />"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Deloitte"
+    ],
+    "tags": [
+      "forms",
+      "controlled",
+      "inputs"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "react-001",
+      "html-004",
+      "ts-005"
+    ],
+    "category": "React"
+  },
+  {
+    "id": "react-008",
+    "title": "React 18 Features",
+    "question": "What are key features introduced in React 18?",
+    "answer": "React 18 adds concurrent rendering, automatic batching, transitions with useTransition, and deferred updates with useDeferredValue.\n\ncreateRoot replaces ReactDOM.render. Suspense improvements support streaming SSR with frameworks like Next.js.\n\nConcurrent features let React interrupt rendering for urgent updates, improving perceived performance in complex UIs.",
+    "difficulty": "Hard",
+    "company": [
+      "Vercel",
+      "Meta"
+    ],
+    "tags": [
+      "react-18",
+      "concurrent",
+      "suspense"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "react-003",
+      "react-005",
+      "react-001"
+    ],
+    "category": "React"
+  }
+]

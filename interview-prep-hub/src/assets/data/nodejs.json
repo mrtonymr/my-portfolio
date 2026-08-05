@@ -1,0 +1,199 @@
+[
+  {
+    "id": "node-001",
+    "title": "Event-Driven Architecture",
+    "question": "Why is Node.js described as event-driven and non-blocking?",
+    "answer": "Node uses a single-threaded event loop with libuv handling I/O asynchronously. Callbacks, Promises, and async/await resume when I/O completes.\n\nThis suits I/O-bound workloads like APIs and streaming. CPU-bound tasks block the loop—offload to worker threads or separate services.\n\nNon-blocking I/O enables high concurrency with low memory per connection compared to thread-per-request models.",
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "LinkedIn"
+    ],
+    "tags": [
+      "event-loop",
+      "async",
+      "architecture"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "node-004",
+      "node-007"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-002",
+    "title": "Express Middleware",
+    "question": "What is middleware in Express.js?",
+    "answer": "Middleware functions have access to req, res, and next. They run in order for matching routes.\n\nUse middleware for logging, authentication, parsing JSON, error handling, and CORS. Call next() to pass control or next(err) for errors.\n\nError-handling middleware has four arguments (err, req, res, next). Order matters: parsers before routes, error handler last.",
+    "examples": [
+      "app.use(express.json());\napp.use((req, res, next) => { console.log(req.method); next(); });"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "PayPal"
+    ],
+    "tags": [
+      "express",
+      "middleware",
+      "http"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "node-006",
+      "sd-007",
+      "node-001"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-003",
+    "title": "Streams",
+    "question": "What are streams in Node.js and when use them?",
+    "answer": "Streams process data in chunks: Readable, Writable, Duplex, Transform. They reduce memory for large files and enable piping.\n\nUse streams for file uploads, log processing, compression, and HTTP responses. backpressure pauses producers when consumers are slow.\n\npipe() connects streams; pipeline() handles errors and cleanup. Modern APIs also offer async iterators.",
+    "examples": [
+      "fs.createReadStream(\"large.log\")\n  .pipe(zlib.createGzip())\n  .pipe(fs.createWriteStream(\"large.log.gz\"));"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Amazon",
+      "Cloudflare"
+    ],
+    "tags": [
+      "streams",
+      "io",
+      "performance"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "node-001",
+      "node-008",
+      "sd-001"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-004",
+    "title": "Process vs Thread",
+    "question": "How does Node.js handle concurrency without multi-threading by default?",
+    "answer": "The main JavaScript thread runs the event loop. libuv uses a thread pool for some I/O (file system, DNS) and OS async APIs.\n\nworker_threads module runs JavaScript in parallel for CPU work. child_process forks separate processes for isolation.\n\nChoose workers for image processing or heavy computation. Keep shared mutable state out of workers or use message passing.",
+    "difficulty": "Medium",
+    "company": [
+      "IBM",
+      "General"
+    ],
+    "tags": [
+      "concurrency",
+      "workers",
+      "threads"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "node-001",
+      "node-007",
+      "js-003"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-005",
+    "title": "NPM vs NPX",
+    "question": "What is the difference between npm and npx?",
+    "answer": "npm installs and manages packages locally or globally. npx executes packages without global install, using local node_modules/.bin or downloading temporarily.\n\nnpx is ideal for one-off CLI tools (create-react-app, angular cli schematics). npm scripts run binaries from local dependencies.\n\npackage-lock.json ensures reproducible installs. Use npm ci in CI for clean installs from lockfile.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Accenture"
+    ],
+    "tags": [
+      "npm",
+      "tooling",
+      "packages"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "node-002",
+      "ang-008"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-006",
+    "title": "Async Error Handling",
+    "question": "How do you handle errors in async Node.js code?",
+    "answer": "Use try/catch with async/await. For Express async routes, wrap handlers or use express-async-errors so rejections reach error middleware.\n\nAlways handle Promise rejections. process.on(\"unhandledRejection\") is a last resort, not a strategy.\n\nDistinguish operational errors (expected, handle gracefully) from programmer errors (bugs, may crash). Log with context and return appropriate HTTP status codes.",
+    "examples": [
+      "app.get(\"/users\", async (req, res, next) => {\n  try { res.json(await getUsers()); }\n  catch (e) { next(e); }\n});"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Twilio"
+    ],
+    "tags": [
+      "error-handling",
+      "async",
+      "express"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "js-006",
+      "node-002",
+      "sd-008"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-007",
+    "title": "Cluster Module",
+    "question": "What is the Node.js cluster module used for?",
+    "answer": "cluster forks worker processes sharing the same server port, utilizing multiple CPU cores for HTTP servers.\n\nThe primary process accepts connections and distributes to workers (round-robin by default). Workers crash independently and can be restarted.\n\nIn production, process managers like PM2 or container orchestration often replace manual cluster setup, but the concept remains relevant.",
+    "examples": [
+      "if (cluster.isPrimary) {\n  for (let i = 0; i < cpus().length; i++) cluster.fork();\n} else {\n  createServer(handler).listen(3000);\n}"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Uber",
+      "PayPal"
+    ],
+    "tags": [
+      "cluster",
+      "scaling",
+      "performance"
+    ],
+    "estimatedTime": 11,
+    "relatedQuestions": [
+      "node-001",
+      "node-004",
+      "sd-003"
+    ],
+    "category": "NodeJS"
+  },
+  {
+    "id": "node-008",
+    "title": "Buffers",
+    "question": "What is a Buffer in Node.js?",
+    "answer": "Buffer is a fixed-length raw binary allocation outside the V8 heap, used for TCP streams, file I/O, and crypto.\n\nModern code prefers Uint8Array; Buffer is a subclass with additional helpers. Be careful encoding binary as UTF-8 strings.\n\nUnderstand alloc, from, and toString encodings (hex, base64). For user input, validate length to prevent abuse.",
+    "examples": [
+      "const buf = Buffer.from(\"hello\", \"utf8\");\nconsole.log(buf.toString(\"hex\")); // 68656c6c6f"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Cloudflare",
+      "General"
+    ],
+    "tags": [
+      "buffer",
+      "binary",
+      "fundamentals"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "node-003",
+      "node-001"
+    ],
+    "category": "NodeJS"
+  }
+]

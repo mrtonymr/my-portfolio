@@ -1,0 +1,57 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Bookmarks</h1>
+      <p class="page-subtitle">{{ filtered().length }} saved question{{ filtered().length === 1 ? '' : 's' }}</p>
+    </div>
+  </header>
+
+  <div class="filters glass">
+    <mat-form-field appearance="outline" class="grow">
+      <mat-label>Search bookmarks</mat-label>
+      <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Difficulty</mat-label>
+      <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)">
+        <mat-option value="All">All</mat-option>
+        @for (d of difficulties; track d) {
+          <mat-option [value]="d">{{ d }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Sort</mat-label>
+      <mat-select [ngModel]="sort()" (ngModelChange)="sort.set($event)">
+        <mat-option value="title">Title</mat-option>
+        <mat-option value="difficulty">Difficulty</mat-option>
+        <mat-option value="category">Category</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (filtered().length) {
+    <div class="grid">
+      @for (q of filtered(); track q.id) {
+        <app-question-card
+          [question]="q"
+          [bookmarked]="true"
+          [completed]="progress.isCompleted(q.id)"
+          (bookmark)="remove(q)"
+          (complete)="onComplete(q)"
+        />
+      }
+    </div>
+  } @else {
+    <app-empty-state
+      icon="bookmark_border"
+      title="No bookmarks yet"
+      message="Save questions from the library to review them here."
+      actionLabel="Browse questions"
+      actionLink="/questions"
+    />
+  }
+</section>

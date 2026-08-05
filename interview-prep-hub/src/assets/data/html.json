@@ -1,0 +1,203 @@
+[
+  {
+    "id": "html-001",
+    "title": "Semantic HTML",
+    "question": "Why is semantic HTML important?",
+    "answer": "Semantic elements (header, nav, main, article, section, footer) convey meaning to browsers, assistive technologies, and search engines.\n\nThey improve accessibility by exposing landmarks to screen readers. SEO benefits from clearer document structure.\n\nAvoid div soup when a semantic element fits. Combine with ARIA only when HTML semantics are insufficient.",
+    "examples": [
+      "<main>\n  <article>\n    <h1>Title</h1>\n    <p>Content</p>\n  </article>\n</main>"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "BBC"
+    ],
+    "tags": [
+      "semantic",
+      "accessibility",
+      "seo"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "html-003",
+      "html-008",
+      "css-007"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-002",
+    "title": "DOCTYPE",
+    "question": "What is the purpose of the DOCTYPE declaration?",
+    "answer": "DOCTYPE tells the browser which HTML version and parsing mode to use. <!DOCTYPE html> triggers standards mode for HTML5.\n\nWithout a proper DOCTYPE, browsers may enter quirks mode with inconsistent layout behavior.\n\nAlways include it as the first line of the document. It is not an HTML element but a required declaration.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "doctype",
+      "standards",
+      "fundamentals"
+    ],
+    "estimatedTime": 3,
+    "relatedQuestions": [
+      "html-001",
+      "css-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-003",
+    "title": "Accessibility Attributes",
+    "question": "What ARIA and HTML attributes improve accessibility?",
+    "answer": "Use native elements first: button, label, fieldset. ARIA fills gaps: aria-label, aria-labelledby, aria-describedby, role when needed.\n\nEnsure keyboard focus order, visible focus styles, and sufficient color contrast. Images need meaningful alt text; decorative images use alt=\"\".\n\naria-hidden hides decorative content from assistive tech. Live regions (aria-live) announce dynamic updates.",
+    "examples": [
+      "<button aria-label=\"Close dialog\">×</button>\n<img src=\"chart.png\" alt=\"Sales grew 20% in Q3\" />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Microsoft",
+      "Apple"
+    ],
+    "tags": [
+      "a11y",
+      "aria",
+      "inclusive-design"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "html-001",
+      "html-004",
+      "css-007"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-004",
+    "title": "Form Elements",
+    "question": "What are best practices for accessible HTML forms?",
+    "answer": "Associate labels with inputs using for/id or wrapping. Group related fields with fieldset and legend.\n\nUse correct input types (email, tel, number) for mobile keyboards and validation. Provide error messages linked via aria-describedby.\n\nNative validation complements but does not replace server-side validation. autocomplete attributes improve UX for common fields.",
+    "examples": [
+      "<label for=\"email\">Email</label>\n<input id=\"email\" type=\"email\" name=\"email\" required />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "General"
+    ],
+    "tags": [
+      "forms",
+      "validation",
+      "accessibility"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "react-007",
+      "html-003",
+      "js-005"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-005",
+    "title": "Meta Tags and SEO",
+    "question": "Which HTML meta tags matter for SEO and social sharing?",
+    "answer": "title and meta description influence search snippets. Canonical links prevent duplicate content issues. robots meta controls indexing.\n\nOpen Graph (og:title, og:image) and Twitter Card tags improve link previews. viewport meta is essential for mobile rendering.\n\nStructured data (JSON-LD) helps rich results. Content quality matters more than meta tricks.",
+    "examples": [
+      "<meta name=\"description\" content=\"Interview prep hub\" />\n<meta property=\"og:title\" content=\"Interview Prep\" />"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "HubSpot",
+      "General"
+    ],
+    "tags": [
+      "seo",
+      "meta",
+      "social"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "html-001",
+      "html-002"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-006",
+    "title": "Data Attributes",
+    "question": "What are data-* attributes used for?",
+    "answer": "data-* attributes store custom data on HTML elements accessible via dataset in JavaScript or CSS attribute selectors.\n\nUse them for hooks in progressive enhancement, test selectors (data-testid), or lightweight config passed to scripts.\n\nThey are not a substitute for structured storage. Keep values small and avoid exposing sensitive data in the DOM.",
+    "examples": [
+      "<div data-user-id=\"42\" data-role=\"admin\"></div>\n// el.dataset.userId === \"42\""
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "data-attributes",
+      "dom",
+      "testing"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "html-001",
+      "js-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-007",
+    "title": "Block vs Inline",
+    "question": "What is the difference between block-level and inline elements?",
+    "answer": "Block elements start on a new line and stretch to container width (div, p, section). Inline elements flow within text (span, a, strong).\n\nInline-block and display changes in CSS override default behavior. Replacing block with div-only markup hurts semantics.\n\nUnderstanding display types explains margin collapse, vertical alignment issues, and layout debugging.",
+    "examples": [
+      "<p>Block paragraph</p>\n<span>Inline text</span>"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "TCS"
+    ],
+    "tags": [
+      "display",
+      "layout",
+      "fundamentals"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "css-001",
+      "css-002",
+      "html-001"
+    ],
+    "category": "HTML"
+  },
+  {
+    "id": "html-008",
+    "title": "Picture Element",
+    "question": "How does the picture element support responsive images?",
+    "answer": "picture wraps source elements with media queries or type attributes and a fallback img.\n\nServe art-directed crops or WebP/AVIF with JPEG fallback. img still requires alt text.\n\nCombine with srcset and sizes on img for resolution switching. This reduces bandwidth and improves LCP metrics.",
+    "examples": [
+      "<picture>\n  <source srcset=\"hero.webp\" type=\"image/webp\" />\n  <img src=\"hero.jpg\" alt=\"Team photo\" />\n</picture>"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Shopify"
+    ],
+    "tags": [
+      "responsive",
+      "images",
+      "performance"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "html-001",
+      "css-007",
+      "sd-004"
+    ],
+    "category": "HTML"
+  }
+]

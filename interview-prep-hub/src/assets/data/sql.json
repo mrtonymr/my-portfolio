@@ -1,0 +1,198 @@
+[
+  {
+    "id": "sql-001",
+    "title": "JOIN Types",
+    "question": "Explain INNER, LEFT, RIGHT, and FULL OUTER JOIN.",
+    "answer": "INNER JOIN returns rows with matches in both tables. LEFT JOIN keeps all left rows, null-filling missing right matches. RIGHT JOIN is the mirror. FULL OUTER JOIN keeps all rows from both sides.\n\nJOIN conditions go in ON; filters on outer-joined tables belong in ON, not WHERE, to avoid turning outer joins into inner joins.\n\nKnow when to use EXISTS vs IN for semi-joins on large datasets.",
+    "examples": [
+      "SELECT u.name, o.total\nFROM users u\nLEFT JOIN orders o ON o.user_id = u.id;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Oracle"
+    ],
+    "tags": [
+      "joins",
+      "queries",
+      "relational"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sql-007",
+      "sql-006",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-002",
+    "title": "Indexes",
+    "question": "What are database indexes and what are trade-offs?",
+    "answer": "Indexes speed up reads by maintaining sorted data structures (often B-tree) on columns. They slow writes due to maintenance overhead and use storage.\n\nIndex columns used in WHERE, JOIN, ORDER BY. Composite indexes follow leftmost prefix rules.\n\nOver-indexing hurts insert performance. Analyze slow queries with EXPLAIN. Unique indexes enforce constraints.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Meta"
+    ],
+    "tags": [
+      "indexes",
+      "performance",
+      "optimization"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "sql-008",
+      "sql-001",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-003",
+    "title": "Normalization",
+    "question": "What is database normalization and when might you denormalize?",
+    "answer": "Normalization reduces redundancy through normal forms (1NF, 2NF, 3NF). Split data into related tables with keys linking them.\n\nBenefits: integrity, easier updates, less anomaly. Denormalize for read-heavy analytics, caching aggregates, or reducing JOIN cost—accepting redundancy and sync complexity.\n\nOLTP systems favor normalization; OLAP and reporting often denormalize.",
+    "difficulty": "Medium",
+    "company": [
+      "IBM",
+      "General"
+    ],
+    "tags": [
+      "normalization",
+      "schema",
+      "design"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "sql-007",
+      "sd-006",
+      "sql-001"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-004",
+    "title": "ACID Properties",
+    "question": "Explain ACID properties in databases.",
+    "answer": "Atomicity: transactions all succeed or all roll back. Consistency: transactions move DB from one valid state to another per constraints. Isolation: concurrent transactions do not interfere improperly. Durability: committed data survives crashes.\n\nIsolation levels (Read Uncommitted to Serializable) trade consistency for performance.\n\nUnderstanding ACID explains why banking transfers use transactions and why retry logic must be idempotent.",
+    "difficulty": "Hard",
+    "company": [
+      "Stripe",
+      "Goldman Sachs"
+    ],
+    "tags": [
+      "acid",
+      "transactions",
+      "reliability"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sql-003",
+      "sd-002",
+      "sd-006"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-005",
+    "title": "Window Functions",
+    "question": "What are SQL window functions?",
+    "answer": "Window functions compute over a partition without collapsing rows like GROUP BY. Syntax: FUNCTION() OVER (PARTITION BY ... ORDER BY ...).\n\nCommon functions: ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, SUM OVER for running totals.\n\nUseful for top-N per group, deduplication, and analytics. Requires SQL:2003+ support (PostgreSQL, SQL Server, BigQuery).",
+    "examples": [
+      "SELECT name, salary,\n  RANK() OVER (PARTITION BY dept ORDER BY salary DESC) AS rnk\nFROM employees;"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Netflix",
+      "Databricks"
+    ],
+    "tags": [
+      "window-functions",
+      "analytics",
+      "sql-advanced"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "sql-001",
+      "sql-006",
+      "sql-008"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-006",
+    "title": "Subqueries vs CTEs",
+    "question": "When would you use a CTE instead of a subquery?",
+    "answer": "CTEs (WITH clause) improve readability for multi-step queries and can be referenced multiple times. Recursive CTEs handle hierarchies (org charts, graphs).\n\nCorrelated subqueries run per row and can be slow. Modern optimizers often inline CTEs similarly to subqueries—readability is the main win.\n\nMaterialized CTEs (where supported) cache results within a query.",
+    "examples": [
+      "WITH recent AS (\n  SELECT * FROM orders WHERE created_at > NOW() - INTERVAL '7 days'\n)\nSELECT * FROM recent WHERE total > 100;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Snowflake",
+      "General"
+    ],
+    "tags": [
+      "cte",
+      "subqueries",
+      "readability"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "sql-001",
+      "sql-005",
+      "sql-008"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-007",
+    "title": "Primary and Foreign Keys",
+    "question": "What are primary keys and foreign keys?",
+    "answer": "A primary key uniquely identifies a row (often surrogate id). It is NOT NULL and unique. Foreign keys reference a primary or unique key in another table, enforcing referential integrity.\n\nON DELETE CASCADE, SET NULL, or RESTRICT define behavior when parent rows change.\n\nNatural keys (email) vs surrogate keys (uuid) trade readability for stability. Composite keys suit junction tables.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "TCS"
+    ],
+    "tags": [
+      "keys",
+      "constraints",
+      "schema"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "sql-003",
+      "sql-001",
+      "sql-004"
+    ],
+    "category": "SQL"
+  },
+  {
+    "id": "sql-008",
+    "title": "EXPLAIN Plans",
+    "question": "How do you use EXPLAIN to optimize a query?",
+    "answer": "EXPLAIN shows the execution plan: seq scan vs index scan, join algorithms, estimated rows, and cost.\n\nLook for sequential scans on large tables, nested loop joins on big datasets, and missing indexes. ANALYZE updates statistics for better plans.\n\nIterate: add indexes, rewrite joins, reduce selected columns, paginate. Measure before and after with timing and row counts.",
+    "examples": [
+      "EXPLAIN ANALYZE\nSELECT * FROM orders WHERE user_id = 42 AND status = 'paid';"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "PostgreSQL",
+      "Amazon"
+    ],
+    "tags": [
+      "explain",
+      "optimization",
+      "performance"
+    ],
+    "estimatedTime": 11,
+    "relatedQuestions": [
+      "sql-002",
+      "sql-005",
+      "sd-006"
+    ],
+    "category": "SQL"
+  }
+]

@@ -1,0 +1,100 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Questions</h1>
+      <p class="page-subtitle">
+        {{ filtered().length }} of {{ questions.questions().length }} questions
+      </p>
+    </div>
+    <mat-button-toggle-group
+      [value]="viewMode()"
+      (change)="viewMode.set($event.value === 'list' ? 'list' : 'grid')"
+      aria-label="View mode"
+    >
+      <mat-button-toggle value="grid"><mat-icon>grid_view</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="list"><mat-icon>view_list</mat-icon></mat-button-toggle>
+    </mat-button-toggle-group>
+  </header>
+
+  <div class="filters glass">
+    <mat-form-field appearance="outline" class="grow">
+      <mat-label>Search</mat-label>
+      <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Title, tags…" />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)">
+        <mat-option value="All">All</mat-option>
+        @for (c of categories; track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Difficulty</mat-label>
+      <mat-select [ngModel]="difficulty()" (ngModelChange)="difficulty.set($event)">
+        <mat-option value="All">All</mat-option>
+        @for (d of difficulties; track d) {
+          <mat-option [value]="d">{{ d }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Company</mat-label>
+      <mat-select [ngModel]="company()" (ngModelChange)="company.set($event)">
+        <mat-option value="All">All</mat-option>
+        @for (c of questions.companies(); track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tag</mat-label>
+      <mat-select [ngModel]="tag()" (ngModelChange)="tag.set($event)">
+        <mat-option value="All">All</mat-option>
+        @for (t of questions.tags(); track t) {
+          <mat-option [value]="t">{{ t }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [ngModel]="status()" (ngModelChange)="status.set($event)">
+        <mat-option value="All">All</mat-option>
+        <mat-option value="Completed">Completed</mat-option>
+        <mat-option value="Incomplete">Incomplete</mat-option>
+        <mat-option value="Bookmarked">Bookmarked</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" (click)="clearFilters()">Clear</button>
+  </div>
+
+  @if (filtered().length) {
+    <div class="results" [class.results--list]="viewMode() === 'list'">
+      @for (q of filtered(); track q.id) {
+        <app-question-card
+          [question]="q"
+          [bookmarked]="progress.isBookmarked(q.id)"
+          [completed]="progress.isCompleted(q.id)"
+          (bookmark)="onBookmark(q)"
+          (complete)="onComplete(q)"
+        />
+      }
+    </div>
+  } @else {
+    <app-empty-state
+      icon="search_off"
+      title="No matching questions"
+      message="Try adjusting filters or clearing the search."
+      actionLabel="Clear filters"
+      actionLink="/questions"
+    />
+  }
+</section>

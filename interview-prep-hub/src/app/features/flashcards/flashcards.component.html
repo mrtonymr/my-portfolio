@@ -1,0 +1,89 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Flashcards</h1>
+      <p class="page-subtitle">Space to flip · ← → to navigate</p>
+    </div>
+  </header>
+
+  <div class="filters glass">
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select
+        [ngModel]="category()"
+        (ngModelChange)="category.set($event); onFilterChange()"
+      >
+        <mat-option value="All">All</mat-option>
+        @for (c of categories; track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Difficulty</mat-label>
+      <mat-select
+        [ngModel]="difficulty()"
+        (ngModelChange)="difficulty.set($event); onFilterChange()"
+      >
+        <mat-option value="All">All</mat-option>
+        @for (d of difficulties; track d) {
+          <mat-option [value]="d">{{ d }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" (click)="shuffle()">
+      <mat-icon>shuffle</mat-icon>
+      Shuffle
+    </button>
+  </div>
+
+  @if (current(); as q) {
+    <div class="progress-row">
+      <span>{{ index() + 1 }} / {{ deck().length }}</span>
+      <mat-progress-bar mode="determinate" [value]="progressPct()" />
+    </div>
+
+    <div class="flip-card" (click)="flip()" role="button" tabindex="0" (keydown.enter)="flip()">
+      <div class="flip-inner glass" [class.is-flipped]="flipped()">
+        <div class="flip-face front">
+          <span class="badge">{{ q.category }}</span>
+          <span
+            class="badge"
+            [class.badge-easy]="q.difficulty === 'Easy'"
+            [class.badge-medium]="q.difficulty === 'Medium'"
+            [class.badge-hard]="q.difficulty === 'Hard'"
+          >
+            {{ q.difficulty }}
+          </span>
+          <h2>{{ q.title }}</h2>
+          <p>{{ q.question }}</p>
+          <span class="hint">Click or press Space to reveal</span>
+        </div>
+        <div class="flip-face flip-back back">
+          <h2>Answer</h2>
+          <p>{{ q.answer }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button mat-stroked-button type="button" (click)="prev()">
+        <mat-icon>chevron_left</mat-icon>
+        Prev
+      </button>
+      <button mat-flat-button color="primary" type="button" (click)="flip()">Flip</button>
+      <button mat-stroked-button type="button" (click)="next()">
+        Next
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  } @else {
+    <app-empty-state
+      icon="style"
+      title="No cards in this deck"
+      message="Widen the category or difficulty filters to load flashcards."
+    />
+  }
+</section>

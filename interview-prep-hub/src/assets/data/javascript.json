@@ -1,0 +1,208 @@
+[
+  {
+    "id": "js-001",
+    "title": "var, let, and const",
+    "question": "What is the difference between var, let, and const in JavaScript?",
+    "answer": "var is function-scoped and hoisted with an initial value of undefined. let and const are block-scoped and live in the temporal dead zone until initialized.\n\nconst prevents reassignment of the binding but does not make objects immutable. let allows reassignment within the same scope.\n\nIn modern codebases, prefer const by default, use let when reassignment is required, and avoid var to prevent scope-related bugs.",
+    "examples": [
+      "for (var i = 0; i < 3; i++) {} // i is 3 after loop\nfor (let j = 0; j < 3; j++) {} // j is not accessible"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "Google",
+      "Amazon"
+    ],
+    "tags": [
+      "scope",
+      "hoisting",
+      "es6"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-002",
+      "js-007",
+      "ts-001"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-002",
+    "title": "Closures",
+    "question": "Explain closures in JavaScript with a practical example.",
+    "answer": "A closure is created when a function retains access to variables from its lexical scope even after the outer function has finished executing.\n\nClosures power patterns like private state, memoization, and event handlers. They are not magic: the inner function holds a reference to the outer scope's environment.\n\nWatch for stale closures in loops and async callbacks; use let or an IIFE to capture the correct value per iteration.",
+    "examples": [
+      "function makeCounter() {\n  let count = 0;\n  return () => ++count;\n}\nconst counter = makeCounter();\ncounter(); // 1\ncounter(); // 2"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Microsoft"
+    ],
+    "tags": [
+      "closures",
+      "scope",
+      "functions"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "js-001",
+      "js-007",
+      "react-003"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-003",
+    "title": "Event Loop",
+    "question": "How does the JavaScript event loop work?",
+    "answer": "JavaScript is single-threaded. The event loop coordinates the call stack, microtask queue, and macrotask queue.\n\nSynchronous code runs on the call stack first. Promise callbacks and queueMicrotask run as microtasks after the current stack clears. setTimeout, setInterval, and I/O callbacks are macrotasks processed in later turns.\n\nMicrotasks can starve rendering if you enqueue them recursively. Understanding this model explains why await defers continuation and why order matters in mixed async code.",
+    "examples": [
+      "console.log(1);\nsetTimeout(() => console.log(2), 0);\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);\n// 1, 4, 3, 2"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "Netflix"
+    ],
+    "tags": [
+      "async",
+      "event-loop",
+      "concurrency"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "js-006",
+      "node-001",
+      "react-003"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-004",
+    "title": "Prototypal Inheritance",
+    "question": "Explain prototypal inheritance in JavaScript.",
+    "answer": "Objects can delegate property lookups to another object via the internal [[Prototype]] link, exposed as __proto__ or Object.getPrototypeOf.\n\nWhen a property is missing on an object, the engine walks the prototype chain until it finds the property or reaches null.\n\nClasses in ES6 are syntactic sugar over constructor functions and prototypes. Understanding prototypes helps debug instanceof behavior and avoid mutating shared prototype objects unintentionally.",
+    "examples": [
+      "const animal = { speaks() { return \"...\"; } };\nconst dog = Object.create(animal);\ndog.bark = () => \"woof\";\ndog.speaks(); // \"...\" via prototype"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "General"
+    ],
+    "tags": [
+      "prototypes",
+      "oop",
+      "classes"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-001",
+      "ts-002",
+      "react-004"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-005",
+    "title": "== vs ===",
+    "question": "What is the difference between == and ===?",
+    "answer": "=== is strict equality: no type coercion, compares value and type. == performs type coercion using abstract equality rules, which can produce surprising results.\n\nExamples: 0 == false is true, but 0 === false is false. null == undefined is true, but null === undefined is false.\n\nBest practice: use === and !== unless you have a deliberate reason to coerce types. Use Object.is for edge cases like NaN and -0 vs +0.",
+    "examples": [
+      "0 == false        // true\n0 === false       // false\n\"\" == false       // true\nnull == undefined // true"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Accenture"
+    ],
+    "tags": [
+      "operators",
+      "types",
+      "coercion"
+    ],
+    "estimatedTime": 4,
+    "relatedQuestions": [
+      "js-001",
+      "ts-005"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-006",
+    "title": "Promises and async/await",
+    "question": "Explain Promises and how async/await relates to them.",
+    "answer": "A Promise represents a future value with states pending, fulfilled, or rejected. then/catch/finally register reactions on the microtask queue.\n\nasync functions always return a Promise. await pauses execution within the async function until the awaited Promise settles, without blocking the main thread.\n\nUse Promise.all for parallel independent work, Promise.allSettled when you need all outcomes, and try/catch around await for local error handling. Always handle rejections to avoid unhandled rejection warnings.",
+    "examples": [
+      "async function fetchUser(id) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    return await res.json();\n  } catch (err) {\n    console.error(err);\n    throw err;\n  }\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "Spotify"
+    ],
+    "tags": [
+      "promises",
+      "async",
+      "error-handling"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "js-003",
+      "node-006",
+      "ts-001"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-007",
+    "title": "The this Keyword",
+    "question": "How is the value of this determined in JavaScript?",
+    "answer": "this is dynamic and depends on how a function is called, not where it is defined.\n\nIn non-strict sloppy mode, this is the global object for plain calls. In strict mode, it is undefined. Method calls bind this to the receiver object. new binds this to the new instance. call/apply/bind set this explicitly.\n\nArrow functions do not have their own this; they lexically capture this from the enclosing scope. This is why arrow functions are popular in React class-less components and callbacks.",
+    "examples": [
+      "const obj = {\n  name: \"A\",\n  regular() { return this.name; },\n  arrow: () => this?.name\n};"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Apple",
+      "Uber"
+    ],
+    "tags": [
+      "this",
+      "functions",
+      "binding"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "js-002",
+      "js-004",
+      "react-005"
+    ],
+    "category": "JavaScript"
+  },
+  {
+    "id": "js-008",
+    "title": "Hoisting",
+    "question": "What is hoisting in JavaScript?",
+    "answer": "Hoisting is the compile-time behavior where declarations are moved to the top of their scope before execution.\n\nvar declarations are hoisted and initialized to undefined. let and const are hoisted but uninitialized until their line runs (temporal dead zone). Function declarations are fully hoisted; function expressions follow variable hoisting rules.\n\nThis explains why you can call a function declaration before its definition but cannot access let/const before initialization.",
+    "examples": [
+      "console.log(x); // undefined\nvar x = 5;\n\nconsole.log(y); // ReferenceError\nlet y = 5;"
+    ],
+    "difficulty": "Easy",
+    "company": [
+      "TCS",
+      "Infosys"
+    ],
+    "tags": [
+      "hoisting",
+      "scope",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-001",
+      "js-002"
+    ],
+    "category": "JavaScript"
+  }
+]

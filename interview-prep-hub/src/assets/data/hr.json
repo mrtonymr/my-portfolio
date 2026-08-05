@@ -1,0 +1,182 @@
+[
+  {
+    "id": "hr-001",
+    "title": "Tell Me About Yourself",
+    "question": "How do you answer \"Tell me about yourself\" in an interview?",
+    "answer": "Use a concise 60–90 second pitch: present role and strengths, relevant past experience, and why you are excited about this opportunity.\n\nStructure: Present → Past → Future. Tailor to the job description, not your life story.\n\nEnd by connecting your background to what the team needs. Practice aloud until it sounds natural, not memorized.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "introduction",
+      "behavioral",
+      "communication"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-003",
+      "hr-008",
+      "hr-002"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-002",
+    "title": "Strengths and Weaknesses",
+    "question": "How do you discuss strengths and weaknesses honestly?",
+    "answer": "Pick 2–3 strengths with brief evidence (metrics or stories). For weaknesses, choose a real area you are improving, not a humble brag.\n\nShow self-awareness and a concrete action plan: courses, mentoring, process changes. Avoid weaknesses critical to the role unless you demonstrate mitigation.\n\nBalance confidence with humility. Interviewers assess growth mindset.",
+    "difficulty": "Easy",
+    "company": [
+      "General",
+      "Deloitte"
+    ],
+    "tags": [
+      "self-awareness",
+      "behavioral",
+      "growth"
+    ],
+    "estimatedTime": 6,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-006",
+      "hr-004"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-003",
+    "title": "Why This Company",
+    "question": "How do you answer \"Why do you want to work here?\"",
+    "answer": "Research the company: product, mission, engineering blog, recent news. Connect your skills and values to their goals.\n\nAvoid generic praise (\"great culture\"). Be specific: tech stack, scale challenges, open source, customer impact.\n\nShow you chose them deliberately, not randomly applied. Authentic enthusiasm beats flattery.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "motivation",
+      "research",
+      "culture-fit"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-008",
+      "hr-005"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-004",
+    "title": "Conflict Resolution",
+    "question": "Describe a time you resolved a conflict at work.",
+    "answer": "Use STAR: Situation, Task, Action, Result. Focus on a professional disagreement, not personal drama.\n\nHighlight listening, empathy, data-driven discussion, and finding common ground. Own your part without blaming.\n\nResult should show improved outcome: shipped feature, better process, stronger relationship. Keep it under 2 minutes.",
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Microsoft"
+    ],
+    "tags": [
+      "star",
+      "conflict",
+      "teamwork"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-005",
+      "hr-002",
+      "hr-006"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-005",
+    "title": "Leadership Example",
+    "question": "Tell me about a time you demonstrated leadership.",
+    "answer": "Leadership is not only managing people. Examples: leading a project, mentoring juniors, driving a technical decision, or unblocking a team.\n\nDescribe the challenge, how you aligned stakeholders, delegated, and measured success. Emphasize influence without authority if IC role.\n\nQuantify impact when possible: reduced incidents, faster delivery, improved quality.",
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Meta"
+    ],
+    "tags": [
+      "leadership",
+      "star",
+      "impact"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-004",
+      "hr-006",
+      "hr-003"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-006",
+    "title": "Handling Failure",
+    "question": "Tell me about a time you failed and what you learned.",
+    "answer": "Choose a real failure with stakes, not a disguised success. Explain what went wrong, your responsibility, and corrective actions.\n\nInterviewers want accountability and learning, not excuses. Show how you changed behavior: tests added, communication improved, earlier risk flagging.\n\nEnd positively: failure led to better outcomes or prevented repeat issues.",
+    "difficulty": "Medium",
+    "company": [
+      "Netflix",
+      "General"
+    ],
+    "tags": [
+      "failure",
+      "learning",
+      "accountability"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "hr-002",
+      "hr-004",
+      "hr-005"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-007",
+    "title": "Salary Expectations",
+    "question": "How do you handle questions about salary expectations?",
+    "answer": "Research market ranges for role, level, and location using levels.fyi, Glassdoor, and recruiter conversations.\n\nIf early screen, you can ask for their range first or give a researched band. Anchor confidently based on total compensation (base, equity, bonus).\n\nBe flexible on mix but know your minimum. Negotiate after offer, not before proving fit.",
+    "difficulty": "Medium",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "negotiation",
+      "compensation",
+      "career"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "hr-003",
+      "hr-008",
+      "hr-001"
+    ],
+    "category": "HR"
+  },
+  {
+    "id": "hr-008",
+    "title": "Questions for Interviewer",
+    "question": "What good questions should you ask the interviewer?",
+    "answer": "Ask about team structure, on-call, code review culture, success metrics for the role, and technical challenges. Avoid questions answered on the website.\n\nStrong questions show curiosity: \"How do you balance tech debt and features?\" or \"What does a great first 90 days look like?\"\n\nSave compensation details for HR unless they bring it up. Always ask something—silence suggests disinterest.",
+    "difficulty": "Easy",
+    "company": [
+      "General"
+    ],
+    "tags": [
+      "questions",
+      "engagement",
+      "interview-tips"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "hr-001",
+      "hr-003",
+      "hr-007"
+    ],
+    "category": "HR"
+  }
+]

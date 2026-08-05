@@ -1,0 +1,204 @@
+[
+  {
+    "id": "ts-001",
+    "title": "Why TypeScript?",
+    "question": "What are the main benefits of TypeScript over JavaScript?",
+    "answer": "TypeScript adds static typing, better tooling, and safer refactors at scale. Editors can autocomplete APIs, catch typos, and surface breaking changes early.\n\nStructural typing fits JavaScript patterns while optional strictness catches null and implicit any issues. TypeScript compiles to JavaScript and can be adopted incrementally.\n\nTrade-offs include build step complexity and occasional type gymnastics for highly dynamic code.",
+    "difficulty": "Easy",
+    "company": [
+      "Microsoft",
+      "General"
+    ],
+    "tags": [
+      "typescript",
+      "tooling",
+      "fundamentals"
+    ],
+    "estimatedTime": 5,
+    "relatedQuestions": [
+      "js-001",
+      "ts-002",
+      "ang-001"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-002",
+    "title": "Interface vs Type",
+    "question": "When would you use an interface versus a type alias?",
+    "answer": "Interfaces are extendable via declaration merging and are ideal for public object shapes and class contracts. Type aliases can represent unions, intersections, tuples, and mapped types.\n\nUse interface for object-oriented APIs you expect to augment. Use type for unions, utility compositions, and conditional types.\n\nPerformance differences are negligible; choose based on expressiveness and team conventions.",
+    "examples": [
+      "interface User { id: string; name: string; }\ninterface User { email: string; } // merges\n\ntype Status = \"active\" | \"inactive\";"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Google",
+      "Shopify"
+    ],
+    "tags": [
+      "types",
+      "interfaces",
+      "design"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ts-001",
+      "ts-004",
+      "ang-002"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-003",
+    "title": "Generics",
+    "question": "Explain generics in TypeScript with an example.",
+    "answer": "Generics let you write reusable components that work across types while preserving type relationships.\n\nA generic function like identity<T>(value: T): T keeps input and output types linked. Constraints with extends narrow acceptable types.\n\nGenerics appear in arrays, Promises, React hooks, and repository patterns. Over-generic APIs hurt readability; constrain when possible.",
+    "examples": [
+      "function first<T>(items: T[]): T | undefined {\n  return items[0];\n}\n\nfirst([1, 2]); // number | undefined"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Amazon",
+      "Atlassian"
+    ],
+    "tags": [
+      "generics",
+      "types",
+      "reusability"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ts-002",
+      "ts-004",
+      "react-002"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-004",
+    "title": "Utility Types",
+    "question": "What are Partial, Pick, and Omit utility types?",
+    "answer": "Utility types transform existing types without duplication. Partial<T> makes all properties optional. Pick<T, K> selects keys. Omit<T, K> removes keys.\n\nThey are implemented with mapped types and are essential for DTOs, update payloads, and API layers.\n\nCombine them: Partial<Pick<User, \"name\" | \"email\">> for patch updates. Know Record, Required, Readonly, and ReturnType for interviews.",
+    "examples": [
+      "type User = { id: string; name: string; email: string };\ntype UserUpdate = Partial<Pick<User, \"name\" | \"email\">>;"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Stripe",
+      "General"
+    ],
+    "tags": [
+      "utility-types",
+      "mapped-types",
+      "api"
+    ],
+    "estimatedTime": 8,
+    "relatedQuestions": [
+      "ts-002",
+      "ts-003",
+      "ang-007"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-005",
+    "title": "Type Narrowing",
+    "question": "What is type narrowing and what techniques does TypeScript provide?",
+    "answer": "Type narrowing refines a union type to a more specific type within a control flow branch.\n\nTechniques include typeof checks, instanceof, in operator, discriminated unions with a literal tag, and user-defined type guards (value is Type).\n\nNarrowing enables safe access without excessive casting. Exhaustiveness checking with never in switch statements catches missing cases.",
+    "examples": [
+      "function printId(id: string | number) {\n  if (typeof id === \"string\") console.log(id.toUpperCase());\n  else console.log(id.toFixed(2));\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Meta",
+      "Netflix"
+    ],
+    "tags": [
+      "narrowing",
+      "unions",
+      "control-flow"
+    ],
+    "estimatedTime": 9,
+    "relatedQuestions": [
+      "js-005",
+      "ts-003",
+      "react-007"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-006",
+    "title": "strict Mode",
+    "question": "What does TypeScript strict mode enable and why use it?",
+    "answer": "strict is a family of compiler flags including strictNullChecks, noImplicitAny, strictFunctionTypes, and more.\n\nstrictNullChecks prevents null/undefined surprises. noImplicitAny forces explicit typing on untyped parameters. Together they catch entire classes of runtime bugs at compile time.\n\nEnable strict early in greenfield projects. For legacy codebases, migrate module by module and use incremental strictness.",
+    "difficulty": "Hard",
+    "company": [
+      "Microsoft",
+      "Airbnb"
+    ],
+    "tags": [
+      "strict",
+      "compiler",
+      "safety"
+    ],
+    "estimatedTime": 10,
+    "relatedQuestions": [
+      "ts-001",
+      "ts-005",
+      "ts-008"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-007",
+    "title": "Decorators",
+    "question": "What are decorators in TypeScript and where are they used?",
+    "answer": "Decorators are experimental metadata annotations applied to classes, methods, properties, or parameters. They are widely used in Angular for @Component, @Injectable, and in legacy class-validator patterns.\n\nStage 3 decorators differ from legacy experimental decorators; Angular 19+ aligns with the modern standard.\n\nUnderstand that decorators transform or register metadata at class definition time, enabling dependency injection and declarative configuration.",
+    "examples": [
+      "@Injectable({ providedIn: \"root\" })\nexport class UserService {}"
+    ],
+    "difficulty": "Hard",
+    "company": [
+      "Google",
+      "General"
+    ],
+    "tags": [
+      "decorators",
+      "angular",
+      "metadata"
+    ],
+    "estimatedTime": 12,
+    "relatedQuestions": [
+      "ang-002",
+      "ang-003",
+      "ts-001"
+    ],
+    "category": "TypeScript"
+  },
+  {
+    "id": "ts-008",
+    "title": "any vs unknown vs never",
+    "question": "Explain the difference between any, unknown, and never.",
+    "answer": "any opts out of type checking; use sparingly. unknown is the type-safe top type: you must narrow before use. never represents values that never occur, useful for exhaustive checks and functions that always throw.\n\nPrefer unknown over any for external input. Functions returning never include throw helpers and infinite loops.\n\nInterview tip: show how unknown forces validation while any allows unsafe operations.",
+    "examples": [
+      "function assertNever(x: never): never {\n  throw new Error(\"Unexpected: \" + x);\n}"
+    ],
+    "difficulty": "Medium",
+    "company": [
+      "Palantir",
+      "General"
+    ],
+    "tags": [
+      "types",
+      "safety",
+      "fundamentals"
+    ],
+    "estimatedTime": 7,
+    "relatedQuestions": [
+      "ts-005",
+      "ts-006",
+      "js-005"
+    ],
+    "category": "TypeScript"
+  }
+]
