@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-portfolio:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,43 +26,104 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: package-lock.json
 
-      - name: Install portfolio dependencies
-        run: npm ci
-
-      - name: Install Developer Toolbox dependencies
-        run: npm ci
-        working-directory: developer-toolbox
-
-      - name: Install Interview Prep Hub dependencies
-        run: npm ci
-        working-directory: interview-prep-hub
-
-      - name: Build portfolio
-        run: npm run build:gh-pages
-
-      - name: Build Developer Toolbox
-        run: npm run build
-        working-directory: developer-toolbox
-
-      - name: Build Interview Prep Hub
-        run: npm run build
-        working-directory: interview-prep-hub
-
-      - name: Bundle playground apps into Pages artifact
+      - name: Install and build
         run: |
-          mkdir -p dist/cursor-test/browser/developer-toolbox
-          mkdir -p dist/cursor-test/browser/interview-prep-hub
-          cp -R developer-toolbox/dist/developer-toolbox/browser/. dist/cursor-test/browser/developer-toolbox/
-          cp -R interview-prep-hub/dist/interview-prep-hub/browser/. dist/cursor-test/browser/interview-prep-hub/
+          npm ci
+          npm run build:gh-pages
+
+      - name: Upload portfolio artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio
+          path: dist/cursor-test/browser
+          retention-days: 1
+
+  build-developer-toolbox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: developer-toolbox/package-lock.json
+
+      - name: Install and build
+        working-directory: developer-toolbox
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Developer Toolbox artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: developer-toolbox
+          path: developer-toolbox/dist/developer-toolbox/browser
+          retention-days: 1
+
+  build-interview-prep-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: interview-prep-hub/package-lock.json
+
+      - name: Install and build
+        working-directory: interview-prep-hub
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Interview Prep Hub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: interview-prep-hub
+          path: interview-prep-hub/dist/interview-prep-hub/browser
+          retention-days: 1
+
+  package-pages:
+    needs:
+      - build-portfolio
+      - build-developer-toolbox
+      - build-interview-prep-hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download portfolio
+        uses: actions/download-artifact@v4
+        with:
+          name: portfolio
+          path: site
+
+      - name: Download Developer Toolbox
+        uses: actions/download-artifact@v4
+        with:
+          name: developer-toolbox
+          path: site/developer-toolbox
+
+      - name: Download Interview Prep Hub
+        uses: actions/download-artifact@v4
+        with:
+          name: interview-prep-hub
+          path: site/interview-prep-hub
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/cursor-test/browser
+          path: site
 
   deploy:
-    needs: build
+    needs: package-pages
     runs-on: ubuntu-latest
     environment:
       name: github-pages
