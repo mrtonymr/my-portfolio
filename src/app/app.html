@@ -17,7 +17,7 @@
         <a href="#experience" (click)="closeMenu()">Experience</a>
         <a href="#skills" (click)="closeMenu()">Skills</a>
         <a href="#work" (click)="closeMenu()">Projects</a>
-        <a [href]="toolboxUrl" (click)="closeMenu()">Toolbox</a>
+        <a href="#playground" (click)="closeMenu()">Playground</a>
         <a href="#contact" (click)="closeMenu()">Contact</a>
       </nav>
       <button
@@ -100,7 +100,7 @@
         </ul>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#work">View Projects</a>
-          <a class="btn btn--ghost" [href]="toolboxUrl">Open Developer Toolbox</a>
+          <a class="btn btn--ghost" href="#playground">Playground</a>
           <a class="btn btn--ghost" [href]="resumeUrl" download="Tony-MR-Resume.pdf">
             Download Resume
           </a>
@@ -181,12 +181,38 @@
                   </li>
                 }
               </ul>
-              @if (project.url) {
-                <a class="project__link" [href]="project.url">
-                  {{ project.urlLabel || 'Open project' }}
-                  <span aria-hidden="true">→</span>
-                </a>
-              }
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section playground" id="playground">
+      <div class="section__inner">
+        <p class="section__eyebrow">My Apps</p>
+        <h2 class="section__heading">Playground</h2>
+        <p class="section__lede">
+          Live side projects you can open and use in the browser.
+        </p>
+        <ul class="app__list">
+          @for (app of apps; track app.name) {
+            <li class="app__item">
+              <div class="app__head">
+                <div>
+                  <h3>{{ app.name }}</h3>
+                  <p>{{ app.blurb }}</p>
+                </div>
+                <span class="app__status">{{ app.status }}</span>
+              </div>
+              <ul class="stack-row">
+                @for (tag of app.tags; track tag) {
+                  <li><span class="chip chip--sm">{{ tag }}</span></li>
+                }
+              </ul>
+              <a class="btn btn--primary app__cta" [href]="app.url">
+                Open app
+                <span aria-hidden="true">→</span>
+              </a>
             </li>
           }
         </ul>
