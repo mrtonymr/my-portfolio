@@ -246,8 +246,6 @@ export class App {
     },
   ];
 
-  readonly toolboxUrl = 'developer-toolbox/';
-
   readonly apps: AppLink[] = [
     {
       name: 'Developer Toolbox',
