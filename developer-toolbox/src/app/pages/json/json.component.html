@@ -1,0 +1,79 @@
+<app-tool-header
+  title="JSON Formatter"
+  description="Beautify, minify, validate, and explore JSON entirely in your browser."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="toolbar glass-panel">
+  <button type="button" (click)="beautify()">Beautify</button>
+  <button type="button" (click)="minify()">Minify</button>
+  <mat-button-toggle-group [value]="mode()" (change)="mode.set($event.value)">
+    <mat-button-toggle value="formatted">Formatted</mat-button-toggle>
+    <mat-button-toggle value="minified">Minified</mat-button-toggle>
+    <mat-button-toggle value="tree">Tree</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="split">
+  <app-code-panel title="Editor">
+    <textarea
+      class="mono editor"
+      [ngModel]="input()"
+      (ngModelChange)="onInput($event)"
+      spellcheck="false"
+      aria-label="JSON input"
+    ></textarea>
+  </app-code-panel>
+
+  <app-code-panel
+    title="Output"
+    [badge]="result().error ? 'Invalid' : result().valid ? 'Valid' : 'Empty'"
+    [badgeTone]="result().error ? 'err' : result().valid ? 'ok' : 'info'"
+  >
+    @if (result().error) {
+      <div class="error mono">{{ result().error }}</div>
+    } @else if (mode() === 'tree') {
+      <div class="tree mono">
+        @for (node of result().tree; track trackNode(node)) {
+          <ng-container
+            *ngTemplateOutlet="treeNode; context: { $implicit: node, path: node.key, depth: 0 }"
+          />
+        }
+      </div>
+    } @else {
+      <pre class="mono output">{{ outputText() }}</pre>
+    }
+  </app-code-panel>
+</div>
+
+<ng-template #treeNode let-node let-path="path" let-depth="depth">
+  <div class="tree-node" [style.paddingLeft.px]="depth * 16">
+    @if (node.children?.length) {
+      <button type="button" class="tree-toggle" (click)="togglePath(path)">
+        <mat-icon>{{ isExpanded(path) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+      </button>
+    } @else {
+      <span class="tree-spacer"></span>
+    }
+    <span class="key">{{ node.key }}</span>
+    <span class="type">{{ node.type }}</span>
+    @if (!node.children?.length) {
+      <span class="value">{{ node.value | json }}</span>
+    }
+  </div>
+  @if (isExpanded(path) && node.children?.length) {
+    @for (child of node.children; track trackNode(child)) {
+      <ng-container
+        *ngTemplateOutlet="
+          treeNode;
+          context: { $implicit: child, path: pathKey(path, child.key), depth: depth + 1 }
+        "
+      />
+    }
+  }
+</ng-template>

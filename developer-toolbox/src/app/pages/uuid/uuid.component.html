@@ -1,0 +1,52 @@
+<app-tool-header
+  title="UUID Generator"
+  description="Generate UUID v4 values in batches, copy individually, or export as TXT."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="toolbar glass-panel">
+  <span class="label">Generate</span>
+  @for (count of counts; track count) {
+    <button
+      type="button"
+      [class.active]="selectedCount() === count"
+      (click)="generate(count)"
+    >
+      {{ count }}
+    </button>
+  }
+  <button type="button" class="primary" (click)="generate()">
+    <mat-icon>refresh</mat-icon>
+    Regenerate
+  </button>
+  <button type="button" (click)="copy()">
+    <mat-icon>content_copy</mat-icon>
+    Copy all
+  </button>
+</div>
+
+<app-code-panel
+  title="UUIDs"
+  [badge]="uuids().length ? `${uuids().length} generated` : 'Empty'"
+  [badgeTone]="uuids().length ? 'ok' : 'info'"
+>
+  @if (uuids().length === 0) {
+    <div class="empty">No UUIDs yet. Choose a count to generate.</div>
+  } @else {
+    <ul class="list">
+      @for (id of uuids(); track id) {
+        <li class="mono">
+          <span>{{ id }}</span>
+          <button type="button" mat-icon-button (click)="copyOne(id)" aria-label="Copy UUID">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</app-code-panel>

@@ -1,0 +1,82 @@
+<app-tool-header
+  title="Timestamp Converter"
+  description="Convert between Unix timestamps, ISO strings, and local datetime values."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="clock glass-panel">
+  <div>
+    <span class="label">Live clock</span>
+    <strong class="mono">{{ now().local }}</strong>
+    <span class="muted mono">{{ now().unixSeconds }} · {{ now().iso }}</span>
+  </div>
+  <button type="button" mat-flat-button color="primary" (click)="useNow()">
+    <mat-icon>schedule</mat-icon>
+    Use current timestamp
+  </button>
+</div>
+
+@if (error()) {
+  <div class="error glass-panel mono">{{ error() }}</div>
+}
+
+<div class="grid">
+  <app-code-panel title="Unix seconds">
+    <input
+      class="mono field"
+      type="text"
+      inputmode="numeric"
+      [ngModel]="unixSeconds()"
+      (ngModelChange)="fromSeconds($event)"
+      aria-label="Unix seconds"
+    />
+  </app-code-panel>
+
+  <app-code-panel title="Unix milliseconds">
+    <input
+      class="mono field"
+      type="text"
+      inputmode="numeric"
+      [ngModel]="unixMillis()"
+      (ngModelChange)="fromMillis($event)"
+      aria-label="Unix milliseconds"
+    />
+  </app-code-panel>
+
+  <app-code-panel title="ISO 8601">
+    <input
+      class="mono field"
+      type="text"
+      [ngModel]="iso()"
+      (ngModelChange)="fromIso($event)"
+      aria-label="ISO datetime"
+    />
+  </app-code-panel>
+
+  <app-code-panel title="Local datetime">
+    <input
+      class="mono field"
+      type="datetime-local"
+      step="1"
+      [ngModel]="localInput()"
+      (ngModelChange)="fromLocal($event)"
+      aria-label="Local datetime"
+    />
+  </app-code-panel>
+</div>
+
+<div class="output glass-panel">
+  <h3>Converted values</h3>
+  <div class="rows">
+    <div><span>Local</span><strong class="mono">{{ snapshot().local }}</strong></div>
+    <div><span>UTC</span><strong class="mono">{{ snapshot().utc }}</strong></div>
+    <div><span>ISO</span><strong class="mono">{{ snapshot().iso }}</strong></div>
+    <div><span>Seconds</span><strong class="mono">{{ snapshot().unixSeconds }}</strong></div>
+    <div><span>Millis</span><strong class="mono">{{ snapshot().unixMillis }}</strong></div>
+  </div>
+</div>

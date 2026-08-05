@@ -1,0 +1,41 @@
+<app-tool-header
+  title="URL Encoder"
+  description="Encode and decode URL components with live conversion in your browser."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="toolbar glass-panel">
+  <mat-button-toggle-group [value]="mode()" (change)="setMode($event.value)">
+    <mat-button-toggle value="encode">Encode</mat-button-toggle>
+    <mat-button-toggle value="decode">Decode</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="split">
+  <app-code-panel [title]="mode() === 'encode' ? 'Plain text / URL' : 'Encoded input'">
+    <textarea
+      class="mono editor"
+      [ngModel]="input()"
+      (ngModelChange)="onInput($event)"
+      spellcheck="false"
+      aria-label="URL input"
+    ></textarea>
+  </app-code-panel>
+
+  <app-code-panel
+    title="Output"
+    [badge]="error() ? 'Error' : output() ? 'Ready' : 'Empty'"
+    [badgeTone]="error() ? 'err' : output() ? 'ok' : 'info'"
+  >
+    @if (error()) {
+      <div class="error mono">{{ error() }}</div>
+    } @else {
+      <pre class="mono output">{{ output() }}</pre>
+    }
+  </app-code-panel>
+</div>

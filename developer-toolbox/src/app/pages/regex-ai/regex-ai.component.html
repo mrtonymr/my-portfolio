@@ -1,0 +1,97 @@
+<app-tool-header
+  title="Regex AI"
+  description="Describe a match in plain language and generate a JavaScript-compatible regex with Groq."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+@if (!hasApiKey) {
+  <div class="notice glass-panel">
+    <mat-icon>key_off</mat-icon>
+    <div>
+      <strong>API key missing</strong>
+      <p>Add your Groq API key to <code class="mono">environment.ts</code> to generate regexes.</p>
+    </div>
+  </div>
+}
+
+<div class="prompt glass-panel">
+  <label for="ai-prompt">Natural language prompt</label>
+  <textarea
+    id="ai-prompt"
+    class="mono editor"
+    [ngModel]="prompt()"
+    (ngModelChange)="prompt.set($event)"
+    rows="4"
+    spellcheck="true"
+    aria-label="Regex AI prompt"
+  ></textarea>
+  <div class="actions">
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      [disabled]="loading() || !prompt().trim() || !hasApiKey"
+      (click)="generate()"
+    >
+      @if (loading()) {
+        <mat-spinner diameter="18"></mat-spinner>
+      } @else {
+        <mat-icon>auto_awesome</mat-icon>
+      }
+      Generate regex
+    </button>
+    <span class="hint">Ctrl/Cmd + Enter</span>
+  </div>
+</div>
+
+@if (error()) {
+  <div class="error glass-panel mono">{{ error() }}</div>
+}
+
+@if (pattern()) {
+  <div class="result glass-panel">
+    <div class="result-head">
+      <h3>Generated pattern</h3>
+      <div class="result-actions">
+        <button type="button" mat-stroked-button (click)="copy()">
+          <mat-icon>content_copy</mat-icon>
+          Copy
+        </button>
+        <button type="button" mat-stroked-button (click)="openInTester()">
+          <mat-icon>find_in_page</mat-icon>
+          Test in Regex Tester
+        </button>
+      </div>
+    </div>
+    <pre class="mono pattern">{{ pattern() }}</pre>
+    <p class="explanation">{{ explanation() }}</p>
+  </div>
+
+  <div class="mini glass-panel">
+    <h3>Local mini-test</h3>
+    <textarea
+      class="mono sample"
+      [ngModel]="sampleText()"
+      (ngModelChange)="sampleText.set($event)"
+      rows="3"
+      spellcheck="false"
+      aria-label="Sample text for mini test"
+    ></textarea>
+    <app-code-panel
+      title="Preview"
+      [badge]="miniTest().error ? 'Invalid' : `${miniTest().matches.length} match(es)`"
+      [badgeTone]="miniTest().error ? 'err' : miniTest().matches.length ? 'ok' : 'info'"
+    >
+      @if (miniTest().error) {
+        <div class="error-inline mono">{{ miniTest().error }}</div>
+      } @else {
+        <pre class="mono highlight" [innerHTML]="miniTest().highlightedHtml"></pre>
+      }
+    </app-code-panel>
+  </div>
+}

@@ -1,0 +1,41 @@
+<app-tool-header
+  title="Base64 Tool"
+  description="Encode and decode Base64 with live UTF-8 conversion entirely in your browser."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="toolbar glass-panel">
+  <mat-button-toggle-group [value]="mode()" (change)="setMode($event.value)">
+    <mat-button-toggle value="encode">Text → Base64</mat-button-toggle>
+    <mat-button-toggle value="decode">Base64 → Text</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div class="split">
+  <app-code-panel [title]="mode() === 'encode' ? 'Text input' : 'Base64 input'">
+    <textarea
+      class="mono editor"
+      [ngModel]="input()"
+      (ngModelChange)="onInput($event)"
+      spellcheck="false"
+      aria-label="Base64 input"
+    ></textarea>
+  </app-code-panel>
+
+  <app-code-panel
+    title="Output"
+    [badge]="error() ? 'Error' : output() ? 'Ready' : 'Empty'"
+    [badgeTone]="error() ? 'err' : output() ? 'ok' : 'info'"
+  >
+    @if (error()) {
+      <div class="error mono">{{ error() }}</div>
+    } @else {
+      <pre class="mono output">{{ output() }}</pre>
+    }
+  </app-code-panel>
+</div>

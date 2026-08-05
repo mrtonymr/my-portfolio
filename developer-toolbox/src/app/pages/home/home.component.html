@@ -1,0 +1,49 @@
+<section class="hero glass-panel animate-in">
+  <div class="hero__copy">
+    <p class="hero__eyebrow">Developer Toolbox</p>
+    <h1>Browser-native utilities for everyday engineering work</h1>
+    <p class="hero__lead">
+      Format JSON, decode JWTs, convert timestamps, test regex, and more — all locally in your
+      browser with no backend.
+    </p>
+    <div class="hero__actions">
+      <a mat-flat-button color="primary" routerLink="/json">
+        Open JSON Formatter
+        <mat-icon>arrow_forward</mat-icon>
+      </a>
+      <a mat-stroked-button routerLink="/regex">Try Regex Tester</a>
+    </div>
+  </div>
+  <div class="hero__visual" aria-hidden="true">
+    <div class="hero__orb"></div>
+    <div class="hero__chip"><mat-icon>data_object</mat-icon> JSON</div>
+    <div class="hero__chip hero__chip--delay"><mat-icon>vpn_key</mat-icon> JWT</div>
+    <div class="hero__chip hero__chip--delay-2"><mat-icon>find_in_page</mat-icon> Regex</div>
+  </div>
+</section>
+
+@if (recent().length) {
+  <section class="section animate-in">
+    <div class="section__head">
+      <h2>Recently used</h2>
+      <p>Jump back into the tools you opened last.</p>
+    </div>
+    <div class="grid">
+      @for (tool of recent(); track tool.id) {
+        <app-tool-card [tool]="tool" />
+      }
+    </div>
+  </section>
+}
+
+<section class="section animate-in">
+  <div class="section__head">
+    <h2>All tools</h2>
+    <p>Pick a utility and get to work instantly.</p>
+  </div>
+  <div class="grid">
+    @for (tool of tools; track tool.id) {
+      <app-tool-card [tool]="tool" />
+    }
+  </div>
+</section>

@@ -1,0 +1,42 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  min-height: 480px;
+}
+
+.editor,
+.output,
+.error {
+  flex: 1;
+  margin: 12px 16px 16px;
+  padding: 14px;
+  border-radius: var(--dt-radius-sm);
+  background: var(--dt-editor-bg);
+  color: var(--dt-editor-fg);
+  border: 0;
+  min-height: 400px;
+  resize: vertical;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.error {
+  color: #fca5a5;
+  word-break: break-word;
+}
+
+@media (max-width: 960px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}

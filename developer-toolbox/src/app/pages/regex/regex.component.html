@@ -1,0 +1,83 @@
+<app-tool-header
+  title="Regex Tester"
+  description="Test regular expressions with live match highlighting. Runs entirely in your browser."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="controls glass-panel">
+  <div class="pattern-row">
+    <label for="regex-pattern">Pattern</label>
+    <input
+      id="regex-pattern"
+      class="mono pattern"
+      type="text"
+      [ngModel]="pattern()"
+      (ngModelChange)="pattern.set($event)"
+      spellcheck="false"
+      aria-label="Regular expression pattern"
+    />
+    <button type="button" class="copy-regex" (click)="copy()">
+      <mat-icon>content_copy</mat-icon>
+      Copy regex
+    </button>
+  </div>
+
+  <div class="flags">
+    <mat-checkbox [ngModel]="flagG()" (ngModelChange)="flagG.set($event)">g</mat-checkbox>
+    <mat-checkbox [ngModel]="flagI()" (ngModelChange)="flagI.set($event)">i</mat-checkbox>
+    <mat-checkbox [ngModel]="flagM()" (ngModelChange)="flagM.set($event)">m</mat-checkbox>
+    <mat-checkbox [ngModel]="flagS()" (ngModelChange)="flagS.set($event)">s</mat-checkbox>
+    <span class="flag-preview mono">/{{ pattern() }}/{{ flags() }}</span>
+  </div>
+
+  <div class="examples">
+    @for (example of examples; track example.label) {
+      <button type="button" class="chip" (click)="applyExample(example.pattern)">
+        {{ example.label }}
+      </button>
+    }
+  </div>
+</div>
+
+@if (result().error) {
+  <div class="error glass-panel mono">{{ result().error }}</div>
+}
+
+<div class="split">
+  <app-code-panel title="Test text">
+    <textarea
+      class="mono editor"
+      [ngModel]="text()"
+      (ngModelChange)="text.set($event)"
+      spellcheck="false"
+      aria-label="Regex test text"
+    ></textarea>
+  </app-code-panel>
+
+  <app-code-panel
+    title="Highlighted matches"
+    [badge]="result().error ? 'Invalid' : `${result().matches.length} match(es)`"
+    [badgeTone]="result().error ? 'err' : result().matches.length ? 'ok' : 'info'"
+  >
+    <pre class="mono highlight" [innerHTML]="result().highlightedHtml"></pre>
+  </app-code-panel>
+</div>
+
+@if (result().matches.length) {
+  <app-code-panel title="Match details">
+    <ul class="matches">
+      @for (match of result().matches; track $index) {
+        <li class="mono">
+          <span class="idx">#{{ $index + 1 }}</span>
+          <span class="pos">@{{ match.index }}</span>
+          <span class="val">{{ match.match }}</span>
+        </li>
+      }
+    </ul>
+  </app-code-panel>
+}

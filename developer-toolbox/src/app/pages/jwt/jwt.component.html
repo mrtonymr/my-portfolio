@@ -1,0 +1,69 @@
+<app-tool-header
+  title="JWT Decoder"
+  description="Decode JWT headers and payloads locally. Tokens never leave your browser."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<p class="privacy glass-panel">
+  <mat-icon>lock</mat-icon>
+  Decoding is 100% client-side. Your JWT is never sent anywhere.
+</p>
+
+<div class="layout">
+  <app-code-panel title="JWT token">
+    <textarea
+      class="mono editor"
+      [ngModel]="token()"
+      (ngModelChange)="onToken($event)"
+      spellcheck="false"
+      aria-label="JWT token input"
+      placeholder="Paste a JWT here…"
+    ></textarea>
+  </app-code-panel>
+
+  <div class="results">
+    @if (decoded().error) {
+      <div class="error glass-panel mono">{{ decoded().error }}</div>
+    } @else if (decoded().valid) {
+      <div class="meta glass-panel">
+        <div class="meta-row">
+          <span>Issued at</span>
+          <strong class="mono">{{ decoded().issuedAt ?? '—' }}</strong>
+        </div>
+        <div class="meta-row">
+          <span>Expiration</span>
+          <strong class="mono">{{ decoded().expiration ?? '—' }}</strong>
+        </div>
+        <div class="meta-row">
+          <span>Signature</span>
+          <strong>{{ decoded().signaturePresent ? 'Present' : 'Missing' }}</strong>
+        </div>
+        <div class="badges">
+          @if (decoded().isExpired === true) {
+            <span class="badge expired">Expired</span>
+          } @else if (decoded().isExpired === false) {
+            <span class="badge ok">Valid (not expired)</span>
+          }
+          <button type="button" class="link-btn" (click)="copySummary()">Copy summary</button>
+          <button type="button" class="link-btn" (click)="copy()">Copy payload</button>
+        </div>
+      </div>
+
+      <div class="panels">
+        <app-code-panel title="Header" badge="JSON" badgeTone="info">
+          <pre class="mono output">{{ decoded().headerRaw }}</pre>
+        </app-code-panel>
+        <app-code-panel title="Payload" badge="JSON" badgeTone="ok">
+          <pre class="mono output">{{ decoded().payloadRaw }}</pre>
+        </app-code-panel>
+      </div>
+    } @else {
+      <div class="empty glass-panel">Paste a JWT to decode header and payload.</div>
+    }
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<app-tool-header
+  title="Color Picker"
+  description="Pick a color and convert between Hex, RGB, RGBA, HSL, and HSV."
+  (copy)="copy()"
+  (paste)="paste()"
+  (clear)="clear()"
+  (reset)="reset()"
+  (download)="download()"
+  (share)="share()"
+/>
+
+<div class="picker glass-panel">
+  <label class="swatch" [style.background]="color()?.hex ?? hex()">
+    <input
+      type="color"
+      [ngModel]="color()?.hex ?? '#000000'"
+      (ngModelChange)="onPicker($event)"
+      aria-label="Color picker"
+    />
+  </label>
+  <div class="hex-field">
+    <label for="hex-input">Hex</label>
+    <input
+      id="hex-input"
+      class="mono"
+      type="text"
+      [ngModel]="hex()"
+      (ngModelChange)="onHexInput($event)"
+      spellcheck="false"
+    />
+  </div>
+  <div class="preview" [style.background]="color()?.hex ?? 'transparent'"></div>
+</div>
+
+<div class="formats">
+  @for (format of formats(); track format.label) {
+    <app-code-panel [title]="format.label">
+      <div class="format-row">
+        <code class="mono">{{ format.value }}</code>
+        <button type="button" mat-icon-button (click)="copyValue(format.value)" [attr.aria-label]="'Copy ' + format.label">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+    </app-code-panel>
+  }
+</div>
+
+@if (recent().length) {
+  <section class="recent glass-panel">
+    <h3>Recent colors</h3>
+    <div class="palette">
+      @for (c of recent(); track c) {
+        <button
+          type="button"
+          class="chip"
+          [style.background]="c"
+          [attr.title]="c"
+          [attr.aria-label]="'Select ' + c"
+          (click)="setHex(c)"
+        ></button>
+      }
+    </div>
+  </section>
+}
