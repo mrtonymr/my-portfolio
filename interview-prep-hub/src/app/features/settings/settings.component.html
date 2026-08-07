@@ -2,9 +2,73 @@
   <header class="page-header">
     <div>
       <h1 class="page-title">Settings</h1>
-      <p class="page-subtitle">Appearance, animations, and local data.</p>
+      <p class="page-subtitle">Appearance, Groq AI, and local data.</p>
     </div>
   </header>
+
+  <article class="panel glass">
+    <h2>Groq AI</h2>
+    <p class="hint">
+      Paste your key from
+      <a href="https://console.groq.com/" target="_blank" rel="noopener noreferrer">console.groq.com</a>.
+      It is stored only in this browser’s localStorage and never committed to the repo.
+    </p>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="full">
+      <mat-label>Groq API key</mat-label>
+      <input
+        matInput
+        [type]="showKey() ? 'text' : 'password'"
+        [ngModel]="keyDraft()"
+        (ngModelChange)="keyDraft.set($event)"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="gsk_…"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="showKey.set(!showKey())"
+        [attr.aria-label]="showKey() ? 'Hide API key' : 'Show API key'"
+      >
+        <mat-icon>{{ showKey() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-flat-button color="primary" type="button" (click)="saveApiKey()">
+        Save key
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="testApiKey()"
+        [disabled]="testing() || !keyDraft().trim()"
+      >
+        @if (testing()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          Test connection
+        }
+      </button>
+      <button mat-button type="button" (click)="clearApiKey()" [disabled]="!groq.hasApiKey() && !keyDraft()">
+        Clear
+      </button>
+    </div>
+    <div class="row">
+      <div>
+        <strong>AI questions in library</strong>
+        <p>{{ questions.aiCount() }} Groq-generated question(s) saved locally.</p>
+      </div>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="clearAiQuestions()"
+        [disabled]="!questions.aiCount()"
+      >
+        Clear AI questions
+      </button>
+    </div>
+  </article>
 
   <article class="panel glass">
     <h2>Appearance</h2>

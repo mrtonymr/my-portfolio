@@ -1,0 +1,118 @@
+<section class="page fade-in">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">AI Questions</h1>
+      <p class="page-subtitle">
+        Fetch fresh interview questions with Groq. Saved locally and usable across flashcards, mock
+        interviews, bookmarks, and stats.
+      </p>
+    </div>
+    <a mat-stroked-button routerLink="/settings">
+      <mat-icon>vpn_key</mat-icon>
+      API key
+    </a>
+  </header>
+
+  @if (!groq.hasApiKey()) {
+    <app-empty-state
+      icon="key"
+      title="Groq API key required"
+      message="Add your key from console.groq.com in Settings, then generate questions here."
+      actionLabel="Open Settings"
+      actionLink="/settings"
+    />
+  } @else {
+    <form class="panel glass setup" (ngSubmit)="$event.preventDefault(); generate()">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Category</mat-label>
+        <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)" name="category">
+          <mat-option value="All">All / mixed</mat-option>
+          @for (c of categories; track c) {
+            <mat-option [value]="c">{{ c }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Difficulty</mat-label>
+        <mat-select
+          [ngModel]="difficulty()"
+          (ngModelChange)="difficulty.set($event)"
+          name="difficulty"
+        >
+          <mat-option value="All">Mixed</mat-option>
+          @for (d of difficulties; track d) {
+            <mat-option [value]="d">{{ d }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Count</mat-label>
+        <mat-select [ngModel]="count()" (ngModelChange)="count.set($event)" name="count">
+          @for (n of counts; track n) {
+            <mat-option [value]="n">{{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="topic">
+        <mat-label>Topic focus</mat-label>
+        <input
+          matInput
+          [ngModel]="topic()"
+          (ngModelChange)="topic.set($event)"
+          name="topic"
+          placeholder="e.g. React Server Components, Postgres indexing"
+        />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <mat-spinner diameter="20" />
+          Generating…
+        } @else {
+          <mat-icon>auto_awesome</mat-icon>
+          Generate with Groq
+        }
+      </button>
+    </form>
+
+    @if (error()) {
+      <p class="error glass">{{ error() }}</p>
+    }
+  }
+
+  <div class="list-head">
+    <h2>Generated on this device ({{ generated().length }})</h2>
+    @if (generated().length) {
+      <button mat-stroked-button type="button" color="warn" (click)="clearAll()">Clear all</button>
+    }
+  </div>
+
+  @if (generated().length) {
+    <div class="grid">
+      @for (q of generated(); track q.id) {
+        <div class="card-wrap">
+          <app-question-card
+            [question]="q"
+            [bookmarked]="progress.isBookmarked(q.id)"
+            [completed]="progress.isCompleted(q.id)"
+            (bookmark)="progress.toggleBookmark(q)"
+            (complete)="progress.toggleCompleted(q)"
+          />
+          <button mat-button type="button" class="remove" (click)="remove(q.id)">
+            <mat-icon>delete</mat-icon>
+            Remove
+          </button>
+        </div>
+      }
+    </div>
+  } @else if (groq.hasApiKey()) {
+    <app-empty-state
+      icon="auto_awesome"
+      title="No AI questions yet"
+      message="Pick a category and generate a fresh set from Groq."
+    />
+  }
+</section>

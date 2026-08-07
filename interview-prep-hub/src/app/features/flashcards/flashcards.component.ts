@@ -58,8 +58,10 @@ export class FlashcardsComponent {
 
     const order = this.order();
     if (!order.length) return pool;
-    const map = new Map(pool.map((q) => [q.id, q]));
-    const ordered = order.map((id) => map.get(id)).filter((q): q is Question => !!q);
+    const map = new Map(pool.map((q) => [q.id, q] as const));
+    const ordered = order
+      .map((id) => map.get(id))
+      .filter((q): q is Question => q !== undefined);
     const remaining = pool.filter((q) => !order.includes(q.id));
     return [...ordered, ...remaining];
   });

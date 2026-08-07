@@ -26,6 +26,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'ai-questions',
+        loadComponent: () =>
+          import('./features/ai-questions/ai-questions.component').then(
+            (m) => m.AiQuestionsComponent,
+          ),
+      },
+      {
         path: 'bookmarks',
         loadComponent: () =>
           import('./features/bookmarks/bookmarks.component').then((m) => m.BookmarksComponent),

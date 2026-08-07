@@ -17,8 +17,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { QuestionService } from '../../core/services/question.service';
 import { ProgressService } from '../../core/services/progress.service';
+import { GroqService } from '../../core/services/groq.service';
 import { EmptyStateComponent } from '../../shared/components/empty-state.component';
 
 @Component({
@@ -32,6 +34,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
     MatInputModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     EmptyStateComponent,
   ],
   templateUrl: './question-detail.component.html',
@@ -44,6 +47,7 @@ export class QuestionDetailComponent {
   private readonly snack = inject(MatSnackBar);
   readonly questions = inject(QuestionService);
   readonly progress = inject(ProgressService);
+  readonly groq = inject(GroqService);
 
   private readonly id = toSignal(
     this.route.paramMap.pipe(map((p) => p.get('id') ?? '')),
@@ -71,6 +75,7 @@ export class QuestionDetailComponent {
   });
 
   readonly noteDraft = signal('');
+  readonly enriching = signal(false);
   private noteTimer: ReturnType<typeof setTimeout> | null = null;
   private trackedId: string | null = null;
   private skippingNoteEffect = false;
@@ -116,6 +121,27 @@ export class QuestionDetailComponent {
   toggleCompleted(): void {
     const q = this.question();
     if (q) this.progress.toggleCompleted(q);
+  }
+
+  async enrichAnswer(): Promise<void> {
+    const q = this.question();
+    if (!q) return;
+    if (!this.groq.hasApiKey()) {
+      this.snack.open('Add your Groq API key in Settings first', 'OK', { duration: 2800 });
+      return;
+    }
+    this.enriching.set(true);
+    try {
+      const answer = await this.groq.enrichAnswer(q);
+      this.questions.updateQuestion({ ...q, answer });
+      this.snack.open('Answer refreshed with Groq', 'OK', { duration: 2200 });
+    } catch (err) {
+      this.snack.open(err instanceof Error ? err.message : 'Enrichment failed', 'OK', {
+        duration: 3500,
+      });
+    } finally {
+      this.enriching.set(false);
+    }
   }
 
   async copyAnswer(): Promise<void> {

@@ -6,7 +6,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -32,6 +32,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
   selector: 'app-questions-list',
   imports: [
     FormsModule,
+    RouterLink,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -59,6 +60,7 @@ export class QuestionsListComponent {
   readonly company = signal<string | 'All'>('All');
   readonly tag = signal<string | 'All'>('All');
   readonly status = signal<QuestionFilters['status']>('All');
+  readonly source = signal<'All' | 'bundled' | 'groq'>('All');
   readonly viewMode = signal<'grid' | 'list'>('grid');
 
   private readonly queryQ = toSignal(
@@ -82,6 +84,7 @@ export class QuestionsListComponent {
     company: this.company(),
     tag: this.tag(),
     status: this.status(),
+    source: this.source(),
   }));
 
   readonly filtered = computed(() => this.questions.filter(this.filters()));
@@ -101,5 +104,6 @@ export class QuestionsListComponent {
     this.company.set('All');
     this.tag.set('All');
     this.status.set('All');
+    this.source.set('All');
   }
 }

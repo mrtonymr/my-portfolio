@@ -15,6 +15,29 @@
   font-size: 1.05rem;
 }
 
+.hint {
+  margin: 0;
+  color: var(--iph-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hint a {
+  color: var(--iph-accent);
+  text-decoration: underline;
+}
+
+.full {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
 .row {
   display: flex;
   justify-content: space-between;

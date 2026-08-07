@@ -20,6 +20,9 @@ import { Question } from '../../models/interview.models';
         >
           {{ question().difficulty }}
         </span>
+        @if (question().source === 'groq') {
+          <span class="badge badge-ai">AI</span>
+        }
       </div>
       <h3>
         <a [routerLink]="['/questions', question().id]">{{ question().title }}</a>
@@ -101,6 +104,10 @@ import { Question } from '../../models/interview.models';
     }
     .done {
       color: var(--iph-success);
+    }
+    .badge-ai {
+      background: rgba(234, 88, 12, 0.14);
+      color: var(--iph-accent-2, #ea580c);
     }
     .card__actions {
       display: flex;

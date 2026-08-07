@@ -63,6 +63,7 @@ export class ShellComponent {
   readonly nav: NavItem[] = [
     { label: 'Dashboard', route: '/', icon: 'dashboard' },
     { label: 'Questions', route: '/questions', icon: 'menu_book' },
+    { label: 'AI Questions', route: '/ai-questions', icon: 'auto_awesome' },
     { label: 'Bookmarks', route: '/bookmarks', icon: 'bookmark' },
     { label: 'Flashcards', route: '/flashcards', icon: 'style' },
     { label: 'Mock Interview', route: '/mock-interview', icon: 'record_voice_over' },

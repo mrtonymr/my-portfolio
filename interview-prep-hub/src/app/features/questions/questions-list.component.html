@@ -6,15 +6,98 @@
         {{ filtered().length }} of {{ questions.questions().length }} questions
       </p>
     </div>
-    <mat-button-toggle-group
-      [value]="viewMode()"
-      (change)="viewMode.set($event.value === 'list' ? 'list' : 'grid')"
-      aria-label="View mode"
-    >
-      <mat-button-toggle value="grid"><mat-icon>grid_view</mat-icon></mat-button-toggle>
-      <mat-button-toggle value="list"><mat-icon>view_list</mat-icon></mat-button-toggle>
-    </mat-button-toggle-group>
+    <div class="header-actions">
+      <a mat-stroked-button routerLink="/ai-questions">
+        <mat-icon>auto_awesome</mat-icon>
+        AI Questions
+      </a>
+      <mat-button-toggle-group
+        [value]="viewMode()"
+        (change)="viewMode.set($event.value === 'list' ? 'list' : 'grid')"
+        aria-label="View mode"
+      >
+        <mat-button-toggle value="grid"><mat-icon>grid_view</mat-icon></mat-button-toggle>
+        <mat-button-toggle value="list"><mat-icon>view_list</mat-icon></mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
   </header>
+
+  <article class="ai-panel glass">
+    <div class="ai-panel__head">
+      <div>
+        <h2>Fetch latest questions with Groq</h2>
+        <p>
+          @if (groq.hasApiKey()) {
+            Generate fresh interview questions and add them to your local library.
+          } @else {
+            Add your Groq API key in
+            <a routerLink="/settings">Settings</a>
+            first (from
+            <a href="https://console.groq.com/" target="_blank" rel="noopener noreferrer">console.groq.com</a>).
+          }
+        </p>
+      </div>
+      <span class="badge">AI · {{ questions.aiCount() }} saved</span>
+    </div>
+
+    <div class="ai-panel__grid">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Category</mat-label>
+        <mat-select [ngModel]="genCategory()" (ngModelChange)="genCategory.set($event)">
+          <mat-option value="All">All / auto</mat-option>
+          @for (c of categories; track c) {
+            <mat-option [value]="c">{{ c }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Difficulty</mat-label>
+        <mat-select [ngModel]="genDifficulty()" (ngModelChange)="genDifficulty.set($event)">
+          <mat-option value="All">Mixed</mat-option>
+          @for (d of difficulties; track d) {
+            <mat-option [value]="d">{{ d }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Count</mat-label>
+        <mat-select [ngModel]="genCount()" (ngModelChange)="genCount.set($event)">
+          @for (n of generateCounts; track n) {
+            <mat-option [value]="n">{{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="topic">
+        <mat-label>Topic focus (optional)</mat-label>
+        <input
+          matInput
+          [ngModel]="genTopic()"
+          (ngModelChange)="genTopic.set($event)"
+          placeholder="e.g. React Server Components, Postgres indexing"
+        />
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="generate-btn"
+        (click)="generateWithGroq()"
+        [disabled]="generating() || !groq.hasApiKey()"
+      >
+        @if (generating()) {
+          <mat-spinner diameter="18" />
+          Generating…
+        } @else {
+          <mat-icon>auto_awesome</mat-icon>
+          Generate with Groq
+        }
+      </button>
+    </div>
+  </article>
 
   <div class="filters glass">
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="grow search-compact">
@@ -75,6 +158,15 @@
         <mat-option value="Completed">Completed</mat-option>
         <mat-option value="Incomplete">Incomplete</mat-option>
         <mat-option value="Bookmarked">Bookmarked</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Source</mat-label>
+      <mat-select [ngModel]="source()" (ngModelChange)="source.set($event)">
+        <mat-option value="All">All</mat-option>
+        <mat-option value="bundled">Built-in</mat-option>
+        <mat-option value="groq">Groq AI</mat-option>
       </mat-select>
     </mat-form-field>
 

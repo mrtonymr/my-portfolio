@@ -24,6 +24,7 @@ export interface Question {
   tags: string[];
   estimatedTime: number;
   relatedQuestions: string[];
+  source?: 'bundled' | 'groq';
 }
 
 export interface UserNote {

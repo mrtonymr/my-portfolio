@@ -46,6 +46,25 @@
   font-size: 1.05rem;
 }
 
+.answer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.65rem;
+}
+
+.answer-head h2 {
+  margin: 0;
+}
+
+.answer-head button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .panel h3 {
   margin: 1rem 0 0.5rem;
   font-size: 0.95rem;

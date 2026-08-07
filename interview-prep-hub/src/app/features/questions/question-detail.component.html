@@ -50,7 +50,23 @@
     </article>
 
     <article class="panel glass">
-      <h2>Answer</h2>
+      <div class="answer-head">
+        <h2>Answer</h2>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="enrichAnswer()"
+          [disabled]="enriching()"
+        >
+          @if (enriching()) {
+            <mat-spinner diameter="18" />
+            Improving…
+          } @else {
+            <mat-icon>auto_awesome</mat-icon>
+            Improve with Groq
+          }
+        </button>
+      </div>
       <p class="body answer">{{ q.answer }}</p>
       @if (q.examples?.length) {
         <h3>Examples</h3>
